@@ -1,129 +1,133 @@
 import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { apiUrl } from '../utils/api';
 
-
-
-const dummyApplications = [
-    {
-        id: 1,
-        student: 'Rahim Uddin',
-        scholarship: 'Merit Excellence',
-        status: 'Pending',
-        feedback: '',
-        submittedAt: '2025-12-01',
-    },
-    {
-        id: 2,
-        student: 'Karim Mia',
-        scholarship: 'Women in STEM',
-        status: 'Processing',
-        feedback: 'Please upload your transcript.',
-        submittedAt: '2025-12-02',
-    },
-    {
-        id: 3,
-        student: 'Sumaiya Akter',
-        scholarship: 'Need Based',
-        status: 'Completed',
-        feedback: 'Congratulations! You have been selected.',
-        submittedAt: '2025-12-03',
-    },
-];
-
-const statusOptions = ['Pending', 'Processing', 'Completed'];
+const statusOptions = ['Pending', 'Processing', 'Completed', 'Rejected'];
 
 const ModeratorApplications = () => {
-    const [applications, setApplications] = useState(dummyApplications);
-    const [editingId, setEditingId] = useState(null);
-    const [feedback, setFeedback] = useState('');
-    const [status, setStatus] = useState('Pending');
+    const [applications, setApplications] = useState([]);
+    const [detailsModal, setDetailsModal] = useState(null);
+    const [feedbackModal, setFeedbackModal] = useState(null);
+    const [feedbackText, setFeedbackText] = useState('');
 
-    const handleEdit = (app) => {
-        setEditingId(app.id);
-        setFeedback(app.feedback || '');
-        setStatus(app.status);
-    };
+    useEffect(() => {
+        const fetchApplications = async () => {
+            try {
+                const res = await axios.get(apiUrl('/api/applications'));
+                setApplications(res.data);
+            } catch (err) {
+                console.error('Failed to fetch applications:', err);
+            }
+        };
+        fetchApplications();
+    }, []);
 
-    const handleSave = (id) => {
+    const handleStatusUpdate = (id, newStatus) => {
         setApplications((prev) =>
             prev.map((app) =>
-                app.id === id ? { ...app, feedback, status } : app
+                (app._id === id || app.id === id) ? { ...app, status: newStatus } : app
             )
         );
-        setEditingId(null);
+    };
+
+    const handleCancel = (id) => {
+        handleStatusUpdate(id, 'Rejected');
+    };
+
+    const openDetailsModal = (app) => setDetailsModal(app);
+    const closeDetailsModal = () => setDetailsModal(null);
+
+    const openFeedbackModal = (app) => {
+        setFeedbackModal(app);
+        setFeedbackText(app.feedback || '');
+    };
+    const closeFeedbackModal = () => setFeedbackModal(null);
+    const saveFeedback = (id) => {
+        setApplications((prev) =>
+            prev.map((app) =>
+                (app._id === id || app.id === id) ? { ...app, feedback: feedbackText } : app
+            )
+        );
+        closeFeedbackModal();
     };
 
     return (
         <div className="p-4">
             <h2 className="text-2xl font-bold mb-4">Review Applications</h2>
+
+            {/* Details Modal */}
+            {detailsModal && (
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-8 w-full max-w-md relative">
+                        <button className="absolute top-2 right-2 text-xl" onClick={closeDetailsModal}>&times;</button>
+                        <h3 className="text-xl font-bold mb-4">Application Details</h3>
+                        <div className="space-y-2">
+                            <div><b>Name:</b> {detailsModal.applicantName || detailsModal.student || '-'}</div>
+                            <div><b>Email:</b> {detailsModal.applicantEmail || detailsModal.email || '-'}</div>
+                            <div><b>University:</b> {detailsModal.universityName || detailsModal.scholarship || '-'}</div>
+                            <div><b>Status:</b> {detailsModal.status}</div>
+                            <div><b>Payment Status:</b> {detailsModal.paymentStatus || '-'}</div>
+                            <div><b>Feedback:</b> {detailsModal.feedback || '-'}</div>
+                            <div><b>Submitted:</b> {detailsModal.submittedAt || '-'}</div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Feedback Modal */}
+            {feedbackModal && (
+                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-8 w-full max-w-md relative">
+                        <button className="absolute top-2 right-2 text-xl" onClick={closeFeedbackModal}>&times;</button>
+                        <h3 className="text-xl font-bold mb-4">Write Feedback</h3>
+                        <textarea
+                            className="textarea textarea-bordered w-full mb-4"
+                            rows={4}
+                            value={feedbackText}
+                            onChange={e => setFeedbackText(e.target.value)}
+                        />
+                        <button className="btn btn-success mr-2" onClick={() => saveFeedback(feedbackModal._id || feedbackModal.id)}>Save</button>
+                        <button className="btn btn-ghost" onClick={closeFeedbackModal}>Cancel</button>
+                    </div>
+                </div>
+            )}
+
             <div className="overflow-x-auto">
                 <table className="table w-full">
                     <thead>
                         <tr>
-                            <th>Student</th>
-                            <th>Scholarship</th>
-                            <th>Status</th>
-                            <th>Feedback</th>
-                            <th>Submitted</th>
-                            <th>Action</th>
+                            <th>Applicant Name</th>
+                            <th>Applicant Email</th>
+                            <th>University Name</th>
+                            <th>Application Feedback</th>
+                            <th>Application Status</th>
+                            <th>Payment Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {applications.map((app) => (
-                            <tr key={app.id}>
-                                <td>{app.student}</td>
-                                <td>{app.scholarship}</td>
+                            <tr key={app._id || app.id}>
+                                <td>{app.applicantName || app.student || '-'}</td>
+                                <td>{app.applicantEmail || app.email || '-'}</td>
+                                <td>{app.universityName || app.scholarship || '-'}</td>
+                                <td>{app.feedback || '-'}</td>
                                 <td>
-                                    {editingId === app.id ? (
-                                        <select
-                                            className="select select-bordered select-sm"
-                                            value={status}
-                                            onChange={(e) => setStatus(e.target.value)}
-                                        >
-                                            {statusOptions.map((opt) => (
-                                                <option key={opt} value={opt}>{opt}</option>
-                                            ))}
-                                        </select>
-                                    ) : (
-                                        <span className={`badge badge-${app.status === 'Completed' ? 'success' : app.status === 'Processing' ? 'warning' : 'info'
-                                            }`}>{app.status}</span>
-                                    )}
+                                    <span className={`badge badge-${app.status === 'Completed' ? 'success' : app.status === 'Processing' ? 'warning' : app.status === 'Rejected' ? 'error' : 'info'}`}>{app.status}</span>
                                 </td>
-                                <td>
-                                    {editingId === app.id ? (
-                                        <textarea
-                                            className="textarea textarea-bordered textarea-xs w-full"
-                                            value={feedback}
-                                            onChange={(e) => setFeedback(e.target.value)}
-                                        />
-                                    ) : (
-                                        <span>{app.feedback || '-'}</span>
-                                    )}
-                                </td>
-                                <td>{app.submittedAt}</td>
-                                <td>
-                                    {editingId === app.id ? (
-                                        <>
-                                            <button
-                                                className="btn btn-xs btn-success mr-2"
-                                                onClick={() => handleSave(app.id)}
-                                            >
-                                                Save
-                                            </button>
-                                            <button
-                                                className="btn btn-xs btn-ghost"
-                                                onClick={() => setEditingId(null)}
-                                            >
-                                                Cancel
-                                            </button>
-                                        </>
-                                    ) : (
-                                        <button
-                                            className="btn btn-xs btn-primary"
-                                            onClick={() => handleEdit(app)}
-                                        >
-                                            Edit
-                                        </button>
-                                    )}
+                                <td>{app.paymentStatus || '-'}</td>
+                                <td className="flex flex-wrap gap-1">
+                                    <button className="btn btn-xs btn-info" onClick={() => openDetailsModal(app)}>Details</button>
+                                    <button className="btn btn-xs btn-warning" onClick={() => openFeedbackModal(app)}>Feedback</button>
+                                    <select
+                                        className="select select-bordered select-xs"
+                                        value={app.status}
+                                        onChange={e => handleStatusUpdate(app._id || app.id, e.target.value)}
+                                    >
+                                        {statusOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                                    </select>
+                                    <button className="btn btn-xs btn-error" onClick={() => handleCancel(app._id || app.id)}>Cancel</button>
                                 </td>
                             </tr>
                         ))}
