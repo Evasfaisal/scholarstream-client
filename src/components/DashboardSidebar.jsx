@@ -26,6 +26,7 @@ const DashboardSidebar = ({ role }) => {
             {role === "Student" && (
                 <>
                     <Link to="/dashboard/my-applications" className="px-5 py-3 rounded-xl font-semibold text-slate-700 hover:bg-primary/10 hover:text-primary transition">My Applications</Link>
+                    <Link to="/dashboard/my-reviews" className="px-5 py-3 rounded-xl font-semibold text-slate-700 hover:bg-primary/10 hover:text-primary transition">My Reviews</Link>
                 </>
             )}
         </nav>
