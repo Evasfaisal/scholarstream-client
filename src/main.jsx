@@ -1,3 +1,4 @@
+import DashboardSidebar from './components/DashboardSidebar.jsx';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
@@ -10,19 +11,24 @@ import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import AllReviews from './pages/AllReviews.jsx';
 import ReviewDetails from './pages/ReviewDetails.jsx';
-import AddReview from './pages/AddReview.jsx';
-import MyReviews from './pages/MyReviews.jsx';
 import NotFound from './pages/NotFound.jsx';
 import PrivateRoute from './routes/PrivateRoute.jsx';
-import EditReview from './pages/EditReview.jsx';
-import MyFavorites from './pages/MyFavorites.jsx';
 import DashboardLayout from './layout/DashboardLayout.jsx';
-import DashboardSidebar from './components/DashboardSidebar.jsx';
+
+import AdminScholarships from './pages/AdminScholarships.jsx';
+import AdminUsers from './pages/AdminUsers.jsx';
+import AdminAnalytics from './pages/AdminAnalytics.jsx';
+import ModeratorApplications from './pages/ModeratorApplications.jsx';
+import MyApplications from './pages/MyApplications.jsx';
+import Success from './pages/Success.jsx';
+import Failed from './pages/Failed.jsx';
+import Checkout from './pages/Checkout.jsx';
 
 import { Toaster } from 'react-hot-toast';
 
 import axios from 'axios';
 import { auth } from './firebase/firebase.config.js';
+import { useAuth } from './context/AuthContext.jsx';
 
 axios.interceptors.request.use(
   async (config) => {
@@ -71,6 +77,24 @@ axios.interceptors.response.use(
   }
 );
 
+function DashboardSidebarWithRole() {
+  const { user } = useAuth();
+  const [role, setRole] = React.useState('Student');
+  React.useEffect(() => {
+    if (user && user.uid) {
+   
+      import('./firebase/firebase.config').then(({ db }) => {
+        import('firebase/firestore').then(({ doc, getDoc }) => {
+          getDoc(doc(db, 'users', user.uid)).then((snap) => {
+            if (snap.exists()) setRole(snap.data().role || 'Student');
+          });
+        });
+      });
+    }
+  }, [user]);
+  return <DashboardSidebar role={role} />;
+}
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -85,56 +109,28 @@ const router = createBrowserRouter([
         path: '/reviewdetails/:id',
         element: <ReviewDetails />,
       },
-      {
-        path: '/add-review',
-        element: (
-          <PrivateRoute>
-            <AddReview />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: '/edit-review/:id',
-        element: (
-          <PrivateRoute>
-            <EditReview />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: '/my-reviews',
-        element: (
-          <PrivateRoute>
-            <MyReviews />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: '/my-favorites',
-        element: (
-          <PrivateRoute>
-            <MyFavorites />
-          </PrivateRoute>
-        ),
-      },
-      // Dashboard route
+   
+    
       {
         path: '/dashboard/*',
         element: (
-          <DashboardLayout sidebar={<DashboardSidebar role={"Student"} />} />
+          <DashboardLayout sidebar={<DashboardSidebarWithRole />} />
         ),
         children: [
           { path: 'profile', element: <div>My Profile</div> },
           { path: 'add-scholarship', element: <div>Add Scholarship</div> },
-          { path: 'manage-scholarships', element: <div>Manage Scholarships</div> },
-          { path: 'manage-users', element: <div>Manage Users</div> },
-          { path: 'analytics', element: <div>Analytics</div> },
-          { path: 'applications', element: <div>Manage Applications</div> },
-          { path: 'all-reviews', element: <div>All Reviews</div> },
-          { path: 'my-applications', element: <div>My Applications</div> },
-          { path: 'my-reviews', element: <div>My Reviews</div> },
+          { path: 'manage-scholarships', element: <AdminScholarships /> },
+          { path: 'manage-users', element: <AdminUsers /> },
+          { path: 'analytics', element: <AdminAnalytics /> },
+          { path: 'applications', element: <ModeratorApplications /> },
+          { path: 'all-reviews', element: <AllReviews /> },
+          { path: 'my-applications', element: <MyApplications /> },
+        
         ],
       },
+      { path: '/success', element: <Success /> },
+      { path: '/failed', element: <Failed /> },
+      { path: '/checkout', element: <PrivateRoute><Checkout /></PrivateRoute> },
       { path: '*', element: <NotFound /> },
     ],
   },

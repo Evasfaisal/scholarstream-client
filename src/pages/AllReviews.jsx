@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../utils/api";
-import ReviewCard from "../components/ReviewCard";
+
 import { useAuth } from "../context/AuthContext";
 
 const AllReviews = () => {
@@ -31,40 +31,8 @@ const AllReviews = () => {
     };
 
     useEffect(() => {
-        let cancelled = false;
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const reviewsRes = await axios.get(apiUrl("/api/reviews"), { params: { search } });
-                const list = Array.isArray(reviewsRes.data) ? reviewsRes.data : [];
-                list.sort((a, b) => new Date(b.postedDate || b.createdAt || b.date || 0) - new Date(a.postedDate || a.createdAt || a.date || 0));
-                if (!cancelled) setReviews(list);
-
-                const email = user?.email;
-                if (email) {
-                    try {
-                        const favRes = await axios.get(apiUrl('/api/favorites'), { params: { email, idsOnly: true } });
-                        const ids = Array.isArray(favRes.data) ? favRes.data.map(String) : [];
-                        if (!cancelled) setFavoriteIds(ids);
-                    } catch {
-                        if (!cancelled) setFavoriteIds([]);
-                    }
-                } else {
-                    if (!cancelled) setFavoriteIds([]);
-                }
-            } catch (err) {
-                console.error(err);
-                if (!cancelled) {
-                    setReviews([]);
-                    setFavoriteIds([]);
-                }
-            } finally {
-                if (!cancelled) setLoading(false);
-            }
-        };
-
-        fetchData();
-        return () => { cancelled = true; };
+      
+        setLoading(false);
     }, [search, user?.email]);
 
     return (
@@ -83,20 +51,6 @@ const AllReviews = () => {
 
             <h2 className="text-3xl font-bold text-green-700 mb-8 text-center">All Reviews</h2>
 
-            <form className="mb-10 max-w-2xl mx-auto">
-                <div className="flex gap-3">
-                    <input
-                        type="text"
-                        placeholder="Search by food name..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="flex-1 px-5 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-green-600 shadow-sm"
-                    />
-                    <button type="button" className="bg-green-600 text-white px-7 py-3 rounded-xl hover:bg-green-700 transition font-medium">
-                        Search
-                    </button>
-                </div>
-            </form>
 
             {loading ? (
                 <div className="flex justify-center py-20">

@@ -4,12 +4,12 @@ import { Outlet } from "react-router-dom";
 const DashboardLayout = ({ sidebar }) => {
     return (
         <div className="flex min-h-screen bg-base-100">
-            {/* Sidebar */}
-            <aside className="w-64 bg-white border-r border-green-100 p-6 hidden md:block">
+      
+            <aside className="w-64 min-h-screen bg-white/90 border-r border-slate-200 p-8 hidden md:block shadow-xl rounded-r-3xl">
                 {sidebar}
             </aside>
-            {/* Main Content */}
-            <main className="flex-1 p-6">
+        
+            <main className="flex-1 p-4 sm:p-8">
                 <Outlet />
             </main>
         </div>

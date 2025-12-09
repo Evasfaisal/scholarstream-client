@@ -7,12 +7,15 @@ import Footer from '../components/Footer';
 
 const MainLayout = () => {
     return (
-        <>
-            <DynamicTitle />
+        <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 font-sans">
             <NavBar />
-            <Outlet />
+            <main className="flex-1 px-2 sm:px-0 pt-4 pb-8">
+                <div className="max-w-7xl mx-auto">
+                    <Outlet />
+                </div>
+            </main>
             <Footer />
-        </>
+        </div>
     );
 }
 

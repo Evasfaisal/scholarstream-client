@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../firebase/firebase.config";
+import { auth, db } from "../firebase/firebase.config";
+import { doc, setDoc } from "firebase/firestore";
 import { FcGoogle } from "react-icons/fc";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
@@ -22,10 +23,18 @@ const Register = () => {
         if (!/[A-Z]/.test(password)) return toast.error("Password must include at least one uppercase letter!");
         if (!/[a-z]/.test(password)) return toast.error("Password must include at least one lowercase letter!");
         if (password.length < 6) return toast.error("Password must be at least 6 characters!");
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) return toast.error("Password must include at least one special character!");
 
         try {
             const result = await createUserWithEmailAndPassword(auth, email, password);
             await updateProfile(result.user, { displayName: name, photoURL });
+  
+            await setDoc(doc(db, "users", result.user.uid), {
+                name,
+                email,
+                photoURL,
+                role: "Student"
+            });
             navigate("/");
         } catch (error) {
             toast.error(error.message);
@@ -72,7 +81,7 @@ const Register = () => {
                         required
                     />
 
-                 
+
                     <div className="relative">
                         <input
                             type={showPassword ? "text" : "password"}

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
 import { FiMenu, FiX } from "react-icons/fi";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaGraduationCap } from "react-icons/fa";
 
 
 const Navbar = () => {
@@ -24,64 +24,45 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-white shadow-md sticky top-0 z-50">
-            <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl lg:max-w-full">
-                <div className="flex justify-between items-center h-16">
+        <nav className="bg-white/90 backdrop-blur shadow-lg sticky top-0 z-50 border-b border-slate-200">
+            <div className="mx-auto px-4 sm:px-8 max-w-7xl">
+                <div className="flex justify-between items-center h-20">
                     <Link to="/" className="flex items-center gap-2">
-                        <div className="text-2xl font-bold text-green-700">ScholarStream</div>
+                        <span className="inline-flex items-center justify-center w-8 h-8 font-extrabold text-xl shadow mr-2">
+                            <FaGraduationCap size={22} />
+                        </span>
+                        <span className="text-2xl font-extrabold text-slate-800 tracking-tight">ScholarStream</span>
                     </Link>
-                    <div className="hidden md:flex items-center gap-6">
-                        <Link to="/" className="text-gray-700 hover:text-green-700 transition">Home</Link>
-                        <Link to="/allscholarships" className="text-gray-700 hover:text-green-700 transition">All Scholarships</Link>
+                    <div className="hidden md:flex items-center gap-8">
+                        <Link to="/" className="text-slate-700 hover:text-primary font-medium transition">Home</Link>
+                        <Link to="/allscholarships" className="text-slate-700 hover:text-primary font-medium transition">All Scholarships</Link>
                         {user ? (
                             <div className="relative">
                                 <button
                                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                                    className="flex items-center gap-2 text-gray-700 hover:text-green-700 transition"
+                                    className="flex items-center gap-2 text-slate-700 hover:text-primary font-semibold transition px-3 py-2 rounded-full border border-slate-200 bg-white shadow-sm"
                                 >
                                     {user.photoURL ? (
-                                        <img src={user.photoURL} alt="User" className="w-8 h-8 rounded-full" />
+                                        <img src={user.photoURL} alt="User" className="w-9 h-9 rounded-full border-2 border-primary/30 shadow" />
                                     ) : (
-                                        <FaUserCircle size={28} />
+                                        <FaUserCircle size={30} className="text-primary/80" />
                                     )}
                                     <span className="hidden lg:block">{user.displayName || "User"}</span>
                                 </button>
-
-
                                 {dropdownOpen && (
-                                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200">
+                                    <div className="absolute right-0 mt-2 w-60 bg-white rounded-xl shadow-2xl border border-slate-200 py-2">
                                         <Link
                                             to="/dashboard"
                                             onClick={() => setDropdownOpen(false)}
-                                            className="block px-4 py-3 text-green-700 font-semibold hover:bg-green-50 transition"
+                                            className="block px-5 py-3 text-primary font-bold hover:bg-slate-50 rounded-xl transition"
                                         >
                                             Dashboard
                                         </Link>
-                                        <Link
-                                            to="/add-review"
-                                            onClick={() => setDropdownOpen(false)}
-                                            className="block px-4 py-3 text-gray-700 hover:bg-green-50 transition"
-                                        >
-                                            Add Review
-                                        </Link>
-                                        <Link
-                                            to="/my-reviews"
-                                            onClick={() => setDropdownOpen(false)}
-                                            className="block px-4 py-3 text-gray-700 hover:bg-green-50 transition"
-                                        >
-                                            My Reviews
-                                        </Link>
-                                        <Link
-                                            to="/my-favorites"
-                                            onClick={() => setDropdownOpen(false)}
-                                            className="block px-4 py-3 text-gray-700 hover:bg-green-50 transition"
-                                        >
-                                            My Favorites
-                                        </Link>
-                                        <hr className="my-1" />
+                                        {/* Removed Add Review, My Reviews, My Favorites from dropdown */}
+                                        <hr className="my-2" />
                                         <button
                                             onClick={handleLogout}
-                                            className="w-full text-left px-4 py-3 text-green-600 hover:bg-green-50 transition"
+                                            className="w-full text-left px-5 py-3 text-red-500 font-semibold hover:bg-slate-50 rounded-xl transition"
                                         >
                                             Logout
                                         </button>
@@ -92,13 +73,13 @@ const Navbar = () => {
                             <div className="flex gap-3">
                                 <Link
                                     to="/login"
-                                    className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition"
+                                    className="px-5 py-2 bg-primary text-white rounded-full font-semibold shadow hover:bg-primary/90 transition"
                                 >
                                     Login
                                 </Link>
                                 <Link
                                     to="/register"
-                                    className="px-4 py-2 border border-green-600 text-green-600 rounded-full hover:bg-green-50 transition"
+                                    className="px-5 py-2 border-2 border-primary text-primary rounded-full font-semibold shadow hover:bg-primary/10 transition"
                                 >
                                     Register
                                 </Link>
@@ -117,26 +98,24 @@ const Navbar = () => {
 
 
                 {mobileMenuOpen && (
-                    <div className="md:hidden bg-white border-t">
-                        <Link to="/" className="block px-4 py-3 text-gray-700 hover:bg-green-50">Home</Link>
-                        <Link to="/allscholarships" className="block px-4 py-3 text-gray-700 hover:bg-green-50">All Scholarships</Link>
+                    <div className="md:hidden bg-white border-t border-slate-200 shadow-xl rounded-b-xl">
+                        <Link to="/" className="block px-5 py-4 text-slate-700 hover:bg-primary/10 font-medium">Home</Link>
+                        <Link to="/allscholarships" className="block px-5 py-4 text-slate-700 hover:bg-primary/10 font-medium">All Scholarships</Link>
                         {user ? (
                             <>
-                                <Link to="/dashboard" className="block px-4 py-3 text-green-700 font-semibold hover:bg-green-50">Dashboard</Link>
-                                <Link to="/add-review" className="block px-4 py-3 text-gray-700 hover:bg-green-50">Add Review</Link>
-                                <Link to="/my-reviews" className="block px-4 py-3 text-gray-700 hover:bg-green-50">My Reviews</Link>
-                                <Link to="/my-favorites" className="block px-4 py-3 text-gray-700 hover:bg-green-50">My Favorites</Link>
+                                <Link to="/dashboard" className="block px-5 py-4 text-primary font-bold hover:bg-primary/10">Dashboard</Link>
+                                {/* Removed Add Review, My Reviews, My Favorites from mobile menu */}
                                 <button
                                     onClick={handleLogout}
-                                    className="w-full text-left px-4 py-3 text-green-600 hover:bg-green-50"
+                                    className="w-full text-left px-5 py-4 text-red-500 font-semibold hover:bg-primary/10"
                                 >
                                     Logout
                                 </button>
                             </>
                         ) : (
                             <>
-                                <Link to="/login" className="block px-4 py-3 text-gray-700 hover:bg-green-50">Login</Link>
-                                <Link to="/register" className="block px-4 py-3 text-gray-700 hover:bg-green-50">Register</Link>
+                                <Link to="/login" className="block px-5 py-4 text-slate-700 hover:bg-primary/10 font-medium">Login</Link>
+                                <Link to="/register" className="block px-5 py-4 text-slate-700 hover:bg-primary/10 font-medium">Register</Link>
                             </>
                         )}
                     </div>
