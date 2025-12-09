@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { apiUrl } from "../utils/api";
-
 import { useAuth } from "../context/AuthContext";
 
 const AllReviews = () => {
@@ -31,21 +30,21 @@ const AllReviews = () => {
     };
 
     useEffect(() => {
-
         setLoading(false);
     }, [search, user?.email]);
+
+    const deleteReview = async (reviewId) => {
+        try {
+            await axios.delete(`${apiUrl}/reviews/${reviewId}`);
+            setReviews(prevReviews => prevReviews.filter(review => review._id !== reviewId));
+        } catch (error) {
+            console.error("Failed to delete review:", error);
+        }
+    };
 
     return (
         <div className="max-w-7xl mx-auto p-6 mt-10 min-h-screen">
             <div className="bg-linear-to-r from-green-50 to-white p-5 rounded-xl shadow-sm mb-8 border border-green-200">
-        const deleteReview = async (reviewId) => {
-            try {
-                    await axios.delete(`${apiUrl}/reviews/${reviewId}`);
-                setReviews(prevReviews => prevReviews.filter(review => review._id !== reviewId));
-            } catch (error) {
-                    console.error("Failed to delete review:", error);
-            }
-        };
                 <div className="flex flex-col sm:flex-row justify-between items-center text-gray-700">
                     <div className="flex items-center gap-2">
                         <span className="font-semibold">Current time:</span>
@@ -58,7 +57,6 @@ const AllReviews = () => {
             </div>
 
             <h2 className="text-3xl font-bold text-green-700 mb-8 text-center">All Reviews</h2>
-
 
             {loading ? (
                 <div className="flex justify-center py-20">
@@ -75,6 +73,7 @@ const AllReviews = () => {
                             initialFavorite={favoriteIds.includes(review._id)}
                             updateFavoriteOptimistically={updateFavoriteOptimistically}
                             userEmail={user?.email}
+                            deleteReview={deleteReview}
                         />
                     ))}
                 </div>
@@ -82,7 +81,6 @@ const AllReviews = () => {
         </div>
     );
 };
-deleteReview = { deleteReview } // Pass the delete function to ReviewCard
 
 export default AllReviews;
 

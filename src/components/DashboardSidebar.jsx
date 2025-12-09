@@ -1,3 +1,6 @@
+// Add My Profile and My Applications links for student role
+// Example: <Link to="/dashboard/profile">My Profile</Link>
+// Example: <Link to="/dashboard/my-applications">My Applications</Link>
 
 import React from "react";
 import { Link } from "react-router-dom";
