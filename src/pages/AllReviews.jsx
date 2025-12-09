@@ -30,7 +30,10 @@ const AllReviews = () => {
     };
 
     useEffect(() => {
-        setLoading(false);
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
     }, [search, user?.email]);
 
     const deleteReview = async (reviewId) => {
@@ -59,8 +62,15 @@ const AllReviews = () => {
             <h2 className="text-3xl font-bold text-green-700 mb-8 text-center">All Reviews</h2>
 
             {loading ? (
-                <div className="flex justify-center py-20">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-green-600"></div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    {[...Array(4)].map((_, idx) => (
+                        <div key={idx} className="bg-white rounded-lg shadow p-6 animate-pulse">
+                            <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+                            <div className="h-3 bg-gray-100 rounded w-1/2 mb-2"></div>
+                            <div className="h-3 bg-gray-100 rounded w-2/3 mb-2"></div>
+                            <div className="h-3 bg-gray-100 rounded w-1/3"></div>
+                        </div>
+                    ))}
                 </div>
             ) : reviews.length === 0 ? (
                 <p className="text-center text-2xl text-gray-500 py-20">No reviews found.</p>

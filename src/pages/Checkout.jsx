@@ -1,69 +1,72 @@
-import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import axios from "axios";
+import { apiUrl } from "../utils/api";
 
+const stripePromise = loadStripe("pk_test_51Nw...your_test_key_here..."); 
 
-const scholarships = [
-    {
-        id: 1,
-        scholarshipName: "Global Excellence Scholarship",
-        universityName: "Harvard University",
-        applicationFees: "$50"
-    },
-
-];
-
-const Checkout = () => {
-    const { id } = useParams();
+const CheckoutForm = () => {
+    const stripe = useStripe();
+    const elements = useElements();
     const navigate = useNavigate();
-    const scholarship = scholarships.find(s => s.id === Number(id));
+    const location = useLocation();
+    const { amount = 1000, applicationData = {} } = location.state || {};
+    const [clientSecret, setClientSecret] = useState("");
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState("");
 
-    const handlePay = (e) => {
+    useEffect(() => {
+        axios.post(apiUrl("/payment/create-payment-intent"), { amount })
+            .then(res => setClientSecret(res.data.clientSecret))
+            .catch(() => setError("Failed to initialize payment."));
+    }, [amount]);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!stripe || !elements) return;
         setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            setSuccess(true);
-            setTimeout(() => navigate("/dashboard/my-applications"), 2000);
-        }, 2000);
+        setError("");
+        const card = elements.getElement(CardElement);
+        const { paymentIntent, error: stripeError } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: { card },
+        });
+        if (stripeError) {
+            setError(stripeError.message);
+           
+            await axios.post(apiUrl("/applications"), { ...applicationData, paymentStatus: "unpaid" });
+            navigate("/dashboard/payment/failed");
+        } else if (paymentIntent && paymentIntent.status === "succeeded") {
+          
+            await axios.post(apiUrl("/applications"), { ...applicationData, paymentStatus: "paid" });
+            navigate("/dashboard/payment/success", {
+                state: {
+                    scholarshipName: applicationData.scholarshipName,
+                    universityName: applicationData.universityName,
+                    amount: amount
+                }
+            });
+        }
+        setLoading(false);
     };
 
-    if (!scholarship) return <div className="text-center py-20 text-2xl text-gray-500">Scholarship not found.</div>;
-
     return (
-        <div className="max-w-xl mx-auto p-8 min-h-screen">
-            <h2 className="text-2xl font-bold text-green-700 mb-6">Checkout</h2>
-            <div className="bg-white rounded-lg shadow p-6 mb-6">
-                <p className="font-semibold">Scholarship: <span className="text-green-700">{scholarship.scholarshipName}</span></p>
-                <p>University: {scholarship.universityName}</p>
-                <p>Application Fees: {scholarship.applicationFees}</p>
-            </div>
-            {success ? (
-                <div className="alert alert-success">Payment Successful! Redirecting...</div>
-            ) : (
-                <form onSubmit={handlePay} className="space-y-4">
-                    <div>
-                        <label className="block mb-1 font-medium">Card Number</label>
-                        <input type="text" className="input input-bordered w-full" required placeholder="1234 5678 9012 3456" />
-                    </div>
-                    <div className="flex gap-4">
-                        <div className="flex-1">
-                            <label className="block mb-1 font-medium">Expiry</label>
-                            <input type="text" className="input input-bordered w-full" required placeholder="MM/YY" />
-                        </div>
-                        <div className="flex-1">
-                            <label className="block mb-1 font-medium">CVC</label>
-                            <input type="text" className="input input-bordered w-full" required placeholder="CVC" />
-                        </div>
-                    </div>
-                    <button type="submit" className="btn btn-success w-full" disabled={loading}>
-                        {loading ? "Processing..." : "Pay & Apply"}
-                    </button>
-                </form>
-            )}
-        </div>
+        <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded shadow">
+            <h2 className="text-xl font-bold mb-4">Payment</h2>
+            <CardElement className="mb-4 p-2 border rounded" />
+            {error && <div className="text-red-500 mb-2">{error}</div>}
+            <button className="btn btn-primary w-full" type="submit" disabled={!stripe || loading}>
+                {loading ? "Processing..." : "Pay"}
+            </button>
+        </form>
     );
 };
+
+const Checkout = () => (
+    <Elements stripe={stripePromise}>
+        <CheckoutForm />
+    </Elements>
+);
 
 export default Checkout;
