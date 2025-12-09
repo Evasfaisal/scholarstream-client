@@ -73,7 +73,7 @@ const Navbar = () => {
                             <div className="flex gap-3">
                                 <Link
                                     to="/login"
-                                    className="px-5 py-2 bg-primary text-white rounded-full font-semibold shadow hover:bg-primary/90 transition"
+                                    className="px-5 py-2 bg-primary text-black rounded-full font-semibold shadow hover:bg-primary/90 transition"
                                 >
                                     Login
                                 </Link>
@@ -114,7 +114,7 @@ const Navbar = () => {
                             </>
                         ) : (
                             <>
-                                <Link to="/login" className="block px-5 py-4 text-slate-700 hover:bg-primary/10 font-medium">Login</Link>
+                                <Link to="/login" className="block px-5 py-4 text-black hover:bg-primary/10 font-medium">Login</Link>
                                 <Link to="/register" className="block px-5 py-4 text-slate-700 hover:bg-primary/10 font-medium">Register</Link>
                             </>
                         )}
