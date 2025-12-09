@@ -13,6 +13,8 @@ const AdminProfile = () => {
                 <div><span className="font-semibold">Role:</span> {userRole || 'Admin'}</div>
             </div>
         </div>
+        // Additional profile information can be added here
+        // Example: <div><span className="font-semibold">Joined:</span> {user?.joinedDate || 'N/A'}</div>
     );
 };
 

@@ -9,12 +9,12 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left">
                     <div className="md:col-span-1">
-                        <h3 className="text-2xl font-bold text-green-700">ScholarStream</h3>
+                        <h3 className="text-2xl font-bold text-black">ScholarStream</h3>
                         <p className="mt-2 text-gray-600 text-sm">
                             Centralized platform for scholarships and student opportunities.
                         </p>
                         <p className="mt-3 text-xs text-gray-500">
-                            © {currentYear} ScholarStream. All rights reserved.
+                            © {currentYear} <span className="text-black">Scholar Stream</span>. All rights reserved.
                         </p>
                     </div>
                     <div>

@@ -1,7 +1,10 @@
 
+// Read top of file for analytics implementation
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { apiUrl } from '../utils/api';
+import ApplicationsBarChart from '../components/ApplicationsBarChart';
 
 const AdminAnalytics = () => {
     const [stats, setStats] = useState({ users: 0, scholarships: 0, fees: 0, applications: 0 });
@@ -43,9 +46,12 @@ const AdminAnalytics = () => {
             </div>
             <div className="bg-base-100 rounded-lg p-6 shadow">
                 <h3 className="font-semibold mb-2">Applications Chart</h3>
-                <div className="w-full h-40 flex items-center justify-center text-gray-400">
-                 
-                    <span>Chart Placeholder</span>
+                <div className="w-full h-64 flex items-center justify-center">
+                    {chartData && chartData.length > 0 ? (
+                        <ApplicationsBarChart data={chartData} />
+                    ) : (
+                        <span className="text-gray-400">No chart data available</span>
+                    )}
                 </div>
             </div>
         </div>
