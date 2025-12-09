@@ -1,3 +1,4 @@
+import React from 'react';
 import DashboardSidebar from './components/DashboardSidebar.jsx';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -82,7 +83,7 @@ function DashboardSidebarWithRole() {
   const [role, setRole] = React.useState('Student');
   React.useEffect(() => {
     if (user && user.uid) {
-   
+
       import('./firebase/firebase.config').then(({ db }) => {
         import('firebase/firestore').then(({ doc, getDoc }) => {
           getDoc(doc(db, 'users', user.uid)).then((snap) => {
@@ -109,8 +110,8 @@ const router = createBrowserRouter([
         path: '/reviewdetails/:id',
         element: <ReviewDetails />,
       },
-   
-    
+
+
       {
         path: '/dashboard/*',
         element: (
@@ -125,7 +126,7 @@ const router = createBrowserRouter([
           { path: 'applications', element: <ModeratorApplications /> },
           { path: 'all-reviews', element: <AllReviews /> },
           { path: 'my-applications', element: <MyApplications /> },
-        
+
         ],
       },
       { path: '/success', element: <Success /> },

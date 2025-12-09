@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { apiUrl } from '../utils/api';
 
+// Application Management Features for Moderator Dashboard
+// This component handles the review and management of applications submitted by users.
+// It allows moderators to view application details, update statuses, and provide feedback.
 const statusOptions = ['Pending', 'Processing', 'Completed', 'Rejected'];
 
 const ModeratorApplications = () => {
