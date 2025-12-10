@@ -1,6 +1,3 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { apiUrl } from '../utils/api';
 
 function AdminScholarships() {
     const [scholarships, setScholarships] = useState([]);
@@ -10,10 +7,16 @@ function AdminScholarships() {
     useEffect(() => {
         const fetchScholarships = async () => {
             try {
-                const res = await axios.get(apiUrl('/api/scholarships'));
-                setScholarships(res.data);
+                const res = await axios.get(apiUrl('/api/scholarships/admin'));
+                if (Array.isArray(res.data)) {
+                    setScholarships(res.data);
+                } else if (res.data && Array.isArray(res.data.scholarships)) {
+                    setScholarships(res.data.scholarships);
+                } else {
+                    setScholarships([]);
+                }
             } catch (err) {
-                console.error('Failed to fetch scholarships:', err);
+                setScholarships([]);
             }
         };
         fetchScholarships();
@@ -39,7 +42,6 @@ function AdminScholarships() {
             setScholarships((prev) => prev.filter((sch) => sch._id !== id && sch.id !== id));
         } catch (err) {
             alert('Failed to delete scholarship!');
-            console.error(err);
         }
     };
 
@@ -50,9 +52,10 @@ function AdminScholarships() {
             setForm({ name: '', amount: '', deadline: '', status: 'Active' });
         } catch (err) {
             alert('Failed to add scholarship!');
-            console.error(err);
         }
     };
+
+    const isScholarshipsArray = Array.isArray(scholarships);
 
     return (
         <div className="p-4">
@@ -103,7 +106,7 @@ function AdminScholarships() {
                         </tr>
                     </thead>
                     <tbody>
-                        {scholarships.map((sch) => (
+                        {isScholarshipsArray ? scholarships.map((sch) => (
                             <tr key={sch.id}>
                                 <td>
                                     {editingId === sch.id ? (
@@ -188,7 +191,9 @@ function AdminScholarships() {
                                     )}
                                 </td>
                             </tr>
-                        ))}
+                        )) : (
+                            <tr><td colSpan="100%" className="text-red-500 text-center font-bold">Scholarship data is invalid.</td></tr>
+                        )}
                     </tbody>
                 </table>
             </div>

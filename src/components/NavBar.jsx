@@ -36,6 +36,7 @@ const Navbar = () => {
                     <div className="hidden md:flex items-center gap-8">
                         <Link to="/" className="text-slate-700 hover:text-primary font-medium transition">Home</Link>
                         <Link to="/allscholarships" className="text-slate-700 hover:text-primary font-medium transition">All Scholarships</Link>
+                        <Link to="/allreviews" className="text-slate-700 hover:text-primary font-medium transition">Reviews</Link>
                         {user ? (
                             <div className="relative">
                                 <button
@@ -101,6 +102,7 @@ const Navbar = () => {
                     <div className="md:hidden bg-white border-t border-slate-200 shadow-xl rounded-b-xl">
                         <Link to="/" className="block px-5 py-4 text-slate-700 hover:bg-primary/10 font-medium">Home</Link>
                         <Link to="/allscholarships" className="block px-5 py-4 text-slate-700 hover:bg-primary/10 font-medium">All Scholarships</Link>
+                        <Link to="/allreviews" className="block px-5 py-4 text-slate-700 hover:bg-primary/10 font-medium">Reviews</Link>
                         {user ? (
                             <>
                                 <Link to="/dashboard" className="block px-5 py-4 text-primary font-bold hover:bg-primary/10">Dashboard</Link>
