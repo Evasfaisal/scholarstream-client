@@ -171,13 +171,13 @@ const AllScholarships = () => {
                                     <div className="flex-1">
                                         <div className="flex items-start justify-between mb-3">
                                             <div>
-                                                <h3 className="text-2xl font-bold text-slate-800 mb-1 hover:text-purple-600 transition-colors">
-                                                    {s.name}
-                                                </h3>
-                                                <p className="text-lg text-slate-600 font-semibold flex items-center gap-2">
+                                                <p className="text-lg text-slate-600 font-semibold flex items-center gap-2 mb-1">
                                                     <span>🏛️</span>
-                                                    {s.university}
+                                                    {s.universityName || s.university}
                                                 </p>
+                                                <h3 className="text-xl font-bold text-purple-600">
+                                                    📚 {s.scholarshipCategory || s.category}
+                                                </h3>
                                             </div>
                                             <div className="text-right">
                                                 <div className="text-3xl font-extrabold text-purple-600">
@@ -193,9 +193,6 @@ const AllScholarships = () => {
                                             </div>
                                             <div className="badge badge-lg bg-green-100 text-green-700 border-green-300 gap-2">
                                                 🌍 {s.country}
-                                            </div>
-                                            <div className="badge badge-lg bg-purple-100 text-purple-700 border-purple-300 gap-2">
-                                                📚 {s.category}
                                             </div>
                                             <div className="badge badge-lg bg-orange-100 text-orange-700 border-orange-300 gap-2">
                                                 📅 {s.postDate ? new Date(s.postDate).toLocaleDateString('en-US', {
