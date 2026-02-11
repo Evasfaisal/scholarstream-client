@@ -129,5 +129,7 @@ const AllReviews = () => {
             )}
         </div>
     );
-    export default AllReviews;
+};
+
+export default AllReviews;
 

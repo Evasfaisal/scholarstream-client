@@ -104,6 +104,7 @@ function AdminScholarships() {
                             <th className="text-gray-700">Application Fees</th>
                             <th className="text-gray-700">Deadline</th>
                             <th className="text-gray-700">Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {scholarships.length === 0 ? (

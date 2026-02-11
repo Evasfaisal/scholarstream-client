@@ -11,6 +11,8 @@ import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import AllReviews from './pages/AllReviews.jsx';
+import AllScholarships from './pages/AllScholarships.jsx';
+import ScholarshipDetails from './pages/ScholarshipDetails.jsx';
 import ReviewDetails from './pages/ReviewDetails.jsx';
 import NotFound from './pages/NotFound.jsx';
 import PrivateRoute from './routes/PrivateRoute.jsx';
@@ -109,6 +111,8 @@ const router = createBrowserRouter([
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
       { path: '/admin-setup', element: <AdminSetup /> },
+      { path: '/allscholarships', element: <AllScholarships /> },
+      { path: '/scholarship/:id', element: <ScholarshipDetails /> },
       { path: '/allreviews', element: <AllReviews /> },
       {
         path: '/reviewdetails/:id',
