@@ -33,6 +33,19 @@ const MyApplications = () => {
         };
 
         fetchMyApplications();
+
+        // Listen for navigation back to this page to refetch data
+        const handleVisibilityChange = () => {
+            if (!document.hidden) {
+                fetchMyApplications();
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
     }, [user]);
 
     // Handlers
@@ -47,18 +60,30 @@ const MyApplications = () => {
     const handleEdit = (app) => {
         navigate(`/scholarship/${app.scholarshipId}`);
     };
-    const handlePay = (app) => {
-        // Create scholarship object from application data
-        const scholarship = {
-            _id: app.scholarshipId,
-            scholarshipName: app.scholarshipCategory,
-            universityName: app.universityName,
-            universityImage: app.universityImage || 'https://via.placeholder.com/400',
-            degree: app.degree,
-            applicationFees: app.applicationFees,
-            serviceCharge: app.serviceCharge || 0
-        };
-        navigate('/checkout', { state: { scholarship } });
+    const handlePay = async (app) => {
+        try {
+            // Delete unpaid application before going to payment
+            await apiUrl.delete(`/api/applications/${app._id}`);
+            console.log("Deleted unpaid application:", app._id);
+
+            // Remove from local state immediately
+            setApplications(apps => apps.filter(a => a._id !== app._id));
+
+            // Create scholarship object from application data
+            const scholarship = {
+                _id: app.scholarshipId,
+                scholarshipName: app.scholarshipCategory,
+                universityName: app.universityName,
+                universityImage: app.universityImage || 'https://via.placeholder.com/400',
+                degree: app.degree,
+                applicationFees: app.applicationFees,
+                serviceCharge: app.serviceCharge || 0
+            };
+            navigate('/checkout', { state: { scholarship } });
+        } catch (error) {
+            console.error("Error deleting unpaid application:", error);
+            toast.error("Failed to proceed to payment");
+        }
     };
     const handleDelete = (id) => {
         setDeleteAppId(id);

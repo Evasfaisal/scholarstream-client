@@ -40,7 +40,11 @@ const Success = () => {
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <button
-                        onClick={() => navigate("/dashboard/my-applications")}
+                        onClick={() => {
+                            // Force reload to ensure fresh data
+                            navigate("/dashboard/my-applications", { replace: true });
+                            window.location.reload();
+                        }}
                         className="btn btn-primary btn-lg"
                     >
                         Go to My Applications

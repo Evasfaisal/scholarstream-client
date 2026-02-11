@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import apiUrl from "../utils/api";
 
 const AllScholarships = () => {
+    const navigate = useNavigate();
     const [scholarships, setScholarships] = useState([]);
     const [search, setSearch] = useState("");
     const [country, setCountry] = useState("");
@@ -56,129 +58,209 @@ const AllScholarships = () => {
     const isScholarshipsArray = Array.isArray(scholarships);
 
     return (
-        <div className="max-w-7xl mx-auto p-4 min-h-screen">
-            <h2 className="text-3xl font-bold text-green-700 mb-6 text-center">All Scholarships</h2>
+        <div className="max-w-7xl mx-auto p-6 min-h-screen bg-gradient-to-br from-slate-50 to-purple-50">
+            {/* Header Section */}
+            <div className="mb-10 text-center">
+                <h2 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-3">
+                    🎓 All Scholarships
+                </h2>
+                <p className="text-slate-600 text-lg">Discover your perfect scholarship opportunity</p>
+            </div>
 
-            <div className="flex flex-col md:flex-row gap-4 mb-6">
-                <input
-                    className="input input-bordered w-full md:w-1/3"
-                    placeholder="Search by name, university, degree..."
-                    value={search}
-                    onChange={e => { setSearch(e.target.value); setPage(1); }}
-                />
-                <select
-                    className="select select-bordered w-full md:w-1/4"
-                    value={country}
-                    onChange={e => { setCountry(e.target.value); setPage(1); }}
-                >
-                    <option value="">All Countries</option>
-                    <option value="USA">USA</option>
-                    <option value="UK">UK</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Australia">Australia</option>
-                    <option value="Bangladesh">Bangladesh</option>
-                    <option value="Germany">Germany</option>
-                    <option value="Spain">Spain</option>
-                    <option value="Japan">Japan</option>
-                    <option value="Sweden">Sweden</option>
-                </select>
-                <select
-                    className="select select-bordered w-full md:w-1/4"
-                    value={category}
-                    onChange={e => { setCategory(e.target.value); setPage(1); }}
-                >
-                    <option value="">All Categories</option>
-                    <option value="Science">Science</option>
-                    <option value="Engineering">Engineering</option>
-                    <option value="Business">Business</option>
-                    <option value="Arts">Arts</option>
-                </select>
-                <select
-                    className="select select-bordered w-full md:w-1/4"
-                    value={sort}
-                    onChange={e => { setSort(e.target.value); setPage(1); }}
-                >
-                    <option value="">Sort By</option>
-                    <option value="fees_asc">Fees: Low to High</option>
-                    <option value="fees_desc">Fees: High to Low</option>
-                    <option value="date_desc">Newest</option>
-                    <option value="date_asc">Oldest</option>
-                </select>
+            {/* Filter Section */}
+            <div className="bg-white rounded-3xl shadow-xl p-6 mb-8 border-2 border-purple-100">
+                <div className="flex flex-col md:flex-row gap-4">
+                    <div className="relative flex-1">
+                        <span className="absolute left-4 top-4 text-2xl">🔍</span>
+                        <input
+                            className="input input-bordered w-full pl-14 pr-4 h-14 text-lg rounded-2xl border-2 border-slate-200 focus:border-purple-500 transition-all"
+                            placeholder="Search scholarships..."
+                            value={search}
+                            onChange={e => { setSearch(e.target.value); setPage(1); }}
+                        />
+                    </div>
+                    <select
+                        className="select select-bordered h-14 text-lg rounded-2xl border-2 border-slate-200 focus:border-purple-500 transition-all"
+                        value={country}
+                        onChange={e => { setCountry(e.target.value); setPage(1); }}
+                    >
+                        <option value="">🌍 All Countries</option>
+                        <option value="USA">🇺🇸 USA</option>
+                        <option value="UK">🇬🇧 UK</option>
+                        <option value="Canada">🇨🇦 Canada</option>
+                        <option value="Australia">🇦🇺 Australia</option>
+                        <option value="Bangladesh">🇧🇩 Bangladesh</option>
+                        <option value="Germany">🇩🇪 Germany</option>
+                        <option value="Spain">🇪🇸 Spain</option>
+                        <option value="Japan">🇯🇵 Japan</option>
+                        <option value="Sweden">🇸🇪 Sweden</option>
+                    </select>
+                    <select
+                        className="select select-bordered h-14 text-lg rounded-2xl border-2 border-slate-200 focus:border-purple-500 transition-all"
+                        value={category}
+                        onChange={e => { setCategory(e.target.value); setPage(1); }}
+                    >
+                        <option value="">📚 All Categories</option>
+                        <option value="Science">🔬 Science</option>
+                        <option value="Engineering">⚙️ Engineering</option>
+                        <option value="Business">💼 Business</option>
+                        <option value="Arts">🎨 Arts</option>
+                    </select>
+                    <select
+                        className="select select-bordered h-14 text-lg rounded-2xl border-2 border-slate-200 focus:border-purple-500 transition-all"
+                        value={sort}
+                        onChange={e => { setSort(e.target.value); setPage(1); }}
+                    >
+                        <option value="">🔄 Sort By</option>
+                        <option value="fees_asc">💰 Low to High</option>
+                        <option value="fees_desc">💎 High to Low</option>
+                        <option value="date_desc">🆕 Newest</option>
+                        <option value="date_asc">📅 Oldest</option>
+                    </select>
+                </div>
             </div>
 
             {loading ? (
-                <div className="flex justify-center py-20">
-                    <span className="loading loading-spinner loading-lg text-success"></span>
+                <div className="flex flex-col items-center justify-center py-32">
+                    <span className="loading loading-spinner loading-lg text-purple-600 mb-4"></span>
+                    <p className="text-slate-600 text-lg">Loading scholarships...</p>
                 </div>
             ) : !isScholarshipsArray || scholarships.length === 0 ? (
-                <p className="text-center text-2xl text-gray-500 py-20">No scholarships found.</p>
+                <div className="text-center py-32 bg-white rounded-3xl shadow-xl">
+                    <div className="text-8xl mb-6">🔍</div>
+                    <p className="text-2xl text-slate-500 font-semibold mb-3">No scholarships found</p>
+                    <p className="text-slate-400 mb-6">Try adjusting your filters</p>
+                    <button
+                        onClick={() => {
+                            setSearch("");
+                            setCountry("");
+                            setCategory("");
+                            setSort("");
+                            setPage(1);
+                        }}
+                        className="btn btn-primary btn-lg rounded-2xl px-8"
+                    >
+                        Clear Filters
+                    </button>
+                </div>
             ) : (
-                <div className="overflow-x-auto">
-                    <table className="table w-full">
-                        <thead>
-                            <tr>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>University</th>
-                                <th>Degree</th>
-                                <th>Country</th>
-                                <th>Category</th>
-                                <th>Fees</th>
-                                <th>Post Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {scholarships.map(s => (
-                                <tr key={s._id || s.id}>
-                                    <td>
+                <div className="grid gap-6">
+                    {scholarships.map((s, index) => {
+                        const borderColors = [
+                            'border-l-8 border-l-purple-500',
+                            'border-l-8 border-l-pink-500',
+                            'border-l-8 border-l-blue-500',
+                            'border-l-8 border-l-green-500',
+                            'border-l-8 border-l-orange-500',
+                            'border-l-8 border-l-red-500',
+                        ];
+                        const borderClass = borderColors[index % borderColors.length];
+
+                        return (
+                            <div
+                                key={s._id || s.id}
+                                className={`bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 ${borderClass} border-t border-r border-b border-slate-100 hover:scale-[1.02] cursor-pointer`}
+                                onClick={() => navigate(`/scholarship/${s._id || s.id}`)}
+                            >
+                                <div className="flex flex-col md:flex-row gap-6">
+                                    {/* Image Section */}
+                                    <div className="flex-shrink-0">
                                         {s.photo ? (
                                             <img
                                                 src={s.photo}
                                                 alt={s.name}
-                                                className="w-12 h-12 rounded-full object-cover border"
+                                                className="w-32 h-32 rounded-2xl object-cover border-4 border-slate-100 shadow-md"
                                             />
                                         ) : (
-                                            <span className="text-gray-400">No Image</span>
+                                            <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
+                                                <span className="text-5xl">🎓</span>
+                                            </div>
                                         )}
-                                    </td>
-                                    <td>{s.name}</td>
-                                    <td>{s.university}</td>
-                                    <td>{s.degree}</td>
-                                    <td>{s.country}</td>
-                                    <td>{s.category}</td>
-                                    <td>৳{s.fees}</td>
-                                    <td>{s.postDate ? new Date(s.postDate).toLocaleDateString() : ''}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                                    </div>
+
+                                    {/* Content Section */}
+                                    <div className="flex-1">
+                                        <div className="flex items-start justify-between mb-3">
+                                            <div>
+                                                <h3 className="text-2xl font-bold text-slate-800 mb-1 hover:text-purple-600 transition-colors">
+                                                    {s.name}
+                                                </h3>
+                                                <p className="text-lg text-slate-600 font-semibold flex items-center gap-2">
+                                                    <span>🏛️</span>
+                                                    {s.university}
+                                                </p>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="text-3xl font-extrabold text-purple-600">
+                                                    ${s.applicationFees || s.fees || '0'}
+                                                </div>
+                                                <div className="text-xs text-slate-500">Application Fee</div>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex flex-wrap gap-3 mb-4">
+                                            <div className="badge badge-lg bg-blue-100 text-blue-700 border-blue-300 gap-2">
+                                                🎓 {s.degree}
+                                            </div>
+                                            <div className="badge badge-lg bg-green-100 text-green-700 border-green-300 gap-2">
+                                                🌍 {s.country}
+                                            </div>
+                                            <div className="badge badge-lg bg-purple-100 text-purple-700 border-purple-300 gap-2">
+                                                📚 {s.category}
+                                            </div>
+                                            <div className="badge badge-lg bg-orange-100 text-orange-700 border-orange-300 gap-2">
+                                                📅 {s.postDate ? new Date(s.postDate).toLocaleDateString('en-US', {
+                                                    year: 'numeric',
+                                                    month: 'short',
+                                                    day: 'numeric'
+                                                }) : 'N/A'}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex gap-3">
+                                            <button
+                                                className="btn btn-primary btn-sm rounded-xl px-6 hover:scale-105 transition-transform"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    navigate(`/scholarship/${s._id || s.id}`);
+                                                }}
+                                            >
+                                                View Details →
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
             )}
 
-            <div className="flex justify-center mt-8">
-                <div className="join">
+            {/* Pagination */}
+            <div className="flex justify-center mt-10">
+                <div className="join shadow-lg">
                     <button
-                        className="join-item btn"
+                        className="join-item btn btn-lg rounded-l-2xl hover:scale-105 transition-transform"
                         disabled={page === 1}
                         onClick={() => setPage(page - 1)}
                     >
-                        Prev
+                        ← Prev
                     </button>
                     {[...Array(totalPages)].map((_, idx) => (
                         <button
                             key={idx}
-                            className={`join-item btn ${page === idx + 1 ? 'btn-active' : ''}`}
+                            className={`join-item btn btn-lg hover:scale-105 transition-transform ${page === idx + 1 ? 'btn-primary' : ''}`}
                             onClick={() => setPage(idx + 1)}
                         >
                             {idx + 1}
                         </button>
                     ))}
                     <button
-                        className="join-item btn"
+                        className="join-item btn btn-lg rounded-r-2xl hover:scale-105 transition-transform"
                         disabled={page === totalPages}
                         onClick={() => setPage(page + 1)}
                     >
-                        Next
+                        Next →
                     </button>
                 </div>
             </div>

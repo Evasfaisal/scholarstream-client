@@ -108,20 +108,24 @@ const CheckoutForm = () => {
                 }
             });
         } else if (paymentIntent && paymentIntent.status === "succeeded") {
-            // Save application with paid status
+            // Update existing application payment status to paid
             try {
+                // Save application with paid status
                 await apiUrl.post('/api/applications', {
                     ...applicationData,
-                    paymentStatus: "paid"
+                    paymentStatus: "paid",
+                    paymentIntentId: paymentIntent.id
                 });
+                console.log("Paid application created/updated successfully");
             } catch (err) {
-                console.error("Error saving application:", err);
+                console.error("Error saving paid application:", err);
             }
             navigate("/payment/success", {
                 state: {
                     scholarshipName: scholarship.scholarshipName,
                     universityName: scholarship.universityName,
-                    amount: totalAmount
+                    amount: totalAmount,
+                    refresh: true
                 }
             });
         }
