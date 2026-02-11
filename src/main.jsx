@@ -19,11 +19,14 @@ import DashboardLayout from './layout/DashboardLayout.jsx';
 import AdminScholarships from './pages/AdminScholarships.jsx';
 import AdminUsers from './pages/AdminUsers.jsx';
 import AdminAnalytics from './pages/AdminAnalytics.jsx';
+import AdminProfile from './pages/AdminProfile.jsx';
+import AddScholarship from './pages/AddScholarship.jsx';
 import ModeratorApplications from './pages/ModeratorApplications.jsx';
 import MyApplications from './pages/MyApplications.jsx';
 import Success from './pages/Success.jsx';
 import Failed from './pages/Failed.jsx';
 import Checkout from './pages/Checkout.jsx';
+import AdminSetup from './pages/AdminSetup.jsx';
 
 import { Toaster } from 'react-hot-toast';
 
@@ -105,6 +108,7 @@ const router = createBrowserRouter([
       { path: '/home', element: <Home /> },
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
+      { path: '/admin-setup', element: <AdminSetup /> },
       { path: '/allreviews', element: <AllReviews /> },
       {
         path: '/reviewdetails/:id',
@@ -118,8 +122,8 @@ const router = createBrowserRouter([
           <DashboardLayout sidebar={<DashboardSidebarWithRole />} />
         ),
         children: [
-          { path: 'profile', element: <div>My Profile</div> },
-          { path: 'add-scholarship', element: <div>Add Scholarship</div> },
+          { path: 'profile', element: <AdminProfile /> },
+          { path: 'add-scholarship', element: <AddScholarship /> },
           { path: 'manage-scholarships', element: <AdminScholarships /> },
           { path: 'manage-users', element: <AdminUsers /> },
           { path: 'analytics', element: <AdminAnalytics /> },
