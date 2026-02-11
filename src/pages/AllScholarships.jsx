@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { apiUrl } from "../utils/api";
+import apiUrl from "../utils/api";
 
 const AllScholarships = () => {
     const [scholarships, setScholarships] = useState([]);
@@ -16,7 +15,8 @@ const AllScholarships = () => {
     const fetchScholarships = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(apiUrl("/api/scholarships"), {
+            console.log('Fetching scholarships with params:', { search, country, category, sort, page, limit: PAGE_SIZE });
+            const res = await apiUrl.get("/api/scholarships", {
                 params: {
                     search,
                     country,
@@ -26,6 +26,8 @@ const AllScholarships = () => {
                     limit: PAGE_SIZE
                 }
             });
+            console.log('API Response:', res.data);
+
             if (res.data && Array.isArray(res.data.scholarships)) {
                 setScholarships(res.data.scholarships);
                 setTotalPages(res.data.totalPages || 1);
@@ -33,11 +35,13 @@ const AllScholarships = () => {
                 setScholarships(res.data);
                 setTotalPages(1);
             } else {
+                console.warn('Unexpected data format:', res.data);
                 setScholarships([]);
                 setTotalPages(1);
             }
         } catch (err) {
             console.error("Error fetching scholarships:", err);
+            console.error("Error details:", err.response?.data || err.message);
             setScholarships([]);
             setTotalPages(1);
         }

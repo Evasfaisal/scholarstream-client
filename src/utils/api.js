@@ -1,9 +1,32 @@
+import axios from 'axios';
+import { auth } from '../firebase/firebase.config';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const apiUrl = axios.create({
+    baseURL: API_URL,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
 
-export function apiUrl(path) {
-   
-    if (path.startsWith('/')) path = path.slice(1);
-    return `${API_URL}/${path}`;
-}
+// Add Firebase ID token to every request
+apiUrl.interceptors.request.use(
+    async (config) => {
+        try {
+            const user = auth.currentUser;
+            if (user) {
+                const token = await user.getIdToken();
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+        } catch (error) {
+            console.error('Error getting Firebase token:', error);
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+export default apiUrl;

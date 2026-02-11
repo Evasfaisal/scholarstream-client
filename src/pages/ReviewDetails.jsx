@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { apiUrl } from "../utils/api";
+import apiUrl from "../utils/api";
 import { useParams, Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 

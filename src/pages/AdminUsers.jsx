@@ -1,21 +1,30 @@
-
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { apiUrl } from '../utils/api';
+import { doc, getDoc, updateDoc, deleteDoc, collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase/firebase.config';
+import { toast } from 'react-hot-toast';
 
 const AdminUsers = () => {
     const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState(null);
-    const [role, setRole] = useState('student');
+    const [role, setRole] = useState('Student');
     const [filterRole, setFilterRole] = useState('all');
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await axios.get(apiUrl('/api/users'));
-                setUsers(res.data);
+                setLoading(true);
+                const usersSnapshot = await getDocs(collection(db, 'users'));
+                const usersData = usersSnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                setUsers(usersData);
             } catch (err) {
                 console.error('Failed to fetch users:', err);
+                toast.error('Failed to load users');
+            } finally {
+                setLoading(false);
             }
         };
         fetchUsers();
@@ -30,22 +39,25 @@ const AdminUsers = () => {
 
     const handleSave = async (id) => {
         try {
-            await axios.put(apiUrl(`/api/users/${id}`), { role });
-            setUsers((prev) => prev.map((user) => (user._id === id || user.id === id ? { ...user, role } : user)));
+            await updateDoc(doc(db, 'users', id), { role });
+            setUsers((prev) => prev.map((user) => (user.id === id ? { ...user, role } : user)));
             setEditingId(null);
+            toast.success('User role updated successfully');
         } catch (err) {
-            alert('Failed to update user role!');
-            console.error(err);
+            console.error('Failed to update user role:', err);
+            toast.error('Failed to update user role');
         }
     };
 
     const handleDelete = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this user?')) return;
         try {
-            await axios.delete(apiUrl(`/api/users/${id}`));
-            setUsers((prev) => prev.filter((user) => user._id !== id && user.id !== id));
+            await deleteDoc(doc(db, 'users', id));
+            setUsers((prev) => prev.filter((user) => user.id !== id));
+            toast.success('User deleted successfully');
         } catch (err) {
-            alert('Failed to delete user!');
-            console.error(err);
+            console.error('Failed to delete user:', err);
+            toast.error('Failed to delete user');
         }
     };
 

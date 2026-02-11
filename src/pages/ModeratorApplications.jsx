@@ -1,15 +1,12 @@
-
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { apiUrl } from '../utils/api';
+import apiUrl from '../utils/api';
+import { toast } from 'react-hot-toast';
 
-// Application Management Features for Moderator Dashboard
-// This component handles the review and management of applications submitted by users.
-// It allows moderators to view application details, update statuses, and provide feedback.
-const statusOptions = ['Pending', 'Processing', 'Completed', 'Rejected'];
+const statusOptions = ['pending', 'processing', 'completed', 'rejected'];
 
 const ModeratorApplications = () => {
     const [applications, setApplications] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [detailsModal, setDetailsModal] = useState(null);
     const [feedbackModal, setFeedbackModal] = useState(null);
     const [feedbackText, setFeedbackText] = useState('');
@@ -17,25 +14,36 @@ const ModeratorApplications = () => {
     useEffect(() => {
         const fetchApplications = async () => {
             try {
-                const res = await axios.get(apiUrl('/api/applications'));
-                setApplications(res.data);
+                setLoading(true);
+                const res = await apiUrl.get('/api/applications');
+                setApplications(res.data || []);
             } catch (err) {
                 console.error('Failed to fetch applications:', err);
+                toast.error('Failed to load applications');
+            } finally {
+                setLoading(false);
             }
         };
         fetchApplications();
     }, []);
 
-    const handleStatusUpdate = (id, newStatus) => {
-        setApplications((prev) =>
-            prev.map((app) =>
-                (app._id === id || app.id === id) ? { ...app, status: newStatus } : app
-            )
-        );
+    const handleStatusUpdate = async (id, newStatus) => {
+        try {
+            await apiUrl.put(`/api/applications/${id}`, { applicationStatus: newStatus });
+            setApplications((prev) =>
+                prev.map((app) =>
+                    (app._id === id) ? { ...app, applicationStatus: newStatus } : app
+                )
+            );
+            toast.success('Status updated successfully');
+        } catch (err) {
+            console.error('Failed to update status:', err);
+            toast.error('Failed to update status');
+        }
     };
 
     const handleCancel = (id) => {
-        handleStatusUpdate(id, 'Rejected');
+        handleStatusUpdate(id, 'rejected');
     };
 
     const openDetailsModal = (app) => setDetailsModal(app);
@@ -46,13 +54,20 @@ const ModeratorApplications = () => {
         setFeedbackText(app.feedback || '');
     };
     const closeFeedbackModal = () => setFeedbackModal(null);
-    const saveFeedback = (id) => {
-        setApplications((prev) =>
-            prev.map((app) =>
-                (app._id === id || app.id === id) ? { ...app, feedback: feedbackText } : app
-            )
-        );
-        closeFeedbackModal();
+    const saveFeedback = async (id) => {
+        try {
+            await apiUrl.put(`/api/applications/${id}`, { feedback: feedbackText });
+            setApplications((prev) =>
+                prev.map((app) =>
+                    (app._id === id) ? { ...app, feedback: feedbackText } : app
+                )
+            );
+            closeFeedbackModal();
+            toast.success('Feedback saved successfully');
+        } catch (err) {
+            console.error('Failed to save feedback:', err);
+            toast.error('Failed to save feedback');
+        }
     };
 
     return (

@@ -1,13 +1,18 @@
+import React, { useState, useEffect } from 'react';
+import apiUrl from '../utils/api';
+import { toast } from 'react-hot-toast';
 
 function AdminScholarships() {
     const [scholarships, setScholarships] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState(null);
-    const [form, setForm] = useState({ name: '', amount: '', deadline: '', status: 'Active' });
+    const [editForm, setEditForm] = useState({});
 
     useEffect(() => {
         const fetchScholarships = async () => {
             try {
-                const res = await axios.get(apiUrl('/api/scholarships/admin'));
+                setLoading(true);
+                const res = await apiUrl.get('/api/scholarships');
                 if (Array.isArray(res.data)) {
                     setScholarships(res.data);
                 } else if (res.data && Array.isArray(res.data.scholarships)) {
@@ -16,46 +21,56 @@ function AdminScholarships() {
                     setScholarships([]);
                 }
             } catch (err) {
+                console.error('Failed to fetch scholarships:', err);
+                toast.error('Failed to load scholarships');
                 setScholarships([]);
+            } finally {
+                setLoading(false);
             }
         };
         fetchScholarships();
     }, []);
 
     const handleEdit = (sch) => {
-        setEditingId(sch.id);
-        setForm({ ...sch });
+        setEditingId(sch._id);
+        setEditForm({ ...sch });
     };
 
-    const handleSave = (id) => {
-        setScholarships((prev) =>
-            prev.map((sch) =>
-                sch.id === id ? { ...form, id } : sch
-            )
-        );
-        setEditingId(null);
+    const handleSave = async (id) => {
+        try {
+            await apiUrl.put(`/api/scholarships/${id}`, editForm);
+            setScholarships((prev) =>
+                prev.map((sch) =>
+                    sch._id === id ? { ...editForm, _id: id } : sch
+                )
+            );
+            setEditingId(null);
+            toast.success('Scholarship updated successfully');
+        } catch (err) {
+            console.error('Failed to update scholarship:', err);
+            toast.error('Failed to update scholarship');
+        }
     };
 
     const handleDelete = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this scholarship?')) return;
         try {
-            await axios.delete(apiUrl(`/api/scholarships/${id}`));
-            setScholarships((prev) => prev.filter((sch) => sch._id !== id && sch.id !== id));
+            await apiUrl.delete(`/api/scholarships/${id}`);
+            setScholarships((prev) => prev.filter((sch) => sch._id !== id));
+            toast.success('Scholarship deleted successfully');
         } catch (err) {
-            alert('Failed to delete scholarship!');
+            console.error('Failed to delete scholarship:', err);
+            toast.error('Failed to delete scholarship');
         }
     };
 
-    const handleAdd = async () => {
-        try {
-            const res = await axios.post(apiUrl('/api/scholarships'), form);
-            setScholarships((prev) => [...prev, res.data]);
-            setForm({ name: '', amount: '', deadline: '', status: 'Active' });
-        } catch (err) {
-            alert('Failed to add scholarship!');
-        }
-    };
-
-    const isScholarshipsArray = Array.isArray(scholarships);
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <span className="loading loading-spinner loading-lg text-primary"></span>
+            </div>
+        );
+    }
 
     return (
         <div className="p-4">

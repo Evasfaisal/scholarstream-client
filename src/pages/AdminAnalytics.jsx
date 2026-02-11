@@ -1,23 +1,24 @@
 
-// Read top of file for analytics implementation
-
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { apiUrl } from '../utils/api';
+import apiUrl from '../utils/api';
 import ApplicationsBarChart from '../components/ApplicationsBarChart';
 
 const AdminAnalytics = () => {
     const [stats, setStats] = useState({ users: 0, scholarships: 0, fees: 0, applications: 0 });
     const [chartData, setChartData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const res = await axios.get(apiUrl('/api/analytics'));
-                setStats(res.data.stats);
-                setChartData(res.data.chartData);
+                setLoading(true);
+                const res = await apiUrl.get('/api/analytics');
+                setStats(res.data.stats || {});
+                setChartData(res.data.chartData || []);
             } catch (err) {
                 console.error('Failed to fetch analytics:', err);
+            } finally {
+                setLoading(false);
             }
         };
         fetchStats();

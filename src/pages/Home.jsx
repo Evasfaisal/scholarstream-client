@@ -1,63 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-
-
-const topScholarships = [
-    {
-        id: 1,
-        name: "Global Excellence Scholarship",
-        university: "Harvard University",
-        country: "USA",
-        fees: "$50",
-        image: "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=600&q=80"
-    },
-    {
-        id: 2,
-        name: "Future Leaders Award",
-        university: "Oxford University",
-        country: "UK",
-        fees: "$30",
-        image: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80"
-    },
-    {
-        id: 3,
-        name: "STEM Innovators Scholarship",
-        university: "MIT",
-        country: "USA",
-        fees: "$40",
-        image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80"
-    },
-    {
-        id: 4,
-        name: "Women in Tech Grant",
-        university: "Stanford University",
-        country: "USA",
-        fees: "$25",
-        image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
-    },
-    {
-        id: 5,
-        name: "Asia Pacific Scholarship",
-        university: "National University of Singapore",
-        country: "Singapore",
-        fees: "$35",
-        image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80"
-    },
-    {
-        id: 6,
-        name: "Emerging Nations Fund",
-        university: "University of Cape Town",
-        country: "South Africa",
-        fees: "$20",
-        image: "https://images.unsplash.com/photo-1468413253725-0d5181091126?auto=format&fit=crop&w=600&q=80"
-    }
-];
+import { Link } from "react-router-dom";
+import apiUrl from "../utils/api";
 
 const Home = () => {
+    const [topScholarships, setTopScholarships] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchTopScholarships = async () => {
+            try {
+                setLoading(true);
+                const response = await apiUrl.get('/api/scholarships?limit=6&sort=applicationFees');
+                setTopScholarships(response.data.scholarships || response.data || []);
+            } catch (error) {
+                console.error("Error fetching scholarships:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchTopScholarships();
+    }, []);
     return (
         <div className="bg-base-100">
 
-            <section className="hero min-h-[350px] bg-gradient-to-r from-blue-50 to-indigo-100 flex items-center justify-center border-b border-slate-200">
+            <section className="hero min-h-[350px] bg-linear-to-r from-blue-50 to-indigo-100 flex items-center justify-center border-b border-slate-200">
                 <div className="hero-content flex-col lg:flex-row-reverse gap-12">
                     <motion.img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=600&q=80" alt="ScholarStream Banner" className="max-w-sm rounded-2xl shadow-xl border-4 border-white" initial={{ opacity: 0, x: 100 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }} />
                     <motion.div initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
@@ -71,23 +39,53 @@ const Home = () => {
 
             <section className="max-w-7xl mx-auto py-16 px-4">
                 <h2 className="text-3xl font-extrabold text-slate-800 mb-10 text-center tracking-tight">Featured Scholarships</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-                    {topScholarships.map((scholarship, i) => (
-                        <motion.div key={scholarship.id} className="bg-white rounded-2xl shadow-lg border border-slate-200 hover:shadow-2xl transition-all duration-300 flex flex-col" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 }}>
-                            <figure><img src={scholarship.image} alt={scholarship.name} className="h-44 w-full object-cover rounded-t-2xl" /></figure>
-                            <div className="p-6 flex-1 flex flex-col justify-between">
-                                <h3 className="text-xl font-bold text-primary mb-1">{scholarship.name}</h3>
-                                <p className="text-slate-700 mb-2">{scholarship.university} <span className="text-xs text-slate-400">({scholarship.country})</span></p>
-                                <p className="text-sm text-slate-500 mb-4">Application Fees: <span className="font-semibold">{scholarship.fees}</span></p>
-                                <a href={`/scholarship/${scholarship.id}`} className="btn btn-secondary btn-sm w-full mt-auto">View Details</a>
+                {loading ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                            <div key={i} className="bg-white rounded-2xl shadow-lg border border-slate-200 animate-pulse">
+                                <div className="h-44 bg-slate-200 rounded-t-2xl"></div>
+                                <div className="p-6 space-y-3">
+                                    <div className="h-6 bg-slate-200 rounded w-3/4"></div>
+                                    <div className="h-4 bg-slate-200 rounded w-1/2"></div>
+                                    <div className="h-4 bg-slate-200 rounded w-1/3"></div>
+                                    <div className="h-10 bg-slate-200 rounded"></div>
+                                </div>
                             </div>
-                        </motion.div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                ) : topScholarships.length === 0 ? (
+                    <div className="text-center text-slate-500 py-12">
+                        <p className="text-xl">No scholarships found. Please add scholarships from the dashboard.</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+                        {topScholarships.map((scholarship, i) => (
+                            <motion.div key={scholarship._id} className="bg-white rounded-2xl shadow-lg border border-slate-200 hover:shadow-2xl transition-all duration-300 flex flex-col" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 }}>
+                                <figure>
+                                    <img
+                                        src={scholarship.universityImage || `https://via.placeholder.com/600x400/4F46E5/FFFFFF?text=${encodeURIComponent(scholarship.universityName)}`}
+                                        alt={scholarship.scholarshipName}
+                                        className="h-44 w-full object-cover rounded-t-2xl"
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = `https://via.placeholder.com/600x400/4F46E5/FFFFFF?text=${encodeURIComponent(scholarship.universityName)}`;
+                                        }}
+                                    />
+                                </figure>
+                                <div className="p-6 flex-1 flex flex-col justify-between">
+                                    <h3 className="text-xl font-bold text-primary mb-1">{scholarship.scholarshipName}</h3>
+                                    <p className="text-slate-700 mb-2">{scholarship.universityName} <span className="text-xs text-slate-400">({scholarship.universityCountry})</span></p>
+                                    <p className="text-sm text-slate-500 mb-4">Application Fees: <span className="font-semibold">${scholarship.applicationFees}</span></p>
+                                    <Link to={`/scholarship/${scholarship._id}`} className="btn btn-secondary btn-sm w-full mt-auto">View Details</Link>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                )}
             </section>
 
 
-            <section className="bg-gradient-to-r from-green-50 to-blue-50 py-16 px-4 border-t border-b border-slate-200">
+            <section className="bg-linear-to-r from-green-50 to-blue-50 py-16 px-4 border-t border-b border-slate-200">
                 <h2 className="text-3xl font-extrabold text-slate-800 mb-10 text-center tracking-tight">Success Stories</h2>
                 <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
                     <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="bg-white rounded-2xl shadow p-6 flex flex-col items-center">

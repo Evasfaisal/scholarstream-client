@@ -1,49 +1,70 @@
-import React, { useState } from "react";
-
-const initialReviews = [
-    {
-        id: 1,
-        scholarshipName: "Global Excellence Scholarship",
-        universityName: "Harvard University",
-        comment: "Great experience!",
-        reviewDate: "2025-12-01",
-        rating: 5
-    },
-    {
-        id: 2,
-        scholarshipName: "Future Leaders Award",
-        universityName: "Oxford University",
-        comment: "Very helpful scholarship.",
-        reviewDate: "2025-12-02",
-        rating: 4
-    }
-];
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import apiUrl from "../utils/api";
+import { toast } from "react-hot-toast";
 
 const MyReviews = () => {
-    const [reviews, setReviews] = useState(initialReviews);
+    const { user } = useContext(AuthContext);
+    const [reviews, setReviews] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [editingReview, setEditingReview] = useState(null);
     const [editComment, setEditComment] = useState("");
     const [editRating, setEditRating] = useState(5);
 
+    useEffect(() => {
+        const fetchMyReviews = async () => {
+            if (!user?.email) return;
+            try {
+                setLoading(true);
+                const response = await apiUrl.get(`/api/reviews/user/${user.email}`);
+                setReviews(response.data || []);
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+                toast.error("Failed to load reviews");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMyReviews();
+    }, [user]);
+
     const handleEdit = (review) => {
         setEditingReview(review);
-        setEditComment(review.comment);
-        setEditRating(review.rating);
+        setEditComment(review.reviewComment);
+        setEditRating(review.ratingPoint);
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this review?")) {
-            setReviews(reviews.filter(r => r.id !== id));
+            try {
+                await apiUrl.delete(`/api/reviews/${id}`);
+                setReviews(reviews.filter(r => r._id !== id));
+                toast.success("Review deleted successfully");
+            } catch (error) {
+                console.error("Error deleting review:", error);
+                toast.error("Failed to delete review");
+            }
         }
     };
 
-    const handleSave = () => {
-        setReviews(reviews.map(r =>
-            r.id === editingReview.id ? { ...r, comment: editComment, rating: editRating } : r
-        ));
-        setEditingReview(null);
-        setEditComment("");
-        setEditRating(5);
+    const handleSave = async () => {
+        try {
+            await apiUrl.put(`/api/reviews/${editingReview._id}`, {
+                reviewComment: editComment,
+                ratingPoint: editRating
+            });
+            setReviews(reviews.map(r =>
+                r._id === editingReview._id ? { ...r, reviewComment: editComment, ratingPoint: editRating } : r
+            ));
+            setEditingReview(null);
+            setEditComment("");
+            setEditRating(5);
+            toast.success("Review updated successfully");
+        } catch (error) {
+            console.error("Error updating review:", error);
+            toast.error("Failed to update review");
+        }
     };
 
     const handleCancel = () => {
@@ -52,38 +73,55 @@ const MyReviews = () => {
         setEditRating(5);
     };
 
-    return (
-        <div className="max-w-4xl mx-auto p-6 min-h-screen">
-            <h2 className="text-2xl font-bold text-green-700 mb-6">My Reviews</h2>
-            <div className="overflow-x-auto">
-                <table className="table w-full">
-                    <thead>
-                        <tr>
-                            <th>Scholarship</th>
-                            <th>University</th>
-                            <th>Comment</th>
-                            <th>Date</th>
-                            <th>Rating</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {reviews.map(review => (
-                            <tr key={review.id}>
-                                <td>{review.scholarshipName}</td>
-                                <td>{review.universityName}</td>
-                                <td>{review.comment}</td>
-                                <td>{review.reviewDate}</td>
-                                <td>{"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}</td>
-                                <td>
-                                    <button className="btn btn-xs btn-primary mr-2" onClick={() => handleEdit(review)}>Edit</button>
-                                    <button className="btn btn-xs btn-error" onClick={() => handleDelete(review.id)}>Delete</button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <span className="loading loading-spinner loading-lg text-primary"></span>
             </div>
+        );
+    }
+
+    return (
+        <div className="max-w-6xl mx-auto p-6 min-h-screen">
+            <h2 className="text-3xl font-bold text-primary mb-6">My Reviews</h2>
+            {reviews.length === 0 ? (
+                <div className="text-center py-12">
+                    <p className="text-slate-500 text-lg">No reviews yet</p>
+                </div>
+            ) : (
+                <div className="overflow-x-auto bg-white rounded-2xl shadow-lg">
+                    <table className="table w-full">
+                        <thead className="bg-primary/5">
+                            <tr>
+                                <th>University</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                                <th>Rating</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {reviews.map(review => (
+                                <tr key={review._id}>
+                                    <td className="font-semibold">{review.universityName}</td>
+                                    <td className="max-w-md truncate">{review.reviewComment}</td>
+                                    <td className="text-sm">{new Date(review.reviewDate).toLocaleDateString()}</td>
+                                    <td>
+                                        <div className="flex items-center gap-1">
+                                            <span className="text-yellow-500">{"★".repeat(review.ratingPoint)}{"☆".repeat(5 - review.ratingPoint)}</span>
+                                            <span className="text-sm text-slate-500">({review.ratingPoint}/5)</span>
+                                        </div>
+                                    </td>
+                                    <td className="flex gap-2">
+                                        <button className="btn btn-xs btn-primary" onClick={() => handleEdit(review)}>Edit</button>
+                                        <button className="btn btn-xs btn-error" onClick={() => handleDelete(review._id)}>Delete</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
 
             {/* Edit Review Modal */}
             {editingReview && (
