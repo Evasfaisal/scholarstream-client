@@ -8,7 +8,6 @@ const AllScholarships = () => {
     const [search, setSearch] = useState("");
     const [country, setCountry] = useState("");
     const [category, setCategory] = useState("");
-    const [sort, setSort] = useState("");
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -17,13 +16,12 @@ const AllScholarships = () => {
     const fetchScholarships = async () => {
         setLoading(true);
         try {
-            console.log('Fetching scholarships with params:', { search, country, category, sort, page, limit: PAGE_SIZE });
+            console.log('Fetching scholarships with params:', { search, country, category, page, limit: PAGE_SIZE });
             const res = await apiUrl.get("/api/scholarships", {
                 params: {
                     search,
                     country,
                     category,
-                    sort,
                     page,
                     limit: PAGE_SIZE
                 }
@@ -53,7 +51,7 @@ const AllScholarships = () => {
     useEffect(() => {
         fetchScholarships();
 
-    }, [search, country, category, sort, page]);
+    }, [search, country, category, page]);
 
     const isScholarshipsArray = Array.isArray(scholarships);
 
@@ -105,17 +103,9 @@ const AllScholarships = () => {
                         <option value="Engineering">⚙️ Engineering</option>
                         <option value="Business">💼 Business</option>
                         <option value="Arts">🎨 Arts</option>
-                    </select>
-                    <select
-                        className="select select-bordered h-14 text-lg rounded-2xl border-2 border-slate-200 focus:border-purple-500 transition-all"
-                        value={sort}
-                        onChange={e => { setSort(e.target.value); setPage(1); }}
-                    >
-                        <option value="">🔄 Sort By</option>
-                        <option value="fees_asc">💰 Low to High</option>
-                        <option value="fees_desc">💎 High to Low</option>
-                        <option value="date_desc">🆕 Newest</option>
-                        <option value="date_asc">📅 Oldest</option>
+                        <option value="Bachelor">🎓 Bachelor</option>
+                        <option value="Master">🎖️ Master</option>
+                        <option value="Diploma">📜 Diploma</option>
                     </select>
                 </div>
             </div>
@@ -135,7 +125,6 @@ const AllScholarships = () => {
                             setSearch("");
                             setCountry("");
                             setCategory("");
-                            setSort("");
                             setPage(1);
                         }}
                         className="btn btn-primary btn-lg rounded-2xl px-8"
