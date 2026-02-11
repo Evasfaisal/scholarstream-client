@@ -224,25 +224,30 @@ const AllScholarships = () => {
 
             {/* Pagination */}
             <div className="flex justify-center mt-10">
-                <div className="join shadow-lg">
+                <div className="flex items-center gap-2 bg-white rounded-2xl shadow-xl p-2 border-2 border-purple-100">
                     <button
-                        className="join-item btn btn-lg rounded-l-2xl hover:scale-105 transition-transform"
+                        className="btn btn-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 rounded-xl hover:from-purple-600 hover:to-pink-600 hover:scale-110 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 px-6"
                         disabled={page === 1}
                         onClick={() => setPage(page - 1)}
                     >
                         ← Prev
                     </button>
-                    {[...Array(totalPages)].map((_, idx) => (
-                        <button
-                            key={idx}
-                            className={`join-item btn btn-lg hover:scale-105 transition-transform ${page === idx + 1 ? 'btn-primary' : ''}`}
-                            onClick={() => setPage(idx + 1)}
-                        >
-                            {idx + 1}
-                        </button>
-                    ))}
+                    <div className="flex gap-2 px-2">
+                        {[...Array(totalPages)].map((_, idx) => (
+                            <button
+                                key={idx}
+                                className={`btn btn-lg rounded-xl hover:scale-110 transition-all duration-300 min-w-[60px] ${page === idx + 1
+                                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 shadow-lg'
+                                        : 'bg-slate-100 text-slate-700 border-2 border-slate-200 hover:border-purple-400'
+                                    }`}
+                                onClick={() => setPage(idx + 1)}
+                            >
+                                {idx + 1}
+                            </button>
+                        ))}
+                    </div>
                     <button
-                        className="join-item btn btn-lg rounded-r-2xl hover:scale-105 transition-transform"
+                        className="btn btn-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 rounded-xl hover:from-purple-600 hover:to-pink-600 hover:scale-110 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 px-6"
                         disabled={page === totalPages}
                         onClick={() => setPage(page + 1)}
                     >
