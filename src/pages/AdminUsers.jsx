@@ -73,9 +73,9 @@ const AdminUsers = () => {
                     onChange={e => setFilterRole(e.target.value)}
                 >
                     <option value="all">All</option>
-                    <option value="student">Student</option>
-                    <option value="moderator">Moderator</option>
-                    <option value="admin">Admin</option>
+                    <option value="Student">Student</option>
+                    <option value="Moderator">Moderator</option>
+                    <option value="Admin">Admin</option>
                 </select>
             </div>
             <div className="overflow-x-auto">
@@ -94,58 +94,66 @@ const AdminUsers = () => {
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
                                 <td>
-                                    {editingId === user.id ? (
-                                        <select
-                                            className="select select-bordered select-sm"
-                                            value={role}
-                                            onChange={(e) => setRole(e.target.value)}
-                                        >
-                                            <option value="student">student</option>
-                                            <option value="moderator">moderator</option>
-                                            <option value="admin">admin</option>
-                                        </select>
-                                    ) : (
-                                        <span className="badge badge-outline">{user.role}</span>
-                                    )}
+                                    <span className="badge badge-outline">{user.role}</span>
                                 </td>
                                 <td>
-                                    {editingId === user.id ? (
-                                        <>
-                                            <button
-                                                className="btn btn-xs btn-success mr-2"
-                                                onClick={() => handleSave(user.id)}
-                                            >
-                                                Save
-                                            </button>
-                                            <button
-                                                className="btn btn-xs btn-ghost"
-                                                onClick={() => setEditingId(null)}
-                                            >
-                                                Cancel
-                                            </button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <button
-                                                className="btn btn-xs btn-primary mr-2"
-                                                onClick={() => handleEdit(user)}
-                                            >
-                                                Edit
-                                            </button>
-                                            <button
-                                                className="btn btn-xs btn-error"
-                                                onClick={() => handleDelete(user.id)}
-                                            >
-                                                Delete
-                                            </button>
-                                        </>
-                                    )}
+                                    <div className="flex gap-1">
+                                        <button
+                                            className="btn btn-xs btn-info"
+                                            onClick={() => setEditingId(user.id)}
+                                        >
+                                            Change Role
+                                        </button>
+                                        <button
+                                            className="btn btn-xs btn-error"
+                                            onClick={() => handleDelete(user.id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
+
+            {/* Change Role Modal */}
+            {editingId && (
+                <div className="modal modal-open">
+                    <div className="modal-box">
+                        <h3 className="font-bold text-lg">Change User Role</h3>
+                        <div className="py-4">
+                            <label className="label">
+                                <span className="label-text">Select new role:</span>
+                            </label>
+                            <select
+                                className="select select-bordered w-full"
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                            >
+                                <option value="Student">Student</option>
+                                <option value="Moderator">Moderator</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                        </div>
+                        <div className="modal-action">
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => handleSave(editingId)}
+                            >
+                                Save
+                            </button>
+                            <button
+                                className="btn btn-ghost"
+                                onClick={() => setEditingId(null)}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -14,21 +14,32 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 const ApplicationsBarChart = ({ data }) => {
     const chartData = {
-        labels: data.map(item => item.label),
+        labels: data.map(item => item.university || item.label),
         datasets: [
             {
                 label: 'Applications',
-                data: data.map(item => item.count),
+                data: data.map(item => item.applications || item.count),
                 backgroundColor: 'rgba(34,197,94,0.7)',
+                borderColor: 'rgba(34,197,94,1)',
+                borderWidth: 1,
             },
         ],
     };
 
     const options = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: { position: 'top' },
-            title: { display: true, text: 'Applications per University/Category' },
+            title: { display: true, text: 'Applications per University' },
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1,
+                },
+            },
         },
     };
 

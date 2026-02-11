@@ -28,13 +28,15 @@ const Register = () => {
         try {
             const result = await createUserWithEmailAndPassword(auth, email, password);
             await updateProfile(result.user, { displayName: name, photoURL });
-  
+
             await setDoc(doc(db, "users", result.user.uid), {
                 name,
                 email,
                 photoURL,
                 role: "Student"
             });
+
+            toast.success("Registration successful!");
             navigate("/");
         } catch (error) {
             toast.error(error.message);
@@ -45,6 +47,7 @@ const Register = () => {
         const provider = new GoogleAuthProvider();
         try {
             await signInWithPopup(auth, provider);
+            toast.success("Google Login Successful!");
             navigate("/");
         } catch (error) {
             toast.error(error.message);
@@ -80,7 +83,6 @@ const Register = () => {
                         className="border border-gray-300 rounded-full px-4 py-2 focus:outline-none"
                         required
                     />
-
 
                     <div className="relative">
                         <input
@@ -134,7 +136,7 @@ const Register = () => {
                 <div className="flex flex-col gap-4 mt-6">
                     <button
                         onClick={handleGoogleRegister}
-                        className="flex items-center justify-center gap-2 rounded-full border-2 border-gray-400 py-2 shadow"
+                        className="flex items-center justify-center gap-2 rounded-full border-2 border-gray-400 py-2 shadow hover:bg-gray-50 transition"
                     >
                         <FcGoogle size={20} />
                         <span>Sign up with Google</span>

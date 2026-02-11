@@ -97,7 +97,7 @@ const AddScholarship = () => {
                     <input name="applicationFees" value={form.applicationFees} onChange={handleChange} placeholder="Application Fees" type="number" className="input input-bordered" required />
                     <input name="serviceCharge" value={form.serviceCharge} onChange={handleChange} placeholder="Service Charge" type="number" className="input input-bordered" required />
                     <input name="applicationDeadline" value={form.applicationDeadline} onChange={handleChange} type="date" className="input input-bordered" required />
-                    <input name="scholarshipPostDate" value={form.scholarshipPostDate} onChange={handleChange} type="date" className="input input-bordered" required />
+                    <input name="scholarshipPostDate" value={form.scholarshipPostDate} onChange={handleChange} type="date" className="input input-bordered" readOnly />
                     <input name="postedUserEmail" value={form.postedUserEmail} onChange={handleChange} placeholder="Posted By Email" className="input input-bordered" readOnly />
                     <button type="submit" className="btn btn-primary col-span-1 md:col-span-2 mt-4">Add Scholarship</button>
                 </form>

@@ -1,64 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import apiUrl from "../utils/api";
-import { useAuth } from "../context/AuthContext";
+import { toast } from 'react-hot-toast';
 
 const AllReviews = () => {
-    const { user } = useAuth();
+    const { user } = useContext(AuthContext);
     const [reviews, setReviews] = useState([]);
-    const [favoriteIds, setFavoriteIds] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [search, setSearch] = useState("");
-
-    const bdTime = new Date().toLocaleString("en-US", {
-        timeZone: "Asia/Dhaka",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "numeric",
-        minute: "2-digit",
-        hour12: true,
-        timeZoneName: "short",
-    });
-
-    const updateFavoriteOptimistically = (reviewId, isAdding) => {
-        setFavoriteIds(prev =>
-            isAdding
-                ? [...prev, reviewId]
-                : prev.filter(id => id !== reviewId)
-        );
-    };
 
     useEffect(() => {
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-        }, 1000);
-    }, [search, user?.email]);
+        const fetchReviews = async () => {
+            try {
+                setLoading(true);
+                const res = await apiUrl.get('/api/reviews');
+                setReviews(res.data || []);
+            } catch (err) {
+                console.error('Failed to fetch reviews:', err);
+                toast.error('Failed to load reviews');
+                setReviews([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchReviews();
+    }, []);
 
     const deleteReview = async (reviewId) => {
+        if (!window.confirm('Are you sure you want to delete this review?')) return;
         try {
-            await axios.delete(`${apiUrl}/reviews/${reviewId}`);
+            await apiUrl.delete(`/api/reviews/${reviewId}`);
             setReviews(prevReviews => prevReviews.filter(review => review._id !== reviewId));
+            toast.success('Review deleted successfully');
         } catch (error) {
             console.error("Failed to delete review:", error);
+            toast.error('Failed to delete review');
         }
     };
 
     return (
-        <div className="max-w-7xl mx-auto p-6 mt-10 min-h-screen">
-            <div className="bg-linear-to-r from-green-50 to-white p-5 rounded-xl shadow-sm mb-8 border border-green-200">
-                <div className="flex flex-col sm:flex-row justify-between items-center text-gray-700">
-                    <div className="flex items-center gap-2">
-                        <span className="font-semibold">Current time:</span>
-                        <span className="font-mono text-green-700">{bdTime}</span>
-                    </div>
-                    <div className="flex items-center gap-2 mt-2 sm:mt-0">
-                        <span className="text-2xl font-bold text-green-700">BD</span>
-                    </div>
-                </div>
-            </div>
-
-            <h2 className="text-3xl font-bold text-green-700 mb-8 text-center">All Reviews</h2>
+        <div className="max-w-7xl mx-auto p-6 min-h-screen">
+            <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">All Reviews</h2>
 
             {loading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -74,22 +56,78 @@ const AllReviews = () => {
             ) : reviews.length === 0 ? (
                 <p className="text-center text-2xl text-gray-500 py-20">No reviews found.</p>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    {reviews.map((review) => (
-                        <ReviewCard
-                            key={review._id}
-                            review={review}
-                            initialFavorite={favoriteIds.includes(review._id)}
-                            updateFavoriteOptimistically={updateFavoriteOptimistically}
-                            userEmail={user?.email}
-                            deleteReview={deleteReview}
-                        />
-                    ))}
+                <div className="overflow-x-auto bg-white rounded-lg shadow">
+                    <table className="table w-full">
+                        <thead>
+                            <tr>
+                                <th className="text-gray-700">Review</th>
+                                <th className="text-gray-700">University</th>
+                                <th className="text-gray-700">Reviewer</th>
+                                <th className="text-gray-700">Rating</th>
+                                <th className="text-gray-700">Date</th>
+                                <th className="text-gray-700">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {reviews.map((review) => (
+                                <tr key={review._id}>
+                                    <td>
+                                        <div className="font-medium text-gray-900 truncate max-w-xs">
+                                            {review.reviewComments || review.review || 'No review text'}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="font-medium">
+                                            {review.universityName || 'Unknown University'}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="flex items-center gap-2">
+                                            <img
+                                                src={review.userPhoto || '/default-avatar.png'}
+                                                alt={review.userName || 'User'}
+                                                className="w-8 h-8 rounded-full object-cover"
+                                            />
+                                            <span className="font-medium">
+                                                {review.userName || 'Anonymous'}
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="flex items-center gap-1">
+                                            <span className="text-yellow-500">⭐</span>
+                                            <span>{review.rating || 0}/5</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {review.reviewDate
+                                            ? new Date(review.reviewDate).toLocaleDateString()
+                                            : 'Unknown'
+                                        }
+                                    </td>
+                                    <td>
+                                        <div className="flex gap-2">
+                                            <Link
+                                                to={`/review/${review._id}`}
+                                                className="btn btn-xs btn-primary"
+                                            >
+                                                View
+                                            </Link>
+                                            <button
+                                                className="btn btn-xs btn-error"
+                                                onClick={() => deleteReview(review._id)}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             )}
         </div>
     );
-};
-
-export default AllReviews;
+    export default AllReviews;
 
