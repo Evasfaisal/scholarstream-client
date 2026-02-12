@@ -78,8 +78,12 @@ const AdminAnalytics = () => {
     }, []);
 
     return (
-        <div className="p-6">
-            <h2 className="text-3xl font-bold mb-6 text-gray-800">Analytics & Overview</h2>
+        <div className="w-full max-w-7xl mx-auto">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-primary/10 to-blue-50 rounded-xl p-4 sm:p-6 mb-6 shadow-sm">
+                <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">Analytics & Overview</h2>
+                <p className="text-slate-600 text-sm sm:text-base">Monitor key metrics and performance</p>
+            </div>
 
             {loading ? (
                 <div className="flex justify-center items-center py-20">
@@ -87,37 +91,45 @@ const AdminAnalytics = () => {
                 </div>
             ) : (
                 <>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg p-6 text-center shadow-lg">
-                            <div className="text-4xl font-bold mb-2">{stats.users}</div>
-                            <div className="text-blue-100">Total Users</div>
+                    {/* Stats Cards - Fully Responsive */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                        <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                            <div className="text-2xl mb-2">👥</div>
+                            <div className="text-3xl sm:text-4xl font-bold mb-2">{stats.users}</div>
+                            <div className="text-blue-100 text-sm">Total Users</div>
                         </div>
-                        <div className="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg p-6 text-center shadow-lg">
-                            <div className="text-4xl font-bold mb-2">{stats.scholarships}</div>
-                            <div className="text-green-100">Total Scholarships</div>
+                        <div className="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                            <div className="text-2xl mb-2">🎓</div>
+                            <div className="text-3xl sm:text-4xl font-bold mb-2">{stats.scholarships}</div>
+                            <div className="text-green-100 text-sm">Total Scholarships</div>
                         </div>
-                        <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg p-6 text-center shadow-lg">
-                            <div className="text-4xl font-bold mb-2">
+                        <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                            <div className="text-2xl mb-2">💰</div>
+                            <div className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
                                 ${stats.totalFeesCollected.toLocaleString()}
                             </div>
-                            <div className="text-purple-100">Total Fees Collected</div>
+                            <div className="text-purple-100 text-sm">Fees Collected</div>
                         </div>
-                        <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg p-6 text-center shadow-lg">
-                            <div className="text-4xl font-bold mb-2">{stats.applications}</div>
-                            <div className="text-orange-100">Total Applications</div>
+                        <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-all hover:scale-105">
+                            <div className="text-2xl mb-2">📝</div>
+                            <div className="text-3xl sm:text-4xl font-bold mb-2">{stats.applications}</div>
+                            <div className="text-orange-100 text-sm">Total Applications</div>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-lg p-6 shadow-lg">
-                        <h3 className="text-2xl font-semibold mb-4 text-gray-800">
-                            Applications by University
+                    {/* Chart - Responsive */}
+                    <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg">
+                        <h3 className="text-xl sm:text-2xl font-semibold mb-4 text-slate-800 flex items-center gap-2">
+                            <span>📊</span>
+                            <span>Applications by University</span>
                         </h3>
-                        <div className="w-full h-80">
+                        <div className="w-full h-64 sm:h-80 lg:h-96">
                             {chartData && chartData.length > 0 ? (
                                 <ApplicationsBarChart data={chartData} />
                             ) : (
-                                <div className="flex items-center justify-center h-full text-gray-400">
-                                    No chart data available
+                                <div className="flex flex-col items-center justify-center h-full text-slate-400">
+                                    <span className="text-5xl mb-4">📈</span>
+                                    <p className="text-sm sm:text-base">No chart data available</p>
                                 </div>
                             )}
                         </div>

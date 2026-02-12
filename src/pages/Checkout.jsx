@@ -100,7 +100,7 @@ const CheckoutForm = () => {
             } catch (err) {
                 console.error("Error saving application:", err);
             }
-            navigate("/payment/failed", {
+            navigate("/failed", {
                 state: {
                     scholarshipName: scholarship.scholarshipName,
                     error: stripeError.message,
@@ -120,7 +120,7 @@ const CheckoutForm = () => {
             } catch (err) {
                 console.error("Error saving paid application:", err);
             }
-            navigate("/payment/success", {
+            navigate("/success", {
                 state: {
                     scholarshipName: scholarship.scholarshipName,
                     universityName: scholarship.universityName,

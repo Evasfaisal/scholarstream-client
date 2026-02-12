@@ -252,6 +252,13 @@ const MyApplications = () => {
                                         {app.applicationStatus === "pending" && (
                                             <>
                                                 <button
+                                                    className="btn btn-warning btn-lg gap-3 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group border-l-4 border-l-orange-500 border-r-2 border-r-orange-200 px-6 py-4"
+                                                    onClick={() => handleEdit(app)}
+                                                >
+                                                    <span className="text-3xl group-hover:scale-110 transition-transform">✏️</span>
+                                                    <span className="font-extrabold text-lg">Edit</span>
+                                                </button>
+                                                <button
                                                     className="btn btn-error btn-lg gap-3 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group border-l-4 border-l-red-600 border-r-2 border-r-red-200 px-6 py-4"
                                                     onClick={() => handleDelete(app._id)}
                                                 >

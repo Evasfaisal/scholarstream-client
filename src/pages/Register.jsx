@@ -46,7 +46,16 @@ const Register = () => {
     const handleGoogleRegister = async () => {
         const provider = new GoogleAuthProvider();
         try {
-            await signInWithPopup(auth, provider);
+            const result = await signInWithPopup(auth, provider);
+
+            // Save user to Firestore with default Student role
+            await setDoc(doc(db, "users", result.user.uid), {
+                name: result.user.displayName,
+                email: result.user.email,
+                photoURL: result.user.photoURL,
+                role: "Student"
+            });
+
             toast.success("Google Login Successful!");
             navigate("/");
         } catch (error) {

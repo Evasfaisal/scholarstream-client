@@ -25,6 +25,7 @@ import AdminProfile from './pages/AdminProfile.jsx';
 import AddScholarship from './pages/AddScholarship.jsx';
 import ModeratorApplications from './pages/ModeratorApplications.jsx';
 import MyApplications from './pages/MyApplications.jsx';
+import MyReviews from './pages/MyReviews.jsx';
 import Success from './pages/Success.jsx';
 import Failed from './pages/Failed.jsx';
 import Checkout from './pages/Checkout.jsx';
@@ -126,6 +127,7 @@ const router = createBrowserRouter([
           <DashboardLayout sidebar={<DashboardSidebarWithRole />} />
         ),
         children: [
+          { index: true, element: <AdminProfile /> },
           { path: 'profile', element: <AdminProfile /> },
           { path: 'add-scholarship', element: <AddScholarship /> },
           { path: 'manage-scholarships', element: <AdminScholarships /> },
@@ -134,6 +136,7 @@ const router = createBrowserRouter([
           { path: 'applications', element: <ModeratorApplications /> },
           { path: 'all-reviews', element: <AllReviews /> },
           { path: 'my-applications', element: <MyApplications /> },
+          { path: 'my-reviews', element: <MyReviews /> },
 
         ],
       },

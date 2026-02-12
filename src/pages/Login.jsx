@@ -4,7 +4,8 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "../firebase/firebase.config";
+import { auth, db } from "../firebase/firebase.config";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -26,7 +27,19 @@ const Login = () => {
     const handleGoogleLogin = async () => {
         const provider = new GoogleAuthProvider();
         try {
-            await signInWithPopup(auth, provider);
+            const result = await signInWithPopup(auth, provider);
+
+            // Check if user exists in Firestore, if not create with default Student role
+            const userDoc = await getDoc(doc(db, "users", result.user.uid));
+            if (!userDoc.exists()) {
+                await setDoc(doc(db, "users", result.user.uid), {
+                    name: result.user.displayName,
+                    email: result.user.email,
+                    photoURL: result.user.photoURL,
+                    role: "Student"
+                });
+            }
+
             toast.success("Google Login Successful!");
             navigate("/");
         } catch (error) {

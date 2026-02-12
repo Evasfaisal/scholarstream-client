@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { doc, getDoc, updateDoc, deleteDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/firebase.config';
 import { toast } from 'react-hot-toast';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 
 const AdminUsers = () => {
     const [users, setUsers] = useState([]);
@@ -62,97 +63,175 @@ const AdminUsers = () => {
     };
 
     return (
-        <div className="p-4">
-            <h2 className="text-2xl font-bold mb-4">Manage Users</h2>
-            <div className="mb-4 flex items-center gap-2">
-                <label htmlFor="roleFilter" className="font-semibold">Filter by Role:</label>
-                <select
-                    id="roleFilter"
-                    className="select select-bordered select-sm"
-                    value={filterRole}
-                    onChange={e => setFilterRole(e.target.value)}
-                >
-                    <option value="all">All</option>
-                    <option value="Student">Student</option>
-                    <option value="Moderator">Moderator</option>
-                    <option value="Admin">Admin</option>
-                </select>
-            </div>
-            <div className="overflow-x-auto">
-                <table className="table w-full">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredUsers.map((user) => (
-                            <tr key={user.id}>
-                                <td>{user.name}</td>
-                                <td>{user.email}</td>
-                                <td>
-                                    <span className="badge badge-outline">{user.role}</span>
-                                </td>
-                                <td>
-                                    <div className="flex gap-1">
-                                        <button
-                                            className="btn btn-xs btn-info"
-                                            onClick={() => setEditingId(user.id)}
-                                        >
-                                            Change Role
-                                        </button>
-                                        <button
-                                            className="btn btn-xs btn-error"
-                                            onClick={() => handleDelete(user.id)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+        <div className="p-4 md:p-8 max-w-7xl mx-auto">
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 mb-8 shadow-sm">
+                <h2 className="text-3xl font-bold text-slate-800 mb-2">Manage Users</h2>
+                <p className="text-slate-600">
+                    <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        {users.length} Total Users
+                    </span>
+                </p>
             </div>
 
-            {/* Change Role Modal */}
-            {editingId && (
-                <div className="modal modal-open">
-                    <div className="modal-box">
-                        <h3 className="font-bold text-lg">Change User Role</h3>
-                        <div className="py-4">
-                            <label className="label">
-                                <span className="label-text">Select new role:</span>
-                            </label>
-                            <select
-                                className="select select-bordered w-full"
-                                value={role}
-                                onChange={(e) => setRole(e.target.value)}
-                            >
-                                <option value="Student">Student</option>
-                                <option value="Moderator">Moderator</option>
-                                <option value="Admin">Admin</option>
-                            </select>
-                        </div>
-                        <div className="modal-action">
-                            <button
-                                className="btn btn-primary"
-                                onClick={() => handleSave(editingId)}
-                            >
-                                Save
-                            </button>
-                            <button
-                                className="btn btn-ghost"
-                                onClick={() => setEditingId(null)}
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
+            {loading ? (
+                <div className="flex items-center justify-center py-12">
+                    <span className="loading loading-spinner loading-lg text-primary"></span>
                 </div>
+            ) : users.length === 0 ? (
+                <div className="bg-white rounded-lg shadow p-12 text-center">
+                    <div className="text-6xl mb-4">👥</div>
+                    <h3 className="text-xl font-semibold text-slate-700 mb-2">No Users Found</h3>
+                    <p className="text-slate-500">Users will appear here when they register</p>
+                </div>
+            ) : (
+                <>
+                    <div className="mb-4 flex items-center gap-2">
+                        <label htmlFor="roleFilter" className="font-semibold text-slate-700">Filter by Role:</label>
+                        <select
+                            id="roleFilter"
+                            className="select select-bordered"
+                            value={filterRole}
+                            onChange={e => setFilterRole(e.target.value)}
+                        >
+                            <option value="all">All Roles</option>
+                            <option value="Student">Student</option>
+                            <option value="Moderator">Moderator</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                        <span className="text-sm text-slate-500">
+                            ({filteredUsers.length} users)
+                        </span>
+                    </div>
+
+                    {/* User Cards Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {filteredUsers.map((user) => (
+                            <div key={user.id} className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-t-4 border-purple-500">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                                        {user.name?.charAt(0).toUpperCase() || 'U'}
+                                    </div>
+                                    <div className="flex-1">
+                                        <h3 className="text-xl font-bold text-slate-800 truncate">{user.name}</h3>
+                                        <p className="text-sm text-slate-500 truncate">{user.email}</p>
+                                    </div>
+                                </div>
+
+                                <div className="mb-4">
+                                    <span className={`badge badge-lg ${user.role === 'Admin' ? 'badge-error' :
+                                        user.role === 'Moderator' ? 'badge-warning' :
+                                            'badge-info'
+                                        }`}>
+                                        {user.role}
+                                    </span>
+                                </div>
+
+                                <div className="flex gap-3">
+                                    <button
+                                        className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
+                                        onClick={() => setEditingId(user.id)}
+                                    >
+                                        <FaEdit className="text-lg" />
+                                        <span>Change Role</span>
+                                    </button>
+                                    <button
+                                        className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
+                                        onClick={() => handleDelete(user.id)}
+                                    >
+                                        <FaTrash />
+                                        <span>Delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Change Role Modal */}
+                    {editingId && (
+                        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+                            <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full relative overflow-hidden animate-fadeIn">
+                                {/* Header with Gradient */}
+                                <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-6 text-white">
+                                    <button
+                                        className="absolute top-4 right-4 text-white hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center transition-all"
+                                        onClick={() => setEditingId(null)}
+                                    >
+                                        ✕
+                                    </button>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                                            <FaEdit className="text-2xl" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-2xl font-bold">Change User Role</h3>
+                                            <p className="text-purple-100 text-sm mt-1">Select a new role for this user</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Body */}
+                                <div className="p-6">
+                                    <label className="block text-sm font-bold text-slate-700 mb-4">
+                                        Select Role
+                                    </label>
+                                    <div className="space-y-3">
+                                        {['Student', 'Moderator', 'Admin'].map((roleOption) => (
+                                            <label
+                                                key={roleOption}
+                                                className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${role === roleOption
+                                                    ? 'border-purple-500 bg-gradient-to-r from-purple-50 to-pink-50 shadow-md scale-105'
+                                                    : 'border-slate-200 hover:border-purple-300 hover:bg-slate-50 hover:shadow-sm'
+                                                    }`}
+                                            >
+                                                <input
+                                                    type="radio"
+                                                    name="role"
+                                                    value={roleOption}
+                                                    checked={role === roleOption}
+                                                    onChange={(e) => setRole(e.target.value)}
+                                                    className="radio radio-primary w-5 h-5"
+                                                />
+                                                <div className="flex-1">
+                                                    <div className="flex items-center gap-2 mb-1">
+                                                        <span className="font-bold text-slate-800 text-lg">{roleOption}</span>
+                                                        <span className={`badge ${roleOption === 'Admin' ? 'badge-error' :
+                                                            roleOption === 'Moderator' ? 'badge-warning' :
+                                                                'badge-info'
+                                                            } badge-sm`}>
+                                                            {roleOption === 'Admin' ? '👑' : roleOption === 'Moderator' ? '⚡' : '🎓'}
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-xs text-slate-600">
+                                                        {roleOption === 'Admin' && '🔐 Full access to manage scholarships, users & analytics'}
+                                                        {roleOption === 'Moderator' && '⚙️ Can review applications and manage student reviews'}
+                                                        {roleOption === 'Student' && '📚 Can apply for scholarships and write reviews'}
+                                                    </p>
+                                                </div>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Footer */}
+                                <div className="bg-slate-50 p-6 flex gap-3 border-t border-slate-200">
+                                    <button
+                                        className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
+                                        onClick={() => handleSave(editingId)}
+                                    >
+                                        <span>💾</span>
+                                        <span>Save Changes</span>
+                                    </button>
+                                    <button
+                                        className="bg-white hover:bg-slate-100 text-slate-700 font-semibold py-3 px-6 rounded-lg border-2 border-slate-300 transition-all duration-300 hover:scale-105"
+                                        onClick={() => setEditingId(null)}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </>
             )}
         </div>
     );

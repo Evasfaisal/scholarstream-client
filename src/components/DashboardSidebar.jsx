@@ -2,20 +2,38 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaUser, FaPlusCircle, FaBookmark, FaUsers, FaChartBar, FaClipboardList, FaStar, FaFileAlt } from "react-icons/fa";
 
-const DashboardSidebar = ({ role }) => {
+const DashboardSidebar = ({ role, user }) => {
     const location = useLocation();
 
     const isActive = (path) => location.pathname === path;
 
     const linkClass = (path) =>
-        `flex items-center gap-3 px-5 py-3 rounded-xl font-semibold transition-all duration-200 ${isActive(path)
-            ? 'bg-blue-600 text-white shadow-lg'
-            : 'text-slate-700 hover:bg-blue-50 hover:text-blue-600 hover:shadow-md'
+        `flex items-center gap-3 px-4 py-3 rounded-xl font-semibold transition-all duration-200 ${isActive(path)
+            ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg scale-105'
+            : 'text-slate-700 hover:bg-blue-50 hover:text-blue-600 hover:shadow-md hover:scale-102'
         }`;
 
     return (
         <nav className="flex flex-col gap-2">
-            <div className="mb-4">
+            {/* User Profile Section */}
+            {user && (
+                <Link to="/dashboard/profile" className="mb-6 pb-6 border-b border-slate-200">
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 hover:shadow-md transition-all">
+                        <img
+                            src={user?.photoURL || 'https://via.placeholder.com/50/4F46E5/FFFFFF?text=User'}
+                            alt="Profile"
+                            className="w-12 h-12 rounded-full border-2 border-primary/30"
+                        />
+                        <div className="flex-1 min-w-0">
+                            <h4 className="text-sm font-bold text-slate-800 truncate">{user?.displayName || 'User'}</h4>
+                            <p className="text-xs text-slate-600 truncate">{user?.email}</p>
+                            <span className="badge badge-primary badge-xs mt-1">{role}</span>
+                        </div>
+                    </div>
+                </Link>
+            )}
+
+            <div className="mb-2">
                 <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">Dashboard</h3>
             </div>
 

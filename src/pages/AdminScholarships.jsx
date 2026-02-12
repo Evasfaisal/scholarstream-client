@@ -154,7 +154,7 @@ function AdminScholarships() {
                                         <div>
                                             <label className="text-sm text-slate-600">Category</label>
                                             <select
-                                                className="select select-bordered w-full mt-1"
+                                                className="select select-bordered w-full mt-1 border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                                 value={editForm.scholarshipCategory || ''}
                                                 onChange={e => updateEditForm('scholarshipCategory', e.target.value)}
                                             >
@@ -231,18 +231,20 @@ function AdminScholarships() {
                                             </div>
                                         </div>
 
-                                        <div className="flex gap-2">
+                                        <div className="flex flex-col gap-2">
                                             <button
-                                                className="btn btn-sm btn-outline gap-2"
+                                                className="btn btn-sm btn-outline flex flex-col items-center gap-1 h-auto py-2"
                                                 onClick={() => handleEdit(scholarship)}
                                             >
-                                                <FaEdit /> Edit
+                                                <FaEdit className="text-lg" />
+                                                <span className="text-xs">Edit</span>
                                             </button>
                                             <button
-                                                className="btn btn-sm btn-error btn-outline gap-2"
+                                                className="btn btn-sm btn-error btn-outline flex flex-col items-center gap-1 h-auto py-2"
                                                 onClick={() => handleDelete(scholarship._id)}
                                             >
-                                                <FaTrash />
+                                                <FaTrash className="text-lg" />
+                                                <span className="text-xs">Delete</span>
                                             </button>
                                         </div>
                                     </div>

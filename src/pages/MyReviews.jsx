@@ -83,66 +83,177 @@ const MyReviews = () => {
 
     return (
         <div className="max-w-6xl mx-auto p-6 min-h-screen">
-            <h2 className="text-3xl font-bold text-primary mb-6">My Reviews</h2>
+            <div className="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-xl p-6 mb-8 shadow-sm">
+                <h2 className="text-3xl font-bold text-slate-800 mb-2">My Reviews</h2>
+                <p className="text-slate-600">
+                    <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        {reviews.length} Reviews
+                    </span>
+                </p>
+            </div>
+
             {reviews.length === 0 ? (
-                <div className="text-center py-12">
-                    <p className="text-slate-500 text-lg">No reviews yet</p>
+                <div className="bg-white rounded-lg shadow p-12 text-center">
+                    <div className="text-6xl mb-4">⭐</div>
+                    <h3 className="text-xl font-semibold text-slate-700 mb-2">No Reviews Yet</h3>
+                    <p className="text-slate-500 mb-6">
+                        You haven't written any reviews yet.<br />
+                        Apply for scholarships and add reviews after payment!
+                    </p>
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 max-w-md mx-auto">
+                        <p className="text-sm text-slate-600">
+                            <strong>How to add reviews:</strong><br />
+                            1. Go to My Applications<br />
+                            2. Pay for an application<br />
+                            3. Click "Add Review" button
+                        </p>
+                    </div>
                 </div>
             ) : (
-                <div className="overflow-x-auto bg-white rounded-2xl shadow-lg">
-                    <table className="table w-full">
-                        <thead className="bg-primary/5">
-                            <tr>
-                                <th>University</th>
-                                <th>Comment</th>
-                                <th>Date</th>
-                                <th>Rating</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {reviews.map(review => (
-                                <tr key={review._id}>
-                                    <td className="font-semibold">{review.universityName}</td>
-                                    <td className="max-w-md truncate">{review.reviewComment}</td>
-                                    <td className="text-sm">{new Date(review.reviewDate).toLocaleDateString()}</td>
-                                    <td>
-                                        <div className="flex items-center gap-1">
-                                            <span className="text-yellow-500">{"★".repeat(review.ratingPoint)}{"☆".repeat(5 - review.ratingPoint)}</span>
-                                            <span className="text-sm text-slate-500">({review.ratingPoint}/5)</span>
-                                        </div>
-                                    </td>
-                                    <td className="flex gap-2">
-                                        <button className="btn btn-xs btn-primary" onClick={() => handleEdit(review)}>Edit</button>
-                                        <button className="btn btn-xs btn-error" onClick={() => handleDelete(review._id)}>Delete</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {reviews.map(review => (
+                        <div key={review._id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-orange-500 overflow-hidden">
+                            {/* Card Header */}
+                            <div className="bg-gradient-to-r from-orange-50 to-yellow-50 p-4 border-b border-orange-100">
+                                <h3 className="text-lg font-bold text-slate-800 mb-1 truncate" title={review.scholarshipName}>
+                                    {review.scholarshipName || 'Scholarship'}
+                                </h3>
+                                <p className="text-sm font-semibold text-orange-600 flex items-center gap-1">
+                                    🎓 {review.universityName}
+                                </p>
+                            </div>
+
+                            {/* Card Body */}
+                            <div className="p-4 space-y-3">
+                                {/* Rating */}
+                                <div className="flex items-center gap-2">
+                                    <span className="text-2xl text-yellow-500">
+                                        {"★".repeat(review.ratingPoint)}{"☆".repeat(5 - review.ratingPoint)}
+                                    </span>
+                                    <span className="text-lg font-bold text-slate-700">({review.ratingPoint}/5)</span>
+                                </div>
+
+                                {/* Comment */}
+                                <div className="bg-slate-50 rounded-lg p-3 min-h-[80px]">
+                                    <p className="text-sm text-slate-700 line-clamp-3">{review.reviewComment}</p>
+                                </div>
+
+                                {/* Date */}
+                                <div className="flex items-center gap-2 text-xs text-slate-500">
+                                    <span>📅</span>
+                                    <span>{new Date(review.reviewDate).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric'
+                                    })}</span>
+                                </div>
+                            </div>
+
+                            {/* Card Footer - Action Buttons */}
+                            <div className="bg-slate-50 p-4 flex gap-2 border-t border-slate-100">
+                                <button
+                                    className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
+                                    onClick={() => handleEdit(review)}
+                                >
+                                    <span>✏️</span>
+                                    <span>Edit</span>
+                                </button>
+                                <button
+                                    className="flex-1 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
+                                    onClick={() => handleDelete(review._id)}
+                                >
+                                    <span>🗑️</span>
+                                    <span>Delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             )}
 
             {/* Edit Review Modal */}
             {editingReview && (
-                <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-8 w-full max-w-md relative">
-                        <button className="absolute top-2 right-2 text-xl" onClick={handleCancel}>&times;</button>
-                        <h3 className="text-xl font-bold mb-4">Edit Review</h3>
-                        <div className="mb-4">
-                            <label className="block font-semibold mb-1">Rating:</label>
-                            <select className="select select-bordered w-full" value={editRating} onChange={e => setEditRating(Number(e.target.value))}>
-                                {[1, 2, 3, 4, 5].map(star => (
-                                    <option key={star} value={star}>{star} Star{star > 1 && 's'}</option>
-                                ))}
-                            </select>
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg relative overflow-hidden animate-fadeIn">
+                        {/* Modal Header */}
+                        <div className="bg-gradient-to-r from-orange-500 to-yellow-500 p-6 text-white">
+                            <button
+                                className="absolute top-4 right-4 text-white hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center transition-all"
+                                onClick={handleCancel}
+                            >
+                                ✕
+                            </button>
+                            <h3 className="text-2xl font-bold flex items-center gap-2">
+                                <span>✏️</span>
+                                <span>Edit Review</span>
+                            </h3>
+                            <p className="text-orange-100 mt-1 text-sm">Update your review for {editingReview.scholarshipName || 'this scholarship'}</p>
                         </div>
-                        <div className="mb-4">
-                            <label className="block font-semibold mb-1">Comment:</label>
-                            <textarea className="textarea textarea-bordered w-full" rows={4} value={editComment} onChange={e => setEditComment(e.target.value)} />
+
+                        {/* Modal Body */}
+                        <div className="p-6 space-y-5">
+                            {/* University Info */}
+                            <div className="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg p-3 border border-orange-200">
+                                <p className="text-sm text-slate-600 flex items-center gap-2">
+                                    <span>🎓</span>
+                                    <span className="font-semibold">{editingReview.universityName}</span>
+                                </p>
+                            </div>
+
+                            {/* Rating Section */}
+                            <div>
+                                <label className="block font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                                    <span>⭐</span>
+                                    <span>Rating</span>
+                                </label>
+                                <div className="flex gap-2">
+                                    {[1, 2, 3, 4, 5].map(star => (
+                                        <button
+                                            key={star}
+                                            type="button"
+                                            onClick={() => setEditRating(star)}
+                                            className={`text-4xl transition-all hover:scale-110 ${star <= editRating ? 'text-yellow-500' : 'text-slate-300'
+                                                }`}
+                                        >
+                                            {star <= editRating ? '★' : '☆'}
+                                        </button>
+                                    ))}
+                                    <span className="text-lg font-bold text-slate-700 ml-2 self-center">({editRating}/5)</span>
+                                </div>
+                            </div>
+
+                            {/* Comment Section */}
+                            <div>
+                                <label className="block font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                                    <span>💬</span>
+                                    <span>Comment</span>
+                                </label>
+                                <textarea
+                                    className="textarea textarea-bordered w-full h-32 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
+                                    placeholder="Share your experience with this scholarship..."
+                                    value={editComment}
+                                    onChange={e => setEditComment(e.target.value)}
+                                />
+                                <div className="text-xs text-slate-500 mt-1 text-right">{editComment.length} characters</div>
+                            </div>
                         </div>
-                        <button className="btn btn-success mr-2" onClick={handleSave}>Save</button>
-                        <button className="btn btn-ghost" onClick={handleCancel}>Cancel</button>
+
+                        {/* Modal Footer */}
+                        <div className="bg-slate-50 p-6 flex gap-3 border-t border-slate-200">
+                            <button
+                                className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
+                                onClick={handleSave}
+                            >
+                                <span>💾</span>
+                                <span>Save Changes</span>
+                            </button>
+                            <button
+                                className="flex-1 bg-white hover:bg-slate-100 text-slate-700 font-semibold py-3 px-6 rounded-lg border-2 border-slate-300 transition-all duration-300 hover:scale-105"
+                                onClick={handleCancel}
+                            >
+                                Cancel
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
