@@ -33,7 +33,7 @@ const Register = () => {
                 name,
                 email,
                 photoURL,
-                role: "Student"
+                role: "Student"  // Default role for new registrations
             });
 
             toast.success("Registration successful!");

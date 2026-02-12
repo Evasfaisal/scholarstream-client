@@ -3,6 +3,12 @@
 ## 📌 Project Overview
 ScholarStream is a comprehensive scholarship management platform that connects students with global scholarship opportunities. The platform enables students to search, filter, and apply for scholarships while providing administrators with tools to manage applications and moderate content.
 
+## 🔑 Admin Login Credentials
+**For Testing/Review Purpose:**
+- **Email:** fa67698@gmail.com
+- **Password:** [Admin@123]
+- **Role:** Admin
+
 ## 🌐 Live URL
 [ScholarStream Live Website](https://scholarstream-platform.web.app)
 

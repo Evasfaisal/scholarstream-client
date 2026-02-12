@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import apiUrl from '../utils/api';
 import { toast } from 'react-hot-toast';
+import { FaEdit, FaTrash, FaSave, FaTimes, FaPlus, FaUniversity, FaGlobeAmericas, FaDollarSign, FaCalendar } from 'react-icons/fa';
 
 function AdminScholarships() {
     const [scholarships, setScholarships] = useState([]);
@@ -83,154 +84,174 @@ function AdminScholarships() {
     }
 
     return (
-        <div className="p-6">
-            <h2 className="text-3xl font-bold mb-6 text-gray-800">Manage Scholarships</h2>
-
-            {/* Add New Scholarship Link */}
-            <div className="mb-6">
-                <Link to="/dashboard/add-scholarship" className="btn btn-primary">
-                    Add New Scholarship
-                </Link>
+        <div className="p-4 md:p-8 max-w-7xl mx-auto">
+            {/* Header with Add Button */}
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 shadow-sm">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h1 className="text-3xl font-bold text-slate-800 mb-2">Manage Scholarships</h1>
+                        <p className="text-slate-600 flex items-center gap-2">
+                            <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                {scholarships.length} Total
+                            </span>
+                            <span className="text-slate-500">scholarships available</span>
+                        </p>
+                    </div>
+                    <Link
+                        to="/dashboard/add-scholarship"
+                        className="flex flex-col items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all"
+                    >
+                        <FaPlus className="text-2xl" />
+                        <span className="font-semibold text-sm">Add New Scholarship</span>
+                    </Link>
+                </div>
             </div>
 
-            <div className="overflow-x-auto bg-white rounded-lg shadow">
-                <table className="table w-full">
-                    <thead>
-                        <tr>
-                            <th className="text-gray-700">Scholarship Name</th>
-                            <th className="text-gray-700">University</th>
-                            <th className="text-gray-700">Country</th>
-                            <th className="text-gray-700">Category</th>
-                            <th className="text-gray-700">Application Fees</th>
-                            <th className="text-gray-700">Deadline</th>
-                            <th className="text-gray-700">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {scholarships.length === 0 ? (
-                            <tr>
-                                <td colSpan="7" className="text-center py-8 text-gray-500">
-                                    No scholarships found
-                                </td>
-                            </tr>
-                        ) : (
-                            scholarships.map((scholarship) => (
-                                <tr key={scholarship._id}>
-                                    <td className="font-medium">
-                                        {editingId === scholarship._id ? (
+            {/* Scholarships List */}
+            {scholarships.length === 0 ? (
+                <div className="bg-white rounded-lg shadow p-12 text-center">
+                    <div className="text-6xl mb-4">📚</div>
+                    <h3 className="text-xl font-semibold text-slate-700 mb-2">No scholarships yet</h3>
+                    <p className="text-slate-500 mb-6">Get started by adding your first scholarship</p>
+                    <Link to="/dashboard/add-scholarship" className="btn btn-primary gap-2">
+                        <FaPlus />
+                        Add Scholarship
+                    </Link>
+                </div>
+            ) : (
+                <div className="space-y-4">
+                    {scholarships.map((scholarship) => (
+                        <div key={scholarship._id} className="bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+                            {editingId === scholarship._id ? (
+                                /* Edit Mode - Simple Form */
+                                <div className="p-6 border-l-4 border-blue-500">
+                                    <h3 className="font-semibold text-lg mb-4 text-blue-600">Editing Scholarship</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="text-sm text-slate-600">Scholarship Name</label>
                                             <input
-                                                className="input input-bordered input-sm w-full"
+                                                className="input input-bordered w-full mt-1"
                                                 value={editForm.scholarshipName || ''}
                                                 onChange={e => updateEditForm('scholarshipName', e.target.value)}
                                             />
-                                        ) : (
-                                            scholarship.scholarshipName
-                                        )}
-                                    </td>
-                                    <td>
-                                        {editingId === scholarship._id ? (
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-slate-600">University</label>
                                             <input
-                                                className="input input-bordered input-sm w-full"
+                                                className="input input-bordered w-full mt-1"
                                                 value={editForm.universityName || ''}
                                                 onChange={e => updateEditForm('universityName', e.target.value)}
                                             />
-                                        ) : (
-                                            scholarship.universityName
-                                        )}
-                                    </td>
-                                    <td>
-                                        {editingId === scholarship._id ? (
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-slate-600">Country</label>
                                             <input
-                                                className="input input-bordered input-sm w-full"
-                                                value={editForm.subjectCategory?.country || ''}
-                                                onChange={e => updateEditForm('subjectCategory', { ...editForm.subjectCategory, country: e.target.value })}
+                                                className="input input-bordered w-full mt-1"
+                                                value={editForm.universityCountry || ''}
+                                                onChange={e => updateEditForm('universityCountry', e.target.value)}
                                             />
-                                        ) : (
-                                            scholarship.subjectCategory?.country || 'N/A'
-                                        )}
-                                    </td>
-                                    <td>
-                                        {editingId === scholarship._id ? (
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-slate-600">Category</label>
                                             <select
-                                                className="select select-bordered select-sm w-full"
+                                                className="select select-bordered w-full mt-1"
                                                 value={editForm.scholarshipCategory || ''}
                                                 onChange={e => updateEditForm('scholarshipCategory', e.target.value)}
                                             >
-                                                <option value="">Select Category</option>
-                                                <option value="Full Scholarship">Full Scholarship</option>
-                                                <option value="Partial Scholarship">Partial Scholarship</option>
-                                                <option value="Merit-based">Merit-based</option>
-                                                <option value="Need-based">Need-based</option>
+                                                <option value="Full fund">Full fund</option>
+                                                <option value="Partial">Partial</option>
+                                                <option value="Self-fund">Self-fund</option>
                                             </select>
-                                        ) : (
-                                            <span className="badge badge-outline">
-                                                {scholarship.scholarshipCategory}
-                                            </span>
-                                        )}
-                                    </td>
-                                    <td>
-                                        {editingId === scholarship._id ? (
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-slate-600">Application Fees ($)</label>
                                             <input
-                                                className="input input-bordered input-sm w-full"
+                                                className="input input-bordered w-full mt-1"
                                                 type="number"
                                                 value={editForm.applicationFees || ''}
                                                 onChange={e => updateEditForm('applicationFees', e.target.value)}
                                             />
-                                        ) : (
-                                            `$${scholarship.applicationFees}`
-                                        )}
-                                    </td>
-                                    <td>
-                                        {editingId === scholarship._id ? (
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-slate-600">Deadline</label>
                                             <input
-                                                className="input input-bordered input-sm w-full"
+                                                className="input input-bordered w-full mt-1"
                                                 type="date"
                                                 value={editForm.applicationDeadline?.split('T')[0] || ''}
                                                 onChange={e => updateEditForm('applicationDeadline', e.target.value)}
                                             />
-                                        ) : (
-                                            new Date(scholarship.applicationDeadline).toLocaleDateString()
-                                        )}
-                                    </td>
-                                    <td>
-                                        {editingId === scholarship._id ? (
-                                            <div className="flex gap-1">
-                                                <button
-                                                    className="btn btn-xs btn-success"
-                                                    onClick={() => handleSave(scholarship._id)}
-                                                >
-                                                    Save
-                                                </button>
-                                                <button
-                                                    className="btn btn-xs btn-ghost"
-                                                    onClick={handleCancel}
-                                                >
-                                                    Cancel
-                                                </button>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-2 mt-6">
+                                        <button
+                                            className="btn btn-success gap-2"
+                                            onClick={() => handleSave(scholarship._id)}
+                                        >
+                                            <FaSave /> Save
+                                        </button>
+                                        <button
+                                            className="btn btn-ghost gap-2"
+                                            onClick={handleCancel}
+                                        >
+                                            <FaTimes /> Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                /* View Mode - Clean List Item */
+                                <div className="p-6">
+                                    <div className="flex justify-between items-start">
+                                        <div className="flex-1">
+                                            <div className="flex items-start gap-3 mb-3">
+                                                <div className="bg-blue-100 p-2 rounded-lg mt-1">
+                                                    <FaUniversity className="text-blue-600 text-xl" />
+                                                </div>
+                                                <div>
+                                                    <h3 className="text-xl font-bold text-slate-800 mb-1">
+                                                        {scholarship.scholarshipName}
+                                                    </h3>
+                                                    <p className="text-slate-600">{scholarship.universityName}</p>
+                                                    <p className="text-sm text-slate-500">{scholarship.universityCountry || 'Country not specified'}</p>
+                                                </div>
                                             </div>
-                                        ) : (
-                                            <div className="flex gap-1">
-                                                <button
-                                                    className="btn btn-xs btn-primary"
-                                                    onClick={() => handleEdit(scholarship)}
-                                                >
-                                                    Update
-                                                </button>
-                                                <button
-                                                    className="btn btn-xs btn-error"
-                                                    onClick={() => handleDelete(scholarship._id)}
-                                                >
-                                                    Delete
-                                                </button>
+
+                                            <div className="flex flex-wrap gap-3 mt-4">
+                                                <span className={`px-3 py-1 rounded-full text-sm font-semibold ${scholarship.scholarshipCategory === 'Full fund' ? 'bg-green-100 text-green-700' :
+                                                    scholarship.scholarshipCategory === 'Partial' ? 'bg-yellow-100 text-yellow-700' :
+                                                        'bg-blue-100 text-blue-700'
+                                                    }`}>
+                                                    {scholarship.scholarshipCategory}
+                                                </span>
+                                                <span className="px-3 py-1 rounded-full text-sm font-semibold bg-slate-100 text-slate-700">
+                                                    Fee: ${scholarship.applicationFees}
+                                                </span>
+                                                <span className="px-3 py-1 rounded-full text-sm font-semibold bg-slate-100 text-slate-700">
+                                                    Deadline: {new Date(scholarship.applicationDeadline).toLocaleDateString()}
+                                                </span>
                                             </div>
-                                        )}
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
-            </div>
+                                        </div>
+
+                                        <div className="flex gap-2">
+                                            <button
+                                                className="btn btn-sm btn-outline gap-2"
+                                                onClick={() => handleEdit(scholarship)}
+                                            >
+                                                <FaEdit /> Edit
+                                            </button>
+                                            <button
+                                                className="btn btn-sm btn-error btn-outline gap-2"
+                                                onClick={() => handleDelete(scholarship._id)}
+                                            >
+                                                <FaTrash />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

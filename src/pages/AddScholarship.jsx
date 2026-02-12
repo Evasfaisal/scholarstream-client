@@ -61,47 +61,303 @@ const AddScholarship = () => {
     };
 
     return (
-        <div className="p-6 max-w-4xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-xl p-8">
-                <h2 className="text-3xl font-bold text-primary mb-6">Add New Scholarship</h2>
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input name="scholarshipName" value={form.scholarshipName} onChange={handleChange} placeholder="Scholarship Name" className="input input-bordered" required />
-                    <input name="universityName" value={form.universityName} onChange={handleChange} placeholder="University Name" className="input input-bordered" required />
-                    <input name="universityImage" value={form.universityImage} onChange={handleChange} placeholder="University Image URL" className="input input-bordered col-span-2" required />
-                    <input name="universityCountry" value={form.universityCountry} onChange={handleChange} placeholder="Country" className="input input-bordered" required />
-                    <input name="universityCity" value={form.universityCity} onChange={handleChange} placeholder="City" className="input input-bordered" required />
-                    <input name="universityWorldRank" value={form.universityWorldRank} onChange={handleChange} placeholder="World Rank" type="number" className="input input-bordered" required />
-                    <select name="subjectCategory" value={form.subjectCategory} onChange={handleChange} className="select select-bordered" required>
-                        <option value="">Select Subject Category</option>
-                        <option value="Engineering">Engineering</option>
-                        <option value="Business">Business</option>
-                        <option value="Computer Science">Computer Science</option>
-                        <option value="Medicine">Medicine</option>
-                        <option value="Arts">Arts</option>
-                        <option value="Science">Science</option>
-                    </select>
-                    <select name="scholarshipCategory" value={form.scholarshipCategory} onChange={handleChange} className="select select-bordered" required>
-                        <option value="">Select Scholarship Category</option>
-                        <option value="Full fund">Full fund</option>
-                        <option value="Partial">Partial</option>
-                        <option value="Self-fund">Self-fund</option>
-                    </select>
-                    <select name="degree" value={form.degree} onChange={handleChange} className="select select-bordered" required>
-                        <option value="">Select Degree</option>
-                        <option value="Diploma">Diploma</option>
-                        <option value="Bachelor">Bachelor</option>
-                        <option value="Masters">Masters</option>
-                        <option value="PhD">PhD</option>
-                    </select>
-                    <input name="tuitionFees" value={form.tuitionFees} onChange={handleChange} placeholder="Tuition Fees (optional)" type="number" className="input input-bordered" />
-                    <input name="applicationFees" value={form.applicationFees} onChange={handleChange} placeholder="Application Fees" type="number" className="input input-bordered" required />
-                    <input name="serviceCharge" value={form.serviceCharge} onChange={handleChange} placeholder="Service Charge" type="number" className="input input-bordered" required />
-                    <input name="applicationDeadline" value={form.applicationDeadline} onChange={handleChange} type="date" className="input input-bordered" required />
-                    <input name="scholarshipPostDate" value={form.scholarshipPostDate} onChange={handleChange} type="date" className="input input-bordered" readOnly />
-                    <input name="postedUserEmail" value={form.postedUserEmail} onChange={handleChange} placeholder="Posted By Email" className="input input-bordered" readOnly />
-                    <button type="submit" className="btn btn-primary col-span-1 md:col-span-2 mt-4">Add Scholarship</button>
-                </form>
+        <div className="p-6 max-w-5xl mx-auto">
+            <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl shadow-xl p-8 mb-6">
+                <h2 className="text-4xl font-bold text-primary mb-2">🎓 Add New Scholarship</h2>
+                <p className="text-slate-600">Fill in all the details to create a new scholarship opportunity</p>
             </div>
+
+            <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
+
+                {/* Basic Information */}
+                <div className="space-y-4">
+                    <h3 className="text-2xl font-bold text-slate-800 border-b-2 border-primary/20 pb-2">📋 Basic Information</h3>
+
+                    <div>
+                        <label className="label">
+                            <span className="label-text font-semibold text-slate-700">Scholarship Name *</span>
+                        </label>
+                        <input
+                            name="scholarshipName"
+                            value={form.scholarshipName}
+                            onChange={handleChange}
+                            placeholder="e.g., Global Excellence Scholarship 2026"
+                            className="input input-bordered w-full focus:border-primary"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="label">
+                            <span className="label-text font-semibold text-slate-700">Scholarship Category *</span>
+                        </label>
+                        <select
+                            name="scholarshipCategory"
+                            value={form.scholarshipCategory}
+                            onChange={handleChange}
+                            className="select select-bordered w-full focus:border-primary"
+                            required
+                        >
+                            <option value="">Choose scholarship type</option>
+                            <option value="Full fund">💰 Full fund (100% coverage)</option>
+                            <option value="Partial">📊 Partial (50-99% coverage)</option>
+                            <option value="Self-fund">💳 Self-fund (No financial aid)</option>
+                        </select>
+                    </div>
+                </div>
+
+                {/* University Information */}
+                <div className="space-y-4">
+                    <h3 className="text-2xl font-bold text-slate-800 border-b-2 border-primary/20 pb-2">🏫 University Information</h3>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="label">
+                                <span className="label-text font-semibold text-slate-700">University Name *</span>
+                            </label>
+                            <input
+                                name="universityName"
+                                value={form.universityName}
+                                onChange={handleChange}
+                                placeholder="e.g., Harvard University"
+                                className="input input-bordered w-full focus:border-primary"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label className="label">
+                                <span className="label-text font-semibold text-slate-700">World Rank *</span>
+                            </label>
+                            <input
+                                name="universityWorldRank"
+                                value={form.universityWorldRank}
+                                onChange={handleChange}
+                                placeholder="e.g., 1"
+                                type="number"
+                                className="input input-bordered w-full focus:border-primary"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="label">
+                                <span className="label-text font-semibold text-slate-700">Country *</span>
+                            </label>
+                            <input
+                                name="universityCountry"
+                                value={form.universityCountry}
+                                onChange={handleChange}
+                                placeholder="e.g., USA"
+                                className="input input-bordered w-full focus:border-primary"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label className="label">
+                                <span className="label-text font-semibold text-slate-700">City *</span>
+                            </label>
+                            <input
+                                name="universityCity"
+                                value={form.universityCity}
+                                onChange={handleChange}
+                                placeholder="e.g., Cambridge"
+                                className="input input-bordered w-full focus:border-primary"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="label">
+                            <span className="label-text font-semibold text-slate-700">University Image URL *</span>
+                            <span className="label-text-alt text-slate-500">Use image hosting service like ImgBB</span>
+                        </label>
+                        <input
+                            name="universityImage"
+                            value={form.universityImage}
+                            onChange={handleChange}
+                            placeholder="https://example.com/university-image.jpg"
+                            className="input input-bordered w-full focus:border-primary"
+                            required
+                        />
+                        <p className="text-xs text-slate-500 mt-1">💡 Tip: Upload to <a href="https://imgbb.com" target="_blank" className="text-primary underline">ImgBB</a> and paste the direct link here</p>
+                    </div>
+                </div>
+
+                {/* Academic Information */}
+                <div className="space-y-4">
+                    <h3 className="text-2xl font-bold text-slate-800 border-b-2 border-primary/20 pb-2">📚 Academic Information</h3>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="label">
+                                <span className="label-text font-semibold text-slate-700">Subject Category *</span>
+                            </label>
+                            <select
+                                name="subjectCategory"
+                                value={form.subjectCategory}
+                                onChange={handleChange}
+                                className="select select-bordered w-full focus:border-primary"
+                                required
+                            >
+                                <option value="">Choose subject area</option>
+                                <option value="Engineering">⚙️ Engineering</option>
+                                <option value="Business">💼 Business</option>
+                                <option value="Computer Science">💻 Computer Science</option>
+                                <option value="Medicine">⚕️ Medicine</option>
+                                <option value="Arts">🎨 Arts</option>
+                                <option value="Science">🔬 Science</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="label">
+                                <span className="label-text font-semibold text-slate-700">Degree Level *</span>
+                            </label>
+                            <select
+                                name="degree"
+                                value={form.degree}
+                                onChange={handleChange}
+                                className="select select-bordered w-full focus:border-primary"
+                                required
+                            >
+                                <option value="">Choose degree level</option>
+                                <option value="Diploma">📜 Diploma</option>
+                                <option value="Bachelor">🎓 Bachelor's</option>
+                                <option value="Masters">🎓🎓 Master's</option>
+                                <option value="PhD">🎓🎓🎓 PhD / Doctorate</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Financial Information */}
+                <div className="space-y-4">
+                    <h3 className="text-2xl font-bold text-slate-800 border-b-2 border-primary/20 pb-2">💰 Financial Information</h3>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label className="label">
+                                <span className="label-text font-semibold text-slate-700">Application Fees * 💵</span>
+                            </label>
+                            <div className="relative">
+                                <span className="absolute left-3 top-3 text-slate-500">$</span>
+                                <input
+                                    name="applicationFees"
+                                    value={form.applicationFees}
+                                    onChange={handleChange}
+                                    placeholder="50"
+                                    type="number"
+                                    className="input input-bordered w-full pl-8 focus:border-primary"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="label">
+                                <span className="label-text font-semibold text-slate-700">Service Charge * 💳</span>
+                            </label>
+                            <div className="relative">
+                                <span className="absolute left-3 top-3 text-slate-500">$</span>
+                                <input
+                                    name="serviceCharge"
+                                    value={form.serviceCharge}
+                                    onChange={handleChange}
+                                    placeholder="10"
+                                    type="number"
+                                    className="input input-bordered w-full pl-8 focus:border-primary"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="label">
+                                <span className="label-text font-semibold text-slate-700">Tuition Fees (Optional)</span>
+                            </label>
+                            <div className="relative">
+                                <span className="absolute left-3 top-3 text-slate-500">$</span>
+                                <input
+                                    name="tuitionFees"
+                                    value={form.tuitionFees}
+                                    onChange={handleChange}
+                                    placeholder="15000"
+                                    type="number"
+                                    className="input input-bordered w-full pl-8 focus:border-primary"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Deadline & Posting Information */}
+                <div className="space-y-4">
+                    <h3 className="text-2xl font-bold text-slate-800 border-b-2 border-primary/20 pb-2">📅 Dates & Information</h3>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="label">
+                                <span className="label-text font-semibold text-slate-700">Application Deadline * 🗓️</span>
+                            </label>
+                            <input
+                                name="applicationDeadline"
+                                value={form.applicationDeadline}
+                                onChange={handleChange}
+                                type="date"
+                                className="input input-bordered w-full focus:border-primary"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label className="label">
+                                <span className="label-text font-semibold text-slate-700">Post Date (Auto-filled)</span>
+                            </label>
+                            <input
+                                name="scholarshipPostDate"
+                                value={form.scholarshipPostDate}
+                                type="date"
+                                className="input input-bordered w-full bg-slate-100"
+                                readOnly
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label className="label">
+                            <span className="label-text font-semibold text-slate-700">Posted By (Your Email)</span>
+                        </label>
+                        <input
+                            name="postedUserEmail"
+                            value={form.postedUserEmail}
+                            className="input input-bordered w-full bg-slate-100"
+                            readOnly
+                        />
+                    </div>
+                </div>
+
+                {/* Submit Button */}
+                <div className="flex justify-end gap-4 pt-6 border-t">
+                    <button
+                        type="button"
+                        onClick={() => window.history.back()}
+                        className="btn btn-outline"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        className="btn btn-primary btn-lg px-8"
+                    >
+                        ✨ Add Scholarship
+                    </button>
+                </div>
+            </form>
         </div>
     );
 };
