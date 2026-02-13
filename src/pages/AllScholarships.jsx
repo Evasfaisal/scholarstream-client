@@ -154,9 +154,9 @@ const AllScholarships = () => {
                                 <div className="flex flex-col md:flex-row gap-6">
                                     {/* Image Section */}
                                     <div className="flex-shrink-0">
-                                        {s.photo ? (
+                                        {s.image ? (
                                             <img
-                                                src={s.photo}
+                                                src={s.image}
                                                 alt={s.name}
                                                 className="w-32 h-32 rounded-2xl object-cover border-4 border-slate-100 shadow-md"
                                             />
@@ -237,8 +237,8 @@ const AllScholarships = () => {
                             <button
                                 key={idx}
                                 className={`btn btn-lg rounded-xl hover:scale-110 transition-all duration-300 min-w-[60px] ${page === idx + 1
-                                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 shadow-lg'
-                                        : 'bg-slate-100 text-slate-700 border-2 border-slate-200 hover:border-purple-400'
+                                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 shadow-lg'
+                                    : 'bg-slate-100 text-slate-700 border-2 border-slate-200 hover:border-purple-400'
                                     }`}
                                 onClick={() => setPage(idx + 1)}
                             >

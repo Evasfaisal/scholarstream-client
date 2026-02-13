@@ -25,15 +25,40 @@ const Home = () => {
     return (
         <div className="bg-base-100">
 
-            <section className="hero min-h-[350px] bg-linear-to-r from-blue-50 to-indigo-100 flex items-center justify-center border-b border-slate-200">
-                <div className="hero-content flex-col lg:flex-row-reverse gap-12">
-                    <motion.img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=600&q=80" alt="ScholarStream Banner" className="max-w-sm rounded-2xl shadow-xl border-4 border-white" initial={{ opacity: 0, x: 100 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }} />
-                    <motion.div initial={{ opacity: 0, y: -50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-                        <h1 className="text-5xl font-extrabold text-slate-800 mb-4 tracking-tight leading-tight">Unlock Your Future<br /><span className="text-primary">with ScholarStream</span></h1>
-                        <p className="py-2 text-xl text-slate-600 max-w-xl">Discover global scholarships, apply with ease, and take the next step in your academic journey. Designed for ambitious students and trusted by top universities.</p>
-                        <a href="/allscholarships" className="btn btn-primary btn-lg mt-6 shadow-md">Browse Scholarships</a>
-                    </motion.div>
-                </div>
+            <section className="hero min-h-[350px] w-full bg-gradient-to-r from-blue-400 via-indigo-200 to-blue-100 flex items-center justify-center border-b border-slate-200">
+                <motion.div
+                    className="w-full flex flex-col items-center justify-center py-16"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1 }}
+                >
+                    <motion.h1
+                        className="text-5xl md:text-6xl font-extrabold text-slate-800 mb-4 tracking-tight leading-tight text-center w-full"
+                        initial={{ opacity: 0, y: -40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, delay: 0.2 }}
+                    >
+                        Unlock Your Future<br />
+                        <span className="text-primary">With ScholarStream</span>
+                    </motion.h1>
+                    <motion.p
+                        className="py-2 text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto text-center"
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, delay: 0.4 }}
+                    >
+                        Discover global scholarships, apply with ease, and take the next step in your academic journey. Designed for ambitious students and trusted by top universities.
+                    </motion.p>
+                    <motion.a
+                        href="/allscholarships"
+                        className="btn btn-primary btn-lg mt-8 shadow-md px-10 text-lg"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.7 }}
+                    >
+                        Search Scholarship
+                    </motion.a>
+                </motion.div>
             </section>
 
 
@@ -63,13 +88,10 @@ const Home = () => {
                             <motion.div key={scholarship._id} className="bg-white rounded-2xl shadow-lg border border-slate-200 hover:shadow-2xl transition-all duration-300 flex flex-col" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 }}>
                                 <figure>
                                     <img
-                                        src={scholarship.universityImage || `https://via.placeholder.com/600x400/4F46E5/FFFFFF?text=${encodeURIComponent(scholarship.universityName)}`}
+                                        src={scholarship.universityImage || '/logo.jpg'}
                                         alt={scholarship.scholarshipName}
                                         className="h-44 w-full object-cover rounded-t-2xl"
-                                        onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = `https://via.placeholder.com/600x400/4F46E5/FFFFFF?text=${encodeURIComponent(scholarship.universityName)}`;
-                                        }}
+                                        onError={e => { e.target.onerror = null; e.target.src = '/logo.jpg'; }}
                                     />
                                 </figure>
                                 <div className="p-6 flex-1 flex flex-col justify-between">

@@ -65,7 +65,12 @@ const ScholarshipDetails = () => {
     return (
         <div className="max-w-6xl mx-auto py-14 px-6">
             <div className="bg-white/90 rounded-3xl shadow-2xl p-12 flex flex-col md:flex-row gap-12 border border-slate-200">
-                <img src={scholarship.universityImage} alt={scholarship.universityName} className="w-80 h-80 object-cover rounded-2xl border-4 border-primary/20 shadow-lg" />
+                <img
+                    src={scholarship.universityImage}
+                    alt={scholarship.scholarshipName}
+                    className="w-full max-w-lg rounded-xl shadow mb-6"
+                    onError={e => { e.target.onerror = null; e.target.src = '/logo.jpg'; }}
+                />
                 <div className="flex-1 flex flex-col gap-4">
                     <h2 className="text-4xl font-extrabold text-primary mb-2 tracking-tight">{scholarship.scholarshipName}</h2>
                     <div className="flex flex-wrap gap-2 text-sm text-slate-500">

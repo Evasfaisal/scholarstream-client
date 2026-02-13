@@ -189,8 +189,8 @@ const AddScholarship = () => {
                             name="universityImage"
                             value={form.universityImage}
                             onChange={handleChange}
-                            placeholder="https://example.com/university-image.jpg"
-                            className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary"
+                            placeholder="University Image URL (e.g. /logo.jpg)"
+                            className="input input-bordered col-span-2"
                             required
                         />
                         <p className="text-xs text-slate-500 mt-2">💡 Upload to <a href="https://imgbb.com" target="_blank" rel="noreferrer" className="text-primary underline hover:text-primary-focus">ImgBB</a> and paste the link here</p>
