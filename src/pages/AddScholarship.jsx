@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import apiUrl from '../utils/api';
+import { FaGraduationCap, FaClipboardList, FaUniversity, FaBook, FaMoneyBillWave, FaCalendarAlt, FaLightbulb, FaRegStar } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 
 const AddScholarship = () => {
@@ -62,10 +63,9 @@ const AddScholarship = () => {
 
     return (
         <div className="w-full max-w-6xl mx-auto">
-            {/* Header */}
             <div className="bg-gradient-to-r from-primary/10 to-blue-50 rounded-xl p-4 sm:p-6 mb-6 shadow-sm">
                 <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2 flex items-center gap-2">
-                    <span>🎓</span>
+                    <span><FaGraduationCap /></span>
                     <span>Add New Scholarship</span>
                 </h2>
                 <p className="text-slate-600 text-sm sm:text-base">Create a scholarship opportunity for students worldwide</p>
@@ -73,11 +73,11 @@ const AddScholarship = () => {
 
             <form onSubmit={handleSubmit} className="space-y-6">
 
-                {/* Basic Information */}
+
                 <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 space-y-4">
                     <h3 className="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2 pb-3 border-b border-slate-200">
-                        <span>📋</span>
-                        <span>Basic Information</span>
+                      
+                        <span><FaClipboardList /></span>
                     </h3>
 
                     <div>
@@ -106,17 +106,17 @@ const AddScholarship = () => {
                             required
                         >
                             <option value="">Choose scholarship type</option>
-                            <option value="Full fund">💰 Full fund (100% coverage)</option>
-                            <option value="Partial">📊 Partial (50-99% coverage)</option>
-                            <option value="Self-fund">💳 Self-fund (No financial aid)</option>
+                            <option value="Full fund">Full fund (100% coverage)</option>
+                            <option value="Partial">Partial (50-99% coverage)</option>
+                            <option value="Self-fund">Self-fund (No financial aid)</option>
                         </select>
                     </div>
                 </div>
 
-                {/* University Information */}
+
                 <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 space-y-4">
                     <h3 className="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2 pb-3 border-b border-slate-200">
-                        <span>🏫</span>
+                        <span><FaUniversity /></span>
                         <span>University Information</span>
                     </h3>
 
@@ -196,14 +196,11 @@ const AddScholarship = () => {
                         <p className="text-xs text-slate-500 mt-2">💡 Upload to <a href="https://imgbb.com" target="_blank" rel="noreferrer" className="text-primary underline hover:text-primary-focus">ImgBB</a> and paste the link here</p>
                     </div>
                 </div>
-
-                {/* Academic Information */}
                 <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 space-y-4">
                     <h3 className="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2 pb-3 border-b border-slate-200">
-                        <span>📚</span>
+                        <span><FaBook /></span>
                         <span>Academic Information</span>
                     </h3>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-semibold text-slate-700 mb-2">
@@ -216,13 +213,12 @@ const AddScholarship = () => {
                                 className="select select-bordered w-full border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                 required
                             >
-                                <option value="">Choose subject area</option>
-                                <option value="Engineering">⚙️ Engineering</option>
-                                <option value="Business">💼 Business</option>
-                                <option value="Computer Science">💻 Computer Science</option>
-                                <option value="Medicine">⚕️ Medicine</option>
-                                <option value="Arts">🎨 Arts</option>
-                                <option value="Science">🔬 Science</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="Business">Business</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Medicine">Medicine</option>
+                                <option value="Arts">Arts</option>
+                                <option value="Science">Science</option>
                             </select>
                         </div>
 
@@ -237,23 +233,19 @@ const AddScholarship = () => {
                                 className="select select-bordered w-full border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                 required
                             >
-                                <option value="">Choose degree level</option>
-                                <option value="Diploma">📜 Diploma</option>
-                                <option value="Bachelor">🎓 Bachelor's</option>
-                                <option value="Masters">🎓🎓 Master's</option>
-                                <option value="PhD">🎓🎓🎓 PhD / Doctorate</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="Bachelor">Bachelor's</option>
+                                <option value="Masters">Master's</option>
+                                <option value="PhD">PhD / Doctorate</option>
                             </select>
                         </div>
                     </div>
                 </div>
-
-                {/* Financial Information */}
                 <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 space-y-4">
                     <h3 className="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2 pb-3 border-b border-slate-200">
-                        <span>💰</span>
+                        <span><FaMoneyBillWave /></span>
                         <span>Financial Information</span>
                     </h3>
-
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label className="block text-sm font-semibold text-slate-700 mb-2">
@@ -309,14 +301,11 @@ const AddScholarship = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* Deadline & Posting Information */}
                 <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 space-y-4">
                     <h3 className="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2 pb-3 border-b border-slate-200">
-                        <span>📅</span>
+                        <span><FaCalendarAlt /></span>
                         <span>Dates & Information</span>
                     </h3>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-semibold text-slate-700 mb-2">
@@ -359,7 +348,7 @@ const AddScholarship = () => {
                     </div>
                 </div>
 
-                {/* Submit Button */}
+
                 <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
                     <div className="flex flex-col sm:flex-row justify-end gap-3">
                         <button
@@ -373,13 +362,13 @@ const AddScholarship = () => {
                             type="submit"
                             className="btn btn-primary btn-lg px-8 order-1 sm:order-2 shadow-lg hover:shadow-xl transition-all"
                         >
-                            <span>✨</span>
+                            <span><FaRegStar /></span>
                             <span>Add Scholarship</span>
                         </button>
                     </div>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     );
 };
 

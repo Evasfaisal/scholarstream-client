@@ -31,7 +31,7 @@ const DashboardLayout = () => {
 
     return (
         <div className="flex min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-            {/* Mobile Menu Button */}
+          
             <button
                 className="md:hidden fixed top-4 left-4 z-50 bg-primary text-white p-3 rounded-lg shadow-lg hover:bg-primary-focus"
                 onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -41,12 +41,12 @@ const DashboardLayout = () => {
                 </svg>
             </button>
 
-            {/* Sidebar - Desktop */}
+           
             <aside className="w-64 min-h-screen bg-white border-r border-slate-200 p-6 hidden md:block shadow-xl">
                 <DashboardSidebar role={role} user={user} />
             </aside>
 
-            {/* Sidebar - Mobile */}
+          
             {sidebarOpen && (
                 <>
                     <div
@@ -65,7 +65,7 @@ const DashboardLayout = () => {
                 </>
             )}
 
-            {/* Main Content - Full Width */}
+           
             <main className="flex-1 w-full p-4 sm:p-6 lg:p-8 overflow-x-hidden">
                 <Outlet />
             </main>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaTimesCircle, FaHandPointUp } from 'react-icons/fa';
 
 const Failed = () => {
     const location = useLocation();
@@ -20,9 +21,7 @@ const Failed = () => {
         <div className="flex flex-col items-center justify-center min-h-[70vh] text-center px-4 py-12">
             <div className="bg-white rounded-3xl shadow-2xl p-10 max-w-2xl">
                 <div className="bg-red-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 cursor-pointer hover:bg-red-200 transition-all hover:scale-110 duration-300" onClick={handleRetryPayment} title="Click to try payment again">
-                    <svg className="w-16 h-16 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
+                    <FaTimesCircle className="w-16 h-16 text-red-600" />
                 </div>
 
                 <h1 className="text-4xl font-extrabold text-red-600 mb-4">Payment Failed!</h1>
@@ -30,7 +29,7 @@ const Failed = () => {
                     Sorry, your payment could not be processed. Please try again or contact support if the problem persists.
                 </p>
                 <p className="text-sm text-blue-600 mb-8 font-semibold cursor-pointer hover:text-blue-800 transition-all" onClick={handleRetryPayment}>
-                    👆 Click the X icon above or the button below to retry payment
+                    <FaHandPointUp className="inline-block mr-1 text-blue-500" /> Click the X icon above or the button below to retry payment
                 </p>
 
                 <div className="bg-slate-50 rounded-2xl p-6 mb-8 text-left">

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import apiUrl from "../utils/api";
 import { toast } from "react-hot-toast";
+import { FaBook, FaUserGraduate, FaClipboardList, FaCreditCard, FaCalendarAlt, FaRegCommentDots, FaHourglassHalf, FaEye, FaEdit, FaTrash, FaStar, FaTimes, FaExclamationTriangle, FaFileAlt, FaUniversity, FaMoneyBillWave } from 'react-icons/fa';
 
 const MyApplications = () => {
     const { user } = useContext(AuthContext);
@@ -34,7 +35,7 @@ const MyApplications = () => {
 
         fetchMyApplications();
 
-        // Listen for navigation back to this page to refetch data
+
         const handleVisibilityChange = () => {
             if (!document.hidden) {
                 fetchMyApplications();
@@ -48,7 +49,7 @@ const MyApplications = () => {
         };
     }, [user]);
 
-    // Handlers
+
     const handleDetails = (app) => {
         setSelectedApp(app);
         setShowDetails(true);
@@ -62,14 +63,14 @@ const MyApplications = () => {
     };
     const handlePay = async (app) => {
         try {
-            // Delete unpaid application before going to payment
+
             await apiUrl.delete(`/api/applications/${app._id}`);
             console.log("Deleted unpaid application:", app._id);
 
-            // Remove from local state immediately
+
             setApplications(apps => apps.filter(a => a._id !== app._id));
 
-            // Create scholarship object from application data
+
             const scholarship = {
                 _id: app.scholarshipId,
                 scholarshipName: app.scholarshipCategory,
@@ -146,9 +147,9 @@ const MyApplications = () => {
     }
 
     return (
-        <div className="max-w-7xl mx-auto p-6 min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="max-w-7xl mx-auto p-6 min-h-screen bg-linear-to-br from-slate-50 to-blue-50">
             <div className="mb-8">
-                <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-2">
+                <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-primary to-secondary mb-2">
                     My Applications
                 </h2>
                 <p className="text-slate-600">Track and manage your scholarship applications</p>
@@ -156,7 +157,7 @@ const MyApplications = () => {
 
             {applications.length === 0 ? (
                 <div className="text-center py-20 bg-white rounded-3xl shadow-xl">
-                    <div className="text-6xl mb-4">📚</div>
+                    <div className="text-6xl mb-4"><FaBook /></div>
                     <p className="text-slate-500 text-xl mb-6">No applications found</p>
                     <button onClick={() => navigate('/allscholarships')} className="btn btn-primary btn-lg">
                         Browse Scholarships
@@ -165,7 +166,7 @@ const MyApplications = () => {
             ) : (
                 <div className="grid gap-6">
                     {applications.map((app, index) => {
-                        // Different border colors for each card
+
                         const borderColors = [
                             'border-l-8 border-l-blue-500 border-t border-r border-b border-blue-100',
                             'border-l-8 border-l-purple-500 border-t border-r border-b border-purple-100',
@@ -180,7 +181,7 @@ const MyApplications = () => {
 
                         return (
                             <div key={app._id} className={`bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 ${borderClass}`}>
-                                {/* Main Info Section */}
+
                                 <div className="space-y-4">
                                     <div className="flex items-start justify-between">
                                         <div>
@@ -201,21 +202,21 @@ const MyApplications = () => {
 
                                     <div className="flex flex-wrap gap-3">
                                         <div className="badge badge-lg badge-outline">
-                                            🎓 {app.degree}
+                                            <FaUserGraduate className="inline-block mr-1" /> {app.degree}
                                         </div>
                                         <div className={`badge badge-lg ${app.applicationStatus === "completed" ? "badge-success" :
                                             app.applicationStatus === "processing" ? "badge-warning" :
                                                 app.applicationStatus === "pending" ? "badge-info" :
                                                     "badge-error"
                                             }`}>
-                                            📋 {app.applicationStatus?.toUpperCase()}
+                                            <FaClipboardList className="inline-block mr-1" /> {app.applicationStatus?.toUpperCase()}
                                         </div>
                                         <div className={`badge badge-lg ${app.paymentStatus === "paid" ? "badge-success" : "badge-error"
                                             }`}>
-                                            💳 {app.paymentStatus?.toUpperCase()}
+                                            <FaCreditCard className="inline-block mr-1" /> {app.paymentStatus?.toUpperCase()}
                                         </div>
                                         <div className="badge badge-lg badge-ghost">
-                                            📅 {new Date(app.applicationDate).toLocaleDateString('en-US', {
+                                            <FaCalendarAlt className="inline-block mr-1" /> {new Date(app.applicationDate).toLocaleDateString('en-US', {
                                                 year: 'numeric',
                                                 month: 'short',
                                                 day: 'numeric'
@@ -223,11 +224,11 @@ const MyApplications = () => {
                                         </div>
                                     </div>
 
-                                    {/* Feedback Section */}
+
                                     {app.feedback && (
                                         <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg">
                                             <div className="flex items-center gap-2 mb-2">
-                                                <span className="text-lg">💬</span>
+                                                <FaRegCommentDots className="text-lg text-blue-500" />
                                                 <span className="font-semibold text-blue-900">Feedback:</span>
                                             </div>
                                             <p className="text-slate-700 text-sm leading-relaxed">{app.feedback}</p>
@@ -235,17 +236,16 @@ const MyApplications = () => {
                                     )}
                                     {!app.feedback && (
                                         <div className="bg-slate-50 p-4 rounded-lg">
-                                            <p className="text-slate-400 text-sm italic">⏳ No feedback received yet</p>
+                                            <p className="text-slate-400 text-sm italic"><FaHourglassHalf className="inline-block mr-1" /> No feedback received yet</p>
                                         </div>
                                     )}
 
-                                    {/* Action Buttons - Bottom Left */}
                                     <div className="flex flex-wrap gap-4 pt-6 mt-4 border-t-2 border-slate-200">
                                         <button
                                             className="btn btn-info btn-lg gap-3 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group border-l-4 border-l-blue-500 border-r-2 border-r-blue-200 px-6 py-4"
                                             onClick={() => handleDetails(app)}
                                         >
-                                            <span className="text-3xl group-hover:scale-110 transition-transform">👁️</span>
+                                            <span className="text-3xl group-hover:scale-110 transition-transform"><FaEye /></span>
                                             <span className="font-extrabold text-lg">View Details</span>
                                         </button>
 
@@ -255,14 +255,14 @@ const MyApplications = () => {
                                                     className="btn btn-warning btn-lg gap-3 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group border-l-4 border-l-orange-500 border-r-2 border-r-orange-200 px-6 py-4"
                                                     onClick={() => handleEdit(app)}
                                                 >
-                                                    <span className="text-3xl group-hover:scale-110 transition-transform">✏️</span>
+                                                    <span className="text-3xl group-hover:scale-110 transition-transform"><FaEdit /></span>
                                                     <span className="font-extrabold text-lg">Edit</span>
                                                 </button>
                                                 <button
                                                     className="btn btn-error btn-lg gap-3 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group border-l-4 border-l-red-600 border-r-2 border-r-red-200 px-6 py-4"
                                                     onClick={() => handleDelete(app._id)}
                                                 >
-                                                    <span className="text-3xl group-hover:rotate-12 transition-transform">🗑️</span>
+                                                    <span className="text-3xl group-hover:rotate-12 transition-transform"><FaTrash /></span>
                                                     <span className="font-extrabold text-lg">Delete</span>
                                                 </button>
                                                 {app.paymentStatus === "unpaid" && (
@@ -270,7 +270,7 @@ const MyApplications = () => {
                                                         className="btn btn-success btn-lg gap-3 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 animate-pulse group border-l-4 border-l-green-600 border-r-2 border-r-green-200 border-t-2 border-t-green-300 border-b-2 border-b-green-300 px-8 py-4"
                                                         onClick={() => handlePay(app)}
                                                     >
-                                                        <span className="text-3xl group-hover:scale-125 transition-transform">💳</span>
+                                                        <span className="text-3xl group-hover:scale-125 transition-transform"><FaCreditCard /></span>
                                                         <span className="font-extrabold text-xl">Pay Now</span>
                                                     </button>
                                                 )}
@@ -282,7 +282,7 @@ const MyApplications = () => {
                                                 className="btn btn-warning btn-lg gap-3 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group border-l-4 border-l-yellow-600 border-r-2 border-r-yellow-200 px-6 py-4"
                                                 onClick={() => handleAddReview(app)}
                                             >
-                                                <span className="text-3xl group-hover:rotate-12 transition-transform">⭐</span>
+                                                <span className="text-3xl group-hover:rotate-12 transition-transform"><FaStar /></span>
                                                 <span className="font-extrabold text-lg">Add Review</span>
                                             </button>
                                         )}
@@ -294,18 +294,18 @@ const MyApplications = () => {
                 </div>
             )}
 
-            {/* Details Modal */}
+
             {showDetails && selectedApp && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-                    <div className="bg-gradient-to-br from-white to-blue-50 rounded-3xl p-8 w-full max-w-2xl relative shadow-2xl transform animate-scaleIn border-2 border-primary/20">
+                    <div className="bg-linear-to-br from-white to-blue-50 rounded-3xl p-8 w-full max-w-2xl relative shadow-2xl transform animate-scaleIn border-2 border-primary/20">
                         <button className="absolute top-4 right-4 btn btn-sm btn-circle btn-ghost hover:btn-error transition-all" onClick={handleCloseDetails}>
-                            <span className="text-xl">✕</span>
+                            <span className="text-xl"><FaTimes /></span>
                         </button>
 
                         <div className="flex items-center gap-3 mb-8">
-                            <div className="text-5xl">📄</div>
+                            <div className="text-5xl"><FaFileAlt /></div>
                             <div>
-                                <h3 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
+                                <h3 className="text-3xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-primary to-secondary">
                                     Application Details
                                 </h3>
                                 <p className="text-slate-500 text-sm">Complete information about your application</p>
@@ -315,7 +315,7 @@ const MyApplications = () => {
                         <div className="space-y-4">
                             <div className="bg-white/80 backdrop-blur rounded-2xl p-5 shadow-lg border border-slate-200 hover:shadow-xl transition-all">
                                 <div className="flex items-center gap-3 mb-3">
-                                    <span className="text-3xl">🏛️</span>
+                                    <span className="text-3xl"><FaUniversity /></span>
                                     <div className="flex-1">
                                         <div className="text-xs text-slate-500 uppercase tracking-wide">University</div>
                                         <div className="text-xl font-bold text-slate-800">{selectedApp.universityName}</div>
@@ -330,12 +330,13 @@ const MyApplications = () => {
                                     <div>
                                         <div className="text-xs text-slate-500 mb-1">Degree</div>
                                         <div className="font-semibold text-slate-700">🎓 {selectedApp.degree}</div>
+                                        <div className="font-semibold text-slate-700"><FaUserGraduate className="inline-block mr-1" /> {selectedApp.degree}</div>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="grid md:grid-cols-2 gap-4">
-                                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-5 border-2 border-blue-200">
+                                <div className="bg-linear-to-br from-blue-50 to-blue-100 rounded-2xl p-5 border-2 border-blue-200">
                                     <div className="text-xs text-blue-600 uppercase tracking-wide mb-2">Application Status</div>
                                     <div className={`badge badge-lg text-lg px-4 py-3 ${selectedApp.applicationStatus === "completed" ? "badge-success" :
                                         selectedApp.applicationStatus === "processing" ? "badge-warning" :
@@ -346,7 +347,7 @@ const MyApplications = () => {
                                     </div>
                                 </div>
 
-                                <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-5 border-2 border-green-200">
+                                <div className="bg-linear-to-br from-green-50 to-green-100 rounded-2xl p-5 border-2 border-green-200">
                                     <div className="text-xs text-green-600 uppercase tracking-wide mb-2">Payment Status</div>
                                     <div className={`badge badge-lg text-lg px-4 py-3 ${selectedApp.paymentStatus === "paid" ? "badge-success" : "badge-error"
                                         }`}>
@@ -355,9 +356,9 @@ const MyApplications = () => {
                                 </div>
                             </div>
 
-                            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-5 border-2 border-purple-200">
+                            <div className="bg-linear-to-r from-purple-50 to-pink-50 rounded-2xl p-5 border-2 border-purple-200">
                                 <div className="flex items-center justify-between mb-3">
-                                    <span className="text-lg font-bold text-purple-900">💰 Payment Breakdown</span>
+                                    <span className="text-lg font-bold text-purple-900"><FaMoneyBillWave className="inline-block mr-1" /> Payment Breakdown</span>
                                 </div>
                                 <div className="space-y-2">
                                     <div className="flex justify-between items-center">
@@ -380,7 +381,7 @@ const MyApplications = () => {
 
                             <div className="bg-white/80 backdrop-blur rounded-2xl p-5 shadow-lg border border-slate-200">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <span className="text-2xl">📅</span>
+                                    <span className="text-2xl"><FaCalendarAlt /></span>
                                     <span className="font-semibold text-slate-700">Application Date</span>
                                 </div>
                                 <div className="text-lg text-slate-600">
@@ -394,9 +395,9 @@ const MyApplications = () => {
                             </div>
 
                             {selectedApp.feedback && (
-                                <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-6 border-l-4 border-orange-400 shadow-lg">
+                                <div className="bg-linear-to-r from-yellow-50 to-orange-50 rounded-2xl p-6 border-l-4 border-orange-400 shadow-lg">
                                     <div className="flex items-center gap-2 mb-3">
-                                        <span className="text-3xl">💬</span>
+                                        <FaRegCommentDots className="text-3xl text-orange-500" />
                                         <span className="text-lg font-bold text-orange-900">Moderator Feedback</span>
                                     </div>
                                     <p className="text-slate-700 leading-relaxed text-base">{selectedApp.feedback}</p>
@@ -405,7 +406,7 @@ const MyApplications = () => {
 
                             {!selectedApp.feedback && (
                                 <div className="bg-slate-100 rounded-2xl p-6 text-center">
-                                    <span className="text-4xl mb-2 block">⏳</span>
+                                    <FaHourglassHalf className="text-4xl mb-2 block text-slate-400 mx-auto" />
                                     <p className="text-slate-500 italic">Waiting for moderator feedback...</p>
                                 </div>
                             )}
@@ -421,12 +422,12 @@ const MyApplications = () => {
                 </div>
             )}
 
-            {/* Delete Confirmation Modal */}
+
             {showDeleteConfirm && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
                     <div className="bg-white rounded-3xl p-8 w-full max-w-md relative shadow-2xl transform animate-scaleIn border-2 border-red-200">
                         <div className="text-center mb-6">
-                            <div className="text-7xl mb-4 animate-bounce">⚠️</div>
+                            <FaExclamationTriangle className="text-7xl mb-4 animate-bounce text-red-500 mx-auto" />
                             <h3 className="text-3xl font-extrabold text-red-600 mb-2">Delete Application?</h3>
                             <p className="text-slate-600 text-lg">This action cannot be undone!</p>
                         </div>
@@ -446,40 +447,40 @@ const MyApplications = () => {
                                     setDeleteAppId(null);
                                 }}
                             >
-                                <span className="text-lg">❌</span> Cancel
+                                <span className="text-lg"><FaTimes /></span> Cancel
                             </button>
                             <button
                                 className="btn btn-error flex-1 shadow-lg hover:shadow-xl"
                                 onClick={confirmDelete}
                             >
-                                <span className="text-lg">🗑️</span> Delete
+                                <span className="text-lg"><FaTrash /></span> Delete
                             </button>
                         </div>
                     </div>
                 </div>
             )}
 
-            {/* Add Review Modal */}
+
             {showReview && selectedApp && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
-                    <div className="bg-gradient-to-br from-white to-yellow-50 rounded-3xl p-8 w-full max-w-md relative shadow-2xl transform animate-scaleIn border-2 border-yellow-200">
+                    <div className="bg-linear-to-br from-white to-yellow-50 rounded-3xl p-8 w-full max-w-md relative shadow-2xl transform animate-scaleIn border-2 border-yellow-200">
                         <button className="absolute top-4 right-4 btn btn-sm btn-circle btn-ghost hover:btn-error transition-all" onClick={handleCloseReview}>
-                            <span className="text-xl">✕</span>
+                            <span className="text-xl"><FaTimes /></span>
                         </button>
 
                         <div className="flex items-center gap-3 mb-6">
-                            <span className="text-5xl">⭐</span>
+                            <span className="text-5xl"><FaStar className="text-yellow-500" /></span>
                             <div>
-                                <h3 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-orange-600">
+                                <h3 className="text-3xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-yellow-600 to-orange-600">
                                     Add Review
                                 </h3>
-                                <p className="text-slate-600 text-sm">{selectedApp.universityName}</p>
+                                <p className="text-slate-600 text-sm flex items-center gap-2"><FaUniversity className="inline-block text-blue-700" /> {selectedApp.universityName}</p>
                             </div>
                         </div>
 
                         <div className="mb-6">
-                            <label className="block font-bold mb-3 text-slate-700 flex items-center gap-2">
-                                <span className="text-2xl">⭐</span> Rating
+                            <label className="font-bold mb-3 text-slate-700 flex items-center gap-2">
+                                <span className="text-2xl"><FaStar className="text-yellow-500" /></span> Rating
                             </label>
                             <select
                                 className="select select-bordered w-full text-lg font-semibold shadow-md"
@@ -487,14 +488,19 @@ const MyApplications = () => {
                                 onChange={e => setReviewRating(Number(e.target.value))}
                             >
                                 {[1, 2, 3, 4, 5].map(star => (
-                                    <option key={star} value={star}>{"⭐".repeat(star)} ({star} out of 5)</option>
+                                    <option key={star} value={star}>
+                                        {Array.from({ length: star }).map((_, i) => (
+                                            <FaStar key={i} className="inline-block text-yellow-500 mr-0.5" />
+                                        ))}
+                                        {` (${star} out of 5)`}
+                                    </option>
                                 ))}
                             </select>
                         </div>
 
                         <div className="mb-6">
-                            <label className="block font-bold mb-3 text-slate-700 flex items-center gap-2">
-                                <span className="text-2xl">💬</span> Your Review
+                            <label className="font-bold mb-3 text-slate-700 flex items-center gap-2">
+                                <span className="text-2xl"><FaRegCommentDots /></span> Your Review
                             </label>
                             <textarea
                                 className="textarea textarea-bordered w-full text-base shadow-md focus:shadow-lg transition-all"
@@ -510,7 +516,7 @@ const MyApplications = () => {
                                 Cancel
                             </button>
                             <button className="btn btn-warning flex-1 shadow-lg hover:shadow-xl" onClick={handleSubmitReview}>
-                                <span className="text-lg">✨</span> Submit Review
+                                <span className="text-lg"><FaStar className="text-yellow-500" /></span> Submit Review
                             </button>
                         </div>
                     </div>

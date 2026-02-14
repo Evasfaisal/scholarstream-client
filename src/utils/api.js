@@ -10,7 +10,7 @@ const apiUrl = axios.create({
     },
 });
 
-// Add Firebase ID token to every request
+
 apiUrl.interceptors.request.use(
     async (config) => {
         try {

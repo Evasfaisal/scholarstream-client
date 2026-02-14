@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase.config";
+import { FaCrown, FaBolt, FaUserGraduate, FaUser, FaCalendarAlt, FaClock, FaEnvelope, FaCheck, FaExclamationTriangle } from 'react-icons/fa';
 
 const AdminProfile = () => {
     const { user } = useContext(AuthContext);
@@ -45,10 +46,10 @@ const AdminProfile = () => {
 
     const getRoleIcon = () => {
         switch (role) {
-            case 'Admin': return '👑';
-            case 'Moderator': return '⚡';
-            case 'Student': return '🎓';
-            default: return '👤';
+            case 'Admin': return <FaCrown />;
+            case 'Moderator': return <FaBolt />;
+            case 'Student': return <FaUserGraduate />;
+            default: return <FaUser />;
         }
     };
 
@@ -62,14 +63,14 @@ const AdminProfile = () => {
 
     return (
         <div className="w-full max-w-5xl mx-auto">
-            {/* Header */}
+
             <div className="bg-gradient-to-r from-primary/10 to-blue-50 rounded-xl p-4 sm:p-6 mb-6 shadow-sm">
                 <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">My Profile</h2>
                 <p className="text-slate-600 text-sm sm:text-base">Manage your account information</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Profile Card */}
+
                 <div className="lg:col-span-1 bg-white rounded-2xl shadow-lg p-6">
                     <div className="flex flex-col items-center text-center">
                         <div className="relative mb-4">
@@ -83,7 +84,7 @@ const AdminProfile = () => {
                         <h3 className="text-xl font-bold text-slate-800 mb-1">{user?.displayName || 'Anonymous User'}</h3>
                         <p className="text-slate-600 text-sm mb-3">{user?.email}</p>
 
-                        {/* Role Badge - Prominent */}
+
                         <div className={`badge ${getRoleColor()} badge-lg gap-2 mb-2 px-4 py-3 text-white font-bold`}>
                             <span className="text-lg">{getRoleIcon()}</span>
                             <span>{role}</span>
@@ -93,9 +94,9 @@ const AdminProfile = () => {
                     </div>
                 </div>
 
-                {/* Details Cards */}
+
                 <div className="lg:col-span-2 space-y-4">
-                    {/* Role Card - First and Prominent */}
+
                     <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl shadow-lg p-6 border-2 border-indigo-200">
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-3">
@@ -112,16 +113,16 @@ const AdminProfile = () => {
                             </div>
                         </div>
                         <div className="bg-white rounded-lg p-4 text-sm font-semibold text-slate-800 shadow-sm border border-slate-200">
-                            {role === 'Admin' && '👑 Full access to manage scholarships, users, and view analytics'}
-                            {role === 'Moderator' && '⚡ Can review applications and manage student reviews'}
-                            {role === 'Student' && '🎓 Can apply for scholarships and write reviews'}
+                            {role === 'Admin' && (<><FaCrown className="inline-block mr-1 text-red-500" /> Full access to manage scholarships, users, and view analytics</>)}
+                            {role === 'Moderator' && (<><FaBolt className="inline-block mr-1 text-yellow-500" /> Can review applications and manage student reviews</>)}
+                            {role === 'Student' && (<><FaUserGraduate className="inline-block mr-1 text-blue-500" /> Can apply for scholarships and write reviews</>)}
                         </div>
                     </div>
 
                     <div className="bg-white rounded-2xl shadow-lg p-6">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                <span className="text-2xl">👤</span>
+                                <span className="text-2xl"><FaUser /></span>
                             </div>
                             <div>
                                 <h4 className="font-bold text-slate-800">User ID</h4>
@@ -133,7 +134,7 @@ const AdminProfile = () => {
                     <div className="bg-white rounded-2xl shadow-lg p-6">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                                <span className="text-2xl">📅</span>
+                                <span className="text-2xl"><FaCalendarAlt /></span>
                             </div>
                             <div>
                                 <h4 className="font-bold text-slate-800">Account Created</h4>
@@ -145,7 +146,7 @@ const AdminProfile = () => {
                     <div className="bg-white rounded-2xl shadow-lg p-6">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                                <span className="text-2xl">🕒</span>
+                                <span className="text-2xl"><FaClock /></span>
                             </div>
                             <div>
                                 <h4 className="font-bold text-slate-800">Last Sign In</h4>
@@ -157,7 +158,7 @@ const AdminProfile = () => {
                     <div className="bg-white rounded-2xl shadow-lg p-6">
                         <div className="flex items-center gap-3 mb-4">
                             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                                <span className="text-2xl">📧</span>
+                                <span className="text-2xl"><FaEnvelope /></span>
                             </div>
                             <div>
                                 <h4 className="font-bold text-slate-800">Email Status</h4>
@@ -165,7 +166,7 @@ const AdminProfile = () => {
                                     {user?.emailVerified ? (
                                         <span className="badge badge-success">✓ Verified</span>
                                     ) : (
-                                        <span className="badge badge-warning">⚠ Not Verified</span>
+                                        <span className="badge badge-warning"><FaExclamationTriangle className="inline-block mr-1" /> Not Verified</span>
                                     )}
                                 </p>
                             </div>

@@ -3,6 +3,7 @@ import { doc, getDoc, updateDoc, deleteDoc, collection, getDocs } from 'firebase
 import { db } from '../firebase/firebase.config';
 import { toast } from 'react-hot-toast';
 import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaUsers, FaCrown, FaBolt, FaGraduationCap, FaLock, FaCog, FaBook, FaSave } from 'react-icons/fa';
 
 const AdminUsers = () => {
     const [users, setUsers] = useState([]);
@@ -79,7 +80,7 @@ const AdminUsers = () => {
                 </div>
             ) : users.length === 0 ? (
                 <div className="bg-white rounded-lg shadow p-12 text-center">
-                    <div className="text-6xl mb-4">👥</div>
+                    <div className="text-6xl mb-4"><FaUsers /></div>
                     <h3 className="text-xl font-semibold text-slate-700 mb-2">No Users Found</h3>
                     <p className="text-slate-500">Users will appear here when they register</p>
                 </div>
@@ -103,7 +104,7 @@ const AdminUsers = () => {
                         </span>
                     </div>
 
-                    {/* User Cards Grid */}
+                
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredUsers.map((user) => (
                             <div key={user.id} className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-t-4 border-purple-500">
@@ -146,17 +147,16 @@ const AdminUsers = () => {
                         ))}
                     </div>
 
-                    {/* Change Role Modal */}
+                
                     {editingId && (
                         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
                             <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full relative overflow-hidden animate-fadeIn">
-                                {/* Header with Gradient */}
                                 <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-6 text-white">
                                     <button
                                         className="absolute top-4 right-4 text-white hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center transition-all"
                                         onClick={() => setEditingId(null)}
                                     >
-                                        ✕
+                                        ×
                                     </button>
                                     <div className="flex items-center gap-3">
                                         <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
@@ -168,8 +168,6 @@ const AdminUsers = () => {
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* Body */}
                                 <div className="p-6">
                                     <label className="block text-sm font-bold text-slate-700 mb-4">
                                         Select Role
@@ -198,27 +196,26 @@ const AdminUsers = () => {
                                                             roleOption === 'Moderator' ? 'badge-warning' :
                                                                 'badge-info'
                                                             } badge-sm`}>
-                                                            {roleOption === 'Admin' ? '👑' : roleOption === 'Moderator' ? '⚡' : '🎓'}
+                                                            {roleOption === 'Admin' ? <FaCrown /> : roleOption === 'Moderator' ? <FaBolt /> : <FaGraduationCap />}
                                                         </span>
                                                     </div>
                                                     <p className="text-xs text-slate-600">
-                                                        {roleOption === 'Admin' && '🔐 Full access to manage scholarships, users & analytics'}
-                                                        {roleOption === 'Moderator' && '⚙️ Can review applications and manage student reviews'}
-                                                        {roleOption === 'Student' && '📚 Can apply for scholarships and write reviews'}
+                                                        {roleOption === 'Admin' && (<><FaLock className="inline-block mr-1" /> Full access to manage scholarships, users & analytics</>)}
+                                                        {roleOption === 'Moderator' && (<><FaCog className="inline-block mr-1" /> Can review applications and manage student reviews</>)}
+                                                        {roleOption === 'Student' && (<><FaBook className="inline-block mr-1" /> Can apply for scholarships and write reviews</>)}
                                                     </p>
                                                 </div>
                                             </label>
                                         ))}
                                     </div>
                                 </div>
-
-                                {/* Footer */}
                                 <div className="bg-slate-50 p-6 flex gap-3 border-t border-slate-200">
                                     <button
                                         className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
                                         onClick={() => handleSave(editingId)}
                                     >
                                         <span>💾</span>
+                                                                                <FaSave className="inline-block mr-1" />
                                         <span>Save Changes</span>
                                     </button>
                                     <button

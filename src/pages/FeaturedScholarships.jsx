@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import apiUrl from "../utils/api";
+import { FaStar, FaGraduationCap } from "react-icons/fa";
 
 const FeaturedScholarships = () => {
     const [featured, setFeatured] = useState([]);
@@ -9,7 +10,7 @@ const FeaturedScholarships = () => {
         const fetchFeatured = async () => {
             try {
                 const res = await apiUrl.get("/api/scholarships/featured");
-                console.log(res.data); // এখানে দেখুন image আসছে কিনা
+                console.log(res.data); 
                 setFeatured(res.data || []);
             } catch (err) {
                 setFeatured([]);
@@ -25,7 +26,7 @@ const FeaturedScholarships = () => {
 
     return (
         <div className="max-w-7xl mx-auto p-6">
-            <h2 className="text-4xl font-bold mb-6 text-purple-600">🌟 Featured Scholarships</h2>
+            <h2 className="text-4xl font-bold mb-6 text-purple-600"><FaStar className="inline-block mr-2 text-yellow-400" /> Featured Scholarships</h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {featured.map((s) => (
                     <div key={s._id || s.id} className="bg-white rounded-2xl shadow-lg p-6">
@@ -39,7 +40,7 @@ const FeaturedScholarships = () => {
                                         onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.parentNode.querySelector('span').style.display = 'block'; }}
                                     />
                                 ) : null}
-                                <span className="text-5xl" style={{display: (s.image || s.photo || s.universityImage) ? 'none' : 'block'}}>🎓</span>
+                                <span className="text-5xl" style={{display: (s.image || s.photo || s.universityImage) ? 'none' : 'block'}}><FaGraduationCap className="text-purple-400" /></span>
                             </div>
                             <h3 className="text-xl font-bold text-purple-600 mb-2">{s.name}</h3>
                             <p className="text-slate-600 mb-2">{s.universityName || s.university}</p>

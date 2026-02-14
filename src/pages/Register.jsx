@@ -33,7 +33,7 @@ const Register = () => {
                 name,
                 email,
                 photoURL,
-                role: "Student"  // Default role for new registrations
+                role: "Student"  
             });
 
             toast.success("Registration successful!");
@@ -48,7 +48,7 @@ const Register = () => {
         try {
             const result = await signInWithPopup(auth, provider);
 
-            // Save user to Firestore with default Student role
+          
             await setDoc(doc(db, "users", result.user.uid), {
                 name: result.user.displayName,
                 email: result.user.email,

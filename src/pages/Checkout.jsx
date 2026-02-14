@@ -4,6 +4,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { AuthContext } from "../context/AuthContext";
 import apiUrl from "../utils/api";
+import { FaCreditCard, FaLock, FaInfoCircle } from "react-icons/fa";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || "pk_test_51Nw...your_key");
 
@@ -37,7 +38,7 @@ const CheckoutForm = () => {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        amount: (applicationFees + serviceCharge) * 100, // Stripe takes cents
+                        amount: (applicationFees + serviceCharge) * 100, 
                         currency: 'usd',
                         metadata: {
                             scholarshipId: scholarship._id || scholarship.id,
@@ -91,7 +92,7 @@ const CheckoutForm = () => {
 
         if (stripeError) {
             setError(stripeError.message);
-            // Save application with unpaid status
+        
             try {
                 await apiUrl.post('/api/applications', {
                     ...applicationData,
@@ -108,9 +109,9 @@ const CheckoutForm = () => {
                 }
             });
         } else if (paymentIntent && paymentIntent.status === "succeeded") {
-            // Update existing application payment status to paid
+           
             try {
-                // Save application with paid status
+              
                 await apiUrl.post('/api/applications', {
                     ...applicationData,
                     paymentStatus: "paid",
@@ -140,7 +141,7 @@ const CheckoutForm = () => {
     return (
         <div className="max-w-4xl mx-auto py-12 px-4">
             <div className="grid md:grid-cols-2 gap-8">
-                {/* Scholarship Summary */}
+            
                 <div className="bg-white rounded-2xl shadow-lg p-6">
                     <h2 className="text-2xl font-bold text-slate-800 mb-4">Scholarship Summary</h2>
                     <img
@@ -173,10 +174,10 @@ const CheckoutForm = () => {
                     </div>
                 </div>
 
-                {/* Payment Form */}
+              
                 <div className="bg-gradient-to-br from-white to-green-50 rounded-3xl shadow-2xl p-8 border-2 border-green-100">
                     <div className="flex items-center gap-3 mb-8">
-                        <div className="text-5xl">💳</div>
+                        <div className="text-5xl"><FaCreditCard /></div>
                         <div>
                             <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-blue-600">
                                 Payment Information
@@ -188,7 +189,7 @@ const CheckoutForm = () => {
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200">
                             <label className="flex items-center gap-2 text-base font-bold text-slate-800 mb-4">
-                                <span className="text-2xl">💳</span>
+                                <span className="text-2xl"><FaCreditCard /></span>
                                 Card Details
                             </label>
                             <div className="border-3 border-slate-300 rounded-xl p-5 focus-within:border-green-500 focus-within:shadow-lg transition-all duration-300 bg-slate-50">
@@ -246,7 +247,7 @@ const CheckoutForm = () => {
                                 </>
                             ) : (
                                 <>
-                                    <span className="text-3xl">🔒</span>
+                                    <span className="text-3xl"><FaLock /></span>
                                     <span>Pay ${totalAmount.toFixed(2)}</span>
                                 </>
                             )}
@@ -254,7 +255,7 @@ const CheckoutForm = () => {
 
                         <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
                             <div className="flex items-start gap-3">
-                                <span className="text-2xl">ℹ️</span>
+                                <span className="text-2xl"><FaInfoCircle /></span>
                                 <div>
                                     <p className="text-sm text-slate-700 leading-relaxed mb-2">
                                         <span className="font-semibold">Your payment is 100% secure and encrypted.</span>

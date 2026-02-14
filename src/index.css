@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Custom Animations for Modals */
+
 @keyframes fadeIn {
     from {
         opacity: 0;

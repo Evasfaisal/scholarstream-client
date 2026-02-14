@@ -58,7 +58,7 @@ const Navbar = () => {
                                         >
                                             Dashboard
                                         </Link>
-                                        {/* Removed Add Review, My Reviews, My Favorites from dropdown */}
+                                     
                                         <hr className="my-2" />
                                         <button
                                             onClick={handleLogout}
@@ -104,7 +104,7 @@ const Navbar = () => {
                         {user ? (
                             <>
                                 <Link to="/dashboard" className="block px-5 py-4 text-primary font-bold hover:bg-primary/10">Dashboard</Link>
-                                {/* Removed Add Review, My Reviews, My Favorites from mobile menu */}
+                               
                                 <button
                                     onClick={handleLogout}
                                     className="w-full text-left px-5 py-4 text-red-500 font-semibold hover:bg-primary/10"

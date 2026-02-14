@@ -1,11 +1,5 @@
-// MongoDB scholarship document field mapping utility
-// Use this script to convert old documents to the new schema
 
-/**
- * Convert a legacy scholarship object to the new schema
- * @param {Object} oldDoc
- * @returns {Object}
- */
+
 function mapScholarshipFields(oldDoc) {
   return {
     scholarshipName: oldDoc.name || "",
@@ -27,8 +21,6 @@ function mapScholarshipFields(oldDoc) {
   };
 }
 
-// Example usage:
-// const newDoc = mapScholarshipFields(oldDoc);
-// Then insert/update newDoc into MongoDB
+
 
 module.exports = { mapScholarshipFields };

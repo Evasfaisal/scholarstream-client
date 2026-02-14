@@ -29,7 +29,7 @@ const Login = () => {
         try {
             const result = await signInWithPopup(auth, provider);
 
-            // Check if user exists in Firestore, if not create with default Student role
+        
             const userDoc = await getDoc(doc(db, "users", result.user.uid));
             if (!userDoc.exists()) {
                 await setDoc(doc(db, "users", result.user.uid), {

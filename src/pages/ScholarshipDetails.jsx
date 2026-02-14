@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import apiUrl from "../utils/api";
+import { FaRegStickyNote, FaMoneyBillWave, FaCalendarAlt, FaThumbtack, FaCreditCard, FaStar, FaRegStar } from "react-icons/fa";
 
 const ScholarshipDetails = () => {
     const { id } = useParams();
@@ -15,11 +16,11 @@ const ScholarshipDetails = () => {
         const fetchScholarshipDetails = async () => {
             setLoading(true);
             try {
-                // Fetch scholarship details
+          
                 const scholarshipRes = await apiUrl.get(`/api/scholarships/${id}`);
                 setScholarship(scholarshipRes.data);
 
-                // Fetch reviews for this scholarship
+             
                 const reviewsRes = await apiUrl.get(`/api/reviews?scholarshipId=${id}`);
                 setReviews(reviewsRes.data || []);
             } catch (error) {
@@ -84,18 +85,17 @@ const ScholarshipDetails = () => {
                         <span className="bg-accent/10 text-accent px-3 py-1 rounded-full font-semibold">{scholarship.degree}</span>
                     </div>
 
-                    {/* Scholarship Description */}
                     <div className="mt-4">
-                        <h3 className="text-lg font-bold text-slate-800 mb-2">📝 Scholarship Description</h3>
+                        <h3 className="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2"><FaRegStickyNote /> Scholarship Description</h3>
                         <p className="text-slate-700 leading-relaxed">
                             {scholarship.scholarshipDescription || scholarship.description || `This prestigious scholarship at ${scholarship.universityName} offers exceptional opportunities for ${scholarship.degree} students in ${scholarship.subjectCategory}. The ${scholarship.scholarshipCategory} scholarship provides comprehensive support for international students.`}
                         </p>
                     </div>
 
-                    {/* Stipend/Coverage Details */}
+
                     {(scholarship.stipend || scholarship.coverage) && (
                         <div className="mt-4 bg-green-50 border-l-4 border-green-500 rounded-lg p-4">
-                            <h3 className="text-lg font-bold text-green-800 mb-2">💰 Stipend & Coverage</h3>
+                            <h3 className="text-lg font-bold text-green-800 mb-2 flex items-center gap-2"><FaMoneyBillWave /> Stipend & Coverage</h3>
                             <p className="text-slate-700">
                                 {scholarship.stipend || scholarship.coverage}
                             </p>
@@ -119,12 +119,12 @@ const ScholarshipDetails = () => {
                         )}
                     </div>
                     <div className="flex flex-wrap gap-6 mt-4 text-base font-semibold text-slate-600">
-                        <span>📅 Deadline: {new Date(scholarship.applicationDeadline).toLocaleDateString()}</span>
-                        <span>📌 Posted: {new Date(scholarship.scholarshipPostDate).toLocaleDateString()}</span>
+                        <span><FaCalendarAlt className="inline-block mr-1" /> Deadline: {new Date(scholarship.applicationDeadline).toLocaleDateString()}</span>
+                        <span><FaThumbtack className="inline-block mr-1" /> Posted: {new Date(scholarship.scholarshipPostDate).toLocaleDateString()}</span>
                     </div>
                     <button onClick={handleApply} className="btn btn-primary btn-lg mt-8 w-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all px-12 py-4 rounded-2xl border-4 border-primary/30">
                         <span className="text-2xl font-extrabold flex items-center justify-center gap-3">
-                            💳 Apply & Pay
+                            <FaCreditCard /> Apply & Pay
                         </span>
                     </button>
                 </div>
@@ -145,6 +145,10 @@ const ScholarshipDetails = () => {
                                 <div>
                                     <div className="font-semibold text-primary">{r.userName}</div>
                                     <div className="text-yellow-500">{"★".repeat(r.ratingPoint)}{"☆".repeat(5 - r.ratingPoint)}</div>
+                                    <div className="text-yellow-500">
+                                        {Array.from({ length: r.ratingPoint }).map((_, i) => <FaStar key={i} className="inline-block" />)}
+                                        {Array.from({ length: 5 - r.ratingPoint }).map((_, i) => <FaRegStar key={i} className="inline-block" />)}
+                                    </div>
                                     <div className="text-slate-700">{r.reviewComment}</div>
                                     <div className="text-xs text-slate-500">{new Date(r.reviewDate).toLocaleDateString()}</div>
                                 </div>

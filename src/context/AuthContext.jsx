@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
         try {
             await signOut(auth);
             setUser(null);
-            localStorage.removeItem('userRole'); // Clear cached role on logout
+            localStorage.removeItem('userRole');
         } catch (error) {
             console.error("Logout Error:", error);
         }

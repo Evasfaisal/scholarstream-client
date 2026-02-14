@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import apiUrl from "../utils/api";
+import { FaSearch, FaGraduationCap, FaUniversity, FaBook, FaCalendarAlt, FaGlobe, FaBuilding, FaUserGraduate } from "react-icons/fa";
 
 const AllScholarships = () => {
     const navigate = useNavigate();
@@ -57,19 +58,18 @@ const AllScholarships = () => {
 
     return (
         <div className="max-w-7xl mx-auto p-6 min-h-screen bg-gradient-to-br from-slate-50 to-purple-50">
-            {/* Header Section */}
             <div className="mb-10 text-center">
                 <h2 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-3">
-                    🎓 All Scholarships
+                    <span className="inline-block align-middle mr-2"><FaGraduationCap /></span> All Scholarships
                 </h2>
                 <p className="text-slate-600 text-lg">Discover your perfect scholarship opportunity</p>
             </div>
 
-            {/* Filter Section */}
+
             <div className="bg-white rounded-3xl shadow-xl p-6 mb-8 border-2 border-purple-100">
                 <div className="flex flex-col md:flex-row gap-4">
                     <div className="relative flex-1">
-                        <span className="absolute left-4 top-4 text-2xl">🔍</span>
+                        <span className="absolute left-4 top-4 text-2xl"><FaSearch /></span>
                         <input
                             className="input input-bordered w-full pl-14 pr-4 h-14 text-lg rounded-2xl border-2 border-slate-200 focus:border-purple-500 transition-all"
                             placeholder="Search scholarships..."
@@ -82,30 +82,30 @@ const AllScholarships = () => {
                         value={country}
                         onChange={e => { setCountry(e.target.value); setPage(1); }}
                     >
-                        <option value="">🌍 All Countries</option>
-                        <option value="USA">🇺🇸 USA</option>
-                        <option value="UK">🇬🇧 UK</option>
-                        <option value="Canada">🇨🇦 Canada</option>
-                        <option value="Australia">🇦🇺 Australia</option>
-                        <option value="Bangladesh">🇧🇩 Bangladesh</option>
-                        <option value="Germany">🇩🇪 Germany</option>
-                        <option value="Spain">🇪🇸 Spain</option>
-                        <option value="Japan">🇯🇵 Japan</option>
-                        <option value="Sweden">🇸🇪 Sweden</option>
+                        <option value=""><FaGlobe className="inline-block mr-1" /> All Countries</option>
+                        <option value="USA">USA</option>
+                        <option value="UK">UK</option>
+                        <option value="Canada">Canada</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Bangladesh">Bangladesh</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Spain">Spain</option>
+                        <option value="Japan">Japan</option>
+                        <option value="Sweden">Sweden</option>
                     </select>
                     <select
                         className="select select-bordered h-14 text-lg rounded-2xl border-2 border-slate-200 focus:border-purple-500 transition-all"
                         value={category}
                         onChange={e => { setCategory(e.target.value); setPage(1); }}
                     >
-                        <option value="">📚 All Categories</option>
-                        <option value="Science">🔬 Science</option>
-                        <option value="Engineering">⚙️ Engineering</option>
-                        <option value="Business">💼 Business</option>
-                        <option value="Arts">🎨 Arts</option>
-                        <option value="Bachelor">🎓 Bachelor</option>
-                        <option value="Master">🎖️ Master</option>
-                        <option value="Diploma">📜 Diploma</option>
+                        <option value=""><FaBook className="inline-block mr-1" /> All Categories</option>
+                        <option value="Science">Science</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="Business">Business</option>
+                        <option value="Arts">Arts</option>
+                        <option value="Bachelor">Bachelor</option>
+                        <option value="Master">Master</option>
+                        <option value="Diploma">Diploma</option>
                     </select>
                 </div>
             </div>
@@ -117,7 +117,7 @@ const AllScholarships = () => {
                 </div>
             ) : !isScholarshipsArray || scholarships.length === 0 ? (
                 <div className="text-center py-32 bg-white rounded-3xl shadow-xl">
-                    <div className="text-8xl mb-6">🔍</div>
+                    <div className="text-8xl mb-6"><FaSearch /></div>
                     <p className="text-2xl text-slate-500 font-semibold mb-3">No scholarships found</p>
                     <p className="text-slate-400 mb-6">Try adjusting your filters</p>
                     <button
@@ -152,7 +152,7 @@ const AllScholarships = () => {
                                 onClick={() => navigate(`/scholarship/${s._id || s.id}`)}
                             >
                                 <div className="flex flex-col md:flex-row gap-6">
-                                    {/* Image Section */}
+
                                     <div className="flex-shrink-0">
                                         {s.image ? (
                                             <img
@@ -162,21 +162,21 @@ const AllScholarships = () => {
                                             />
                                         ) : (
                                             <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
-                                                <span className="text-5xl">🎓</span>
+                                                <FaGraduationCap className="text-5xl text-purple-400" />
                                             </div>
                                         )}
                                     </div>
 
-                                    {/* Content Section */}
+
                                     <div className="flex-1">
                                         <div className="flex items-start justify-between mb-3">
                                             <div>
                                                 <p className="text-lg text-slate-600 font-semibold flex items-center gap-2 mb-1">
-                                                    <span>🏛️</span>
+                                                    <FaUniversity className="inline-block" />
                                                     {s.universityName || s.university}
                                                 </p>
                                                 <h3 className="text-xl font-bold text-purple-600">
-                                                    📚 {s.scholarshipCategory || s.category}
+                                                    <FaBook className="inline-block mr-1" /> {s.scholarshipCategory || s.category}
                                                 </h3>
                                             </div>
                                             <div className="text-right">
@@ -189,13 +189,13 @@ const AllScholarships = () => {
 
                                         <div className="flex flex-wrap gap-3 mb-4">
                                             <div className="badge badge-lg bg-blue-100 text-blue-700 border-blue-300 gap-2">
-                                                🎓 {s.degree}
+                                                <FaUserGraduate className="inline-block mr-1" /> {s.degree}
                                             </div>
                                             <div className="badge badge-lg bg-green-100 text-green-700 border-green-300 gap-2">
-                                                🌍 {s.country}
+                                                <FaGlobe className="inline-block mr-1" /> {s.country}
                                             </div>
                                             <div className="badge badge-lg bg-orange-100 text-orange-700 border-orange-300 gap-2">
-                                                📅 {s.postDate ? new Date(s.postDate).toLocaleDateString('en-US', {
+                                                <FaCalendarAlt className="inline-block mr-1" /> {s.postDate ? new Date(s.postDate).toLocaleDateString('en-US', {
                                                     year: 'numeric',
                                                     month: 'short',
                                                     day: 'numeric'
@@ -222,7 +222,7 @@ const AllScholarships = () => {
                 </div>
             )}
 
-            {/* Pagination */}
+
             <div className="flex justify-center mt-10">
                 <div className="flex items-center gap-2 bg-white rounded-2xl shadow-xl p-2 border-2 border-purple-100">
                     <button

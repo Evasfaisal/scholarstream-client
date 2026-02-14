@@ -15,7 +15,7 @@ const DashboardSidebar = ({ role, user }) => {
 
     return (
         <nav className="flex flex-col gap-2">
-            {/* User Profile Section */}
+
             {user && (
                 <Link to="/dashboard/profile" className="mb-6 pb-6 border-b border-slate-200">
                     <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 hover:shadow-md transition-all">

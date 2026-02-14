@@ -94,7 +94,7 @@ const ModeratorApplications = () => {
 
     return (
         <div className="p-4 md:p-8 max-w-7xl mx-auto">
-            {/* Header */}
+          
             <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-xl p-6 mb-8 shadow-sm">
                 <h2 className="text-3xl font-bold text-slate-800 mb-2">Review Applications</h2>
                 <p className="text-slate-600">
@@ -104,7 +104,7 @@ const ModeratorApplications = () => {
                 </p>
             </div>
 
-            {/* Details Modal */}
+           
             {detailsModal && (
                 <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg p-8 w-full max-w-md relative">
@@ -123,7 +123,7 @@ const ModeratorApplications = () => {
                 </div>
             )}
 
-            {/* Feedback Modal */}
+          
             {feedbackModal && (
                 <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg p-8 w-full max-w-md relative">
@@ -185,7 +185,7 @@ const ModeratorApplications = () => {
                                     <span>Details</span>
                                 </button>
 
-                                {/* Show Delete button for rejected applications */}
+                               
                                 {app.applicationStatus === 'rejected' && (
                                     <button
                                         className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2 hover:scale-105"
@@ -196,7 +196,7 @@ const ModeratorApplications = () => {
                                     </button>
                                 )}
 
-                                {/* Show action buttons only if NOT rejected */}
+                              
                                 {app.applicationStatus !== 'rejected' && (
                                     <>
                                         <button
@@ -207,7 +207,7 @@ const ModeratorApplications = () => {
                                             <span>Feedback</span>
                                         </button>
 
-                                        {/* Status Update Buttons */}
+                                       
                                         {app.applicationStatus === 'pending' && (
                                             <button
                                                 className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2 hover:scale-105"

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import studentCartoon from "../assets/student-cartoon.jpg";
 import { motion } from "framer-motion";
+import { FaSearch, FaUserGraduate, FaRegQuestionCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import apiUrl from "../utils/api";
 
@@ -22,46 +24,52 @@ const Home = () => {
 
         fetchTopScholarships();
     }, []);
+ 
     return (
-        <div className="bg-base-100">
-
-            <section className="hero min-h-[350px] w-full bg-gradient-to-r from-blue-400 via-indigo-200 to-blue-100 flex items-center justify-center border-b border-slate-200">
+        <>
+            <section className="relative hero min-h-[500px] md:min-h-[650px] w-full flex items-center justify-center border-b border-slate-200 overflow-hidden">
+                <img
+                    src={studentCartoon}
+                    alt="Student Cartoon Banner"
+                    className="absolute inset-0 w-full h-full min-h-[500px] md:min-h-[650px] object-cover object-center opacity-90 z-0"
+                    draggable="false"
+                />
                 <motion.div
-                    className="w-full flex flex-col items-center justify-center py-16"
+                    className="relative w-full flex flex-col items-center justify-center py-16 z-10"
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1 }}
                 >
-                    <motion.h1
-                        className="text-5xl md:text-6xl font-extrabold text-slate-800 mb-4 tracking-tight leading-tight text-center w-full"
-                        initial={{ opacity: 0, y: -40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                    >
-                        Unlock Your Future<br />
-                        <span className="text-primary">With ScholarStream</span>
-                    </motion.h1>
-                    <motion.p
-                        className="py-2 text-xl md:text-2xl text-slate-600 max-w-2xl mx-auto text-center"
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, delay: 0.4 }}
-                    >
-                        Discover global scholarships, apply with ease, and take the next step in your academic journey. Designed for ambitious students and trusted by top universities.
-                    </motion.p>
-                    <motion.a
-                        href="/allscholarships"
-                        className="btn btn-primary btn-lg mt-8 shadow-md px-10 text-lg"
+                    <div className="w-full max-w-2xl mx-auto mt-80 flex flex-col items-center text-center">
+                        <h1 className="text-4xl md:text-5xl font-extrabold mb-3 drop-shadow-lg" style={{ color: '#47687e' }}>Find Your Dream Scholarship</h1>
+                        <p className="text-lg md:text-xl text-slate-700 font-medium bg-white/80 rounded-xl px-4 py-2 shadow mb-2">Browse, search, and apply for global scholarships with ease. Start your academic journey today!</p>
+                    </div>
+                    <motion.form
+                        action="/allscholarships"
+                        method="get"
+                        className="w-full max-w-xl mx-auto flex items-center gap-0 mt-12 shadow-lg rounded-2xl bg-white"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, delay: 0.7 }}
+                        onSubmit={e => { e.preventDefault(); window.location.href = `/allscholarships?search=${encodeURIComponent(e.target.search.value)}`; }}
                     >
-                        Search Scholarship
-                    </motion.a>
+                        <span className="pl-5 pr-2 text-2xl text-purple-400"><FaSearch /></span>
+                        <input
+                            type="text"
+                            name="search"
+                            placeholder="Search scholarships by name, university, or country..."
+                            className="flex-1 h-14 px-4 text-lg rounded-l-2xl border-0 focus:ring-2 focus:ring-purple-200 outline-none bg-transparent"
+                            autoComplete="off"
+                        />
+                        <button
+                            type="submit"
+                            className="h-14 px-8 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-lg rounded-r-2xl hover:from-purple-600 hover:to-pink-600 transition-all"
+                        >
+                            Search
+                        </button>
+                    </motion.form>
                 </motion.div>
             </section>
-
-
             <section className="max-w-7xl mx-auto py-16 px-4">
                 <h2 className="text-3xl font-extrabold text-slate-800 mb-10 text-center tracking-tight">Featured Scholarships</h2>
                 {loading ? (
@@ -111,19 +119,19 @@ const Home = () => {
                 <h2 className="text-3xl font-extrabold text-slate-800 mb-10 text-center tracking-tight">Success Stories</h2>
                 <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
                     <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="bg-white rounded-2xl shadow p-6 flex flex-col items-center">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Student 1" className="w-20 h-20 rounded-full mb-4 border-4 border-primary/20" />
+                        <FaUserGraduate className="w-20 h-20 mb-4 text-primary/80" />
                         <p className="text-slate-700 mb-2">“I easily got a scholarship abroad through ScholarStream. The whole process was very simple and fast!”</p>
                         <span className="font-bold text-primary">Rakib Hasan</span>
                         <span className="text-xs text-slate-400">Harvard University</span>
                     </motion.div>
                     <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="bg-white rounded-2xl shadow p-6 flex flex-col items-center">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Student 2" className="w-20 h-20 rounded-full mb-4 border-4 border-primary/20" />
+                        <FaUserGraduate className="w-20 h-20 mb-4 text-primary/80" />
                         <p className="text-slate-700 mb-2">“The information and guidelines here helped me make the right decision. Thank you ScholarStream!”</p>
                         <span className="font-bold text-primary">Sabiha Rahman</span>
                         <span className="text-xs text-slate-400">Oxford University</span>
                     </motion.div>
                     <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="bg-white rounded-2xl shadow p-6 flex flex-col items-center">
-                        <img src="https://randomuser.me/api/portraits/men/65.jpg" alt="Student 3" className="w-20 h-20 rounded-full mb-4 border-4 border-primary/20" />
+                        <FaUserGraduate className="w-20 h-20 mb-4 text-primary/80" />
                         <p className="text-slate-700 mb-2">“It was hassle-free to find and apply for scholarships through ScholarStream.”</p>
                         <span className="font-bold text-primary">Tanvir Islam</span>
                         <span className="text-xs text-slate-400">MIT</span>
@@ -136,20 +144,20 @@ const Home = () => {
                 <h2 className="text-3xl font-extrabold text-slate-800 mb-10 text-center tracking-tight">Frequently Asked Questions</h2>
                 <div className="max-w-3xl mx-auto space-y-6">
                     <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="bg-blue-50 rounded-xl p-6 shadow">
-                        <h4 className="font-bold text-primary mb-2">What is ScholarStream?</h4>
+                        <h4 className="font-bold text-primary mb-2 flex items-center gap-2"><FaRegQuestionCircle /> What is ScholarStream?</h4>
                         <p className="text-slate-700">ScholarStream is an online platform where you can easily find and apply for scholarships from home and abroad.</p>
                     </motion.div>
                     <motion.div initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }} className="bg-blue-50 rounded-xl p-6 shadow">
-                        <h4 className="font-bold text-primary mb-2">How do I apply?</h4>
+                        <h4 className="font-bold text-primary mb-2 flex items-center gap-2"><FaRegQuestionCircle /> How do I apply?</h4>
                         <p className="text-slate-700">You can view details and apply directly from each scholarship card by clicking the “View Details” button.</p>
                     </motion.div>
                     <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.9 }} className="bg-blue-50 rounded-xl p-6 shadow">
-                        <h4 className="font-bold text-primary mb-2">Is there any fee?</h4>
+                        <h4 className="font-bold text-primary mb-2 flex items-center gap-2"><FaRegQuestionCircle /> Is there any fee?</h4>
                         <p className="text-slate-700">Each scholarship has a specific application fee, which is mentioned on the details page.</p>
                     </motion.div>
                 </div>
             </section>
-        </div>
+        </>
     );
 };
 

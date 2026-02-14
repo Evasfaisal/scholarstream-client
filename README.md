@@ -1,64 +1,38 @@
-# 🎓 ScholarStream - Scholarship Management Platform
+# ScholarStream - Scholarship Management Platform
 
-## 📌 Project Overview
-ScholarStream is a comprehensive scholarship management platform that connects students with global scholarship opportunities. The platform enables students to search, filter, and apply for scholarships while providing administrators with tools to manage applications and moderate content.
+## Project Overview
+ScholarStream is a scholarship management platform that connects students with global scholarship opportunities. Students can search, filter, and apply for scholarships, while administrators can manage applications and content.
 
-## 🔑 Admin Login Credentials
-**For Testing/Review Purpose:**
-- **Email:** fa67698@gmail.com
-- **Password:** [Admin@123]
-- **Role:** Admin
+## Live URL
+https://scholarstream-platform.web.app
 
-## 🌐 Live URL
-[ScholarStream Live Website](https://scholarstream-platform.web.app)
+## Purpose
+To help students find and apply for scholarships easily, and to help universities manage scholarship applications efficiently.
 
-## 🎯 Purpose
-To bridge the gap between students seeking financial aid and universities offering scholarships worldwide. ScholarStream simplifies the scholarship application process with integrated payment processing, review systems, and comprehensive scholarship information.
+## Key Features
+- Advanced search and filtering for scholarships
+- Detailed scholarship information
+- Integrated payment system for application fees
+- Application management and tracking
+- Review system for students
+- Secure authentication (Firebase)
+- User and role management for admins
+- Analytics dashboard
+- Responsive design
+- Secure data using environment variables
 
-## ✨ Key Features
-
-### For Students:
-- 🔍 **Advanced Search & Filtering** - Search scholarships by name, university, degree with filters for country, category, and degree type
-- 📚 **Detailed Scholarship Information** - View comprehensive details including fees, deadlines, coverage, and university rankings
-- 💳 **Integrated Payment System** - Secure payment processing via Stripe for application fees
-- 📝 **Application Management** - Track application status, payment status, and receive feedback
-- ⭐ **Review System** - Share experiences and read reviews from other students
-- 🔐 **Secure Authentication** - Firebase-based login with Google authentication support
-
-### For Administrators/Moderators:
-- 👥 **User Management** - View and manage user roles (Student/Moderator/Admin)
-- 📊 **Application Processing** - Review, approve, or reject applications with feedback
-- 🎓 **Scholarship Management** - Add, edit, and delete scholarship listings
-- 📈 **Analytics Dashboard** - Track applications, users, and platform statistics
-- ✅ **Review Moderation** - Monitor and manage student reviews
-
-### General Features:
-- 📱 **Fully Responsive Design** - Optimized for desktop, tablet, and mobile devices
-- 🎨 **Modern UI/UX** - Beautiful gradient designs, smooth animations, and intuitive navigation
-- ⚡ **Fast Performance** - Optimized loading with skeleton screens and lazy loading
-- 🔒 **Secure Data** - Environment variables for sensitive information
-- 🌍 **Multi-Currency Support** - Display fees in USD with proper formatting
-
-## 🛠️ Technologies Used
-
-### Frontend Framework:
-- **React 19.2.0** - Modern UI library with latest features
-- **Vite 7.2.4** - Lightning-fast build tool and dev server
-- **React Router DOM 7.10.1** - Client-side routing with data APIs
-
-### Styling & UI:
-- **TailwindCSS 4.1.17** - Utility-first CSS framework
-- **DaisyUI 5.5.8** - Beautiful component library
-- **Framer Motion 12.23.25** - Advanced animation library
-- **React Icons 5.5.0** - Popular icon library
-- **Swiper 12.0.1** - Modern touch slider
-
-### Authentication & Database:
-- **Firebase 12.6.0** - Authentication and user management
-- **MongoDB** - NoSQL database for data storage (backend)
-
-### Payment Processing:
-- **@stripe/react-stripe-js 5.4.1** - React components for Stripe
+## NPM Packages Used
+- react
+- react-router-dom
+- axios
+- firebase
+- dotenv
+- tailwindcss
+- daisyui
+- framer-motion
+- swiper
+- @stripe/react-stripe-js
+- (Add any other packages you have used)
 - **@stripe/stripe-js 8.5.3** - Stripe.js library
 
 ### State & Data Management:
@@ -74,7 +48,7 @@ To bridge the gap between students seeking financial aid and universities offeri
 - **React Helmet 6.1.0** - Document head manager
 - **SweetAlert2 11.15.10** - Beautiful pop-up modals
 
-## 📦 Complete Package List
+##  Complete Package List
 
 ```json
 {
@@ -116,7 +90,7 @@ To bridge the gap between students seeking financial aid and universities offeri
 }
 ```
 
-## 🔐 Environment Variables
+##  Environment Variables
 
 Create a `.env` file in the root directory with these variables:
 
@@ -136,9 +110,9 @@ VITE_FIREBASE_APP_ID=your_firebase_app_id
 VITE_STRIPE_PUBLIC_KEY=your_stripe_publishable_key
 ```
 
-⚠️ **Never commit `.env` file to version control!**
+**Never commit `.env` file to version control!**
 
-## 🚀 Installation & Setup
+##  Installation & Setup
 
 ### Prerequisites:
 - Node.js 18+ installed
@@ -180,7 +154,7 @@ VITE_STRIPE_PUBLIC_KEY=your_stripe_publishable_key
    npm run preview
    ```
 
-## 📱 Application Structure
+##  Application Structure
 
 ### Public Routes:
 - `/` - Home page with hero section and featured scholarships
@@ -202,7 +176,7 @@ VITE_STRIPE_PUBLIC_KEY=your_stripe_publishable_key
 - `/dashboard/applications` - Review applications (Moderator)
 - `/dashboard/analytics` - Platform statistics (Admin)
 
-## 🎨 Design Philosophy
+##  Design Philosophy
 
 ### Color Palette:
 - **Primary**: Purple (#8B5CF6) - Trust and creativity
@@ -212,24 +186,24 @@ VITE_STRIPE_PUBLIC_KEY=your_stripe_publishable_key
 - **Warning**: Orange (#F59E0B) - Attention needed
 
 ### Design Principles:
-✨ **Clean & Modern** - Minimalist interface with ample white space
-🎯 **User-Centric** - Intuitive navigation and clear CTAs
-📱 **Mobile-First** - Responsive design for all devices
-⚡ **Performance** - Optimized images and lazy loading
-🎭 **Animations** - Subtle transitions for better UX
+ **Clean & Modern** - Minimalist interface with ample white space
+ **User-Centric** - Intuitive navigation and clear CTAs
+ **Mobile-First** - Responsive design for all devices
+ **Performance** - Optimized images and lazy loading
+ **Animations** - Subtle transitions for better UX
 
-## 🔒 Security Features
+##  Security Features
 
-- ✅ Firebase Authentication with JWT tokens
-- ✅ Environment variables for sensitive data
-- ✅ Protected API routes with authentication middleware
-- ✅ Role-based access control (RBAC)
-- ✅ Secure payment processing via Stripe
-- ✅ Input validation and sanitization
-- ✅ HTTPS enforcement in production
-- ✅ CORS configuration for API security
+-  Firebase Authentication with JWT tokens
+- Environment variables for sensitive data
+- Protected API routes with authentication middleware
+-  Role-based access control (RBAC)
+-  Secure payment processing via Stripe
+-  Input validation and sanitization
+-  HTTPS enforcement in production
+-  CORS configuration for API security
 
-## 📊 Database Schema
+##  Database Schema
 
 ### Collections:
 
@@ -239,7 +213,7 @@ VITE_STRIPE_PUBLIC_KEY=your_stripe_publishable_key
   name: String,
   email: String,
   photoURL: String,
-  role: String // "Student", "Moderator", "Admin"
+  role: String 
 }
 ```
 
@@ -253,8 +227,8 @@ VITE_STRIPE_PUBLIC_KEY=your_stripe_publishable_key
   universityCity: String,
   universityWorldRank: Number,
   subjectCategory: String,
-  scholarshipCategory: String, // "Full fund", "Partial", "Self-fund"
-  degree: String, // "Diploma", "Bachelor", "Masters"
+  scholarshipCategory: String, 
+  degree: String, 
   tuitionFees: Number,
   applicationFees: Number,
   serviceCharge: Number,
@@ -276,8 +250,8 @@ VITE_STRIPE_PUBLIC_KEY=your_stripe_publishable_key
   degree: String,
   applicationFees: Number,
   serviceCharge: Number,
-  applicationStatus: String, // "pending", "processing", "completed", "rejected"
-  paymentStatus: String, // "paid", "unpaid"
+  applicationStatus: String, 
+  paymentStatus: String, 
   applicationDate: Date,
   feedback: String
 }
@@ -291,13 +265,13 @@ VITE_STRIPE_PUBLIC_KEY=your_stripe_publishable_key
   userName: String,
   userEmail: String,
   userImage: String,
-  ratingPoint: Number, // 1-5
+  ratingPoint: Number,
   reviewComment: String,
   reviewDate: Date
 }
 ```
 
-## 🤝 Contributing
+##  Contributing
 
 We welcome contributions! Please follow these steps:
 
@@ -307,18 +281,18 @@ We welcome contributions! Please follow these steps:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 👨‍💻 Developer Information
+##  Developer Information
 
 **Eva's Faisal**
 - GitHub: [@Evasfaisal](https://github.com/Evasfaisal)
 - Portfolio: [your-portfolio-url]
 - Email: your.email@example.com
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Firebase for authentication services
 - Stripe for secure payment processing
@@ -326,12 +300,12 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - TailwindCSS and DaisyUI for beautiful UI components
 - All open-source contributors who made this possible
 
-## 📞 Support
+##  Support
 
 For support, email your.email@example.com or open an issue in the GitHub repository.
 
 ---
 
-**Built with ❤️ and React by Eva's Faisal**
+**Built with and React by Eva's Faisal**
 
-*Making scholarship opportunities accessible to students worldwide* 🌍
+*Making scholarship opportunities accessible to students worldwide* 

@@ -85,7 +85,7 @@ function AdminScholarships() {
 
     return (
         <div className="p-4 md:p-8 max-w-7xl mx-auto">
-            {/* Header with Add Button */}
+        
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 shadow-sm">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
@@ -107,7 +107,7 @@ function AdminScholarships() {
                 </div>
             </div>
 
-            {/* Scholarships List */}
+           
             {scholarships.length === 0 ? (
                 <div className="bg-white rounded-lg shadow p-12 text-center">
                     <div className="text-6xl mb-4">📚</div>
@@ -123,7 +123,7 @@ function AdminScholarships() {
                     {scholarships.map((scholarship) => (
                         <div key={scholarship._id} className="bg-white rounded-lg shadow hover:shadow-md transition-shadow">
                             {editingId === scholarship._id ? (
-                                /* Edit Mode - Simple Form */
+                              
                                 <div className="p-6 border-l-4 border-blue-500">
                                     <h3 className="font-semibold text-lg mb-4 text-blue-600">Editing Scholarship</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -198,7 +198,7 @@ function AdminScholarships() {
                                     </div>
                                 </div>
                             ) : (
-                                /* View Mode - Clean List Item */
+                           
                                 <div className="p-6">
                                     <div className="flex justify-between items-start">
                                         <div className="flex-1">
