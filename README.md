@@ -4,7 +4,7 @@
 ScholarStream is a scholarship management platform that connects students with global scholarship opportunities. Students can search, filter, and apply for scholarships, while administrators can manage applications and content.
 
 ## Live URL
-https://scholarstream-platform.web.app
+https://your-site.netlify.app
 
 ## Purpose
 To help students find and apply for scholarships easily, and to help universities manage scholarship applications efficiently.
