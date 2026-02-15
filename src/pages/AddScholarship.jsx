@@ -193,7 +193,7 @@ const AddScholarship = () => {
                             className="input input-bordered col-span-2"
                             required
                         />
-                        <p className="text-xs text-slate-500 mt-2">💡 Upload to <a href="https://imgbb.com" target="_blank" rel="noreferrer" className="text-primary underline hover:text-primary-focus">ImgBB</a> and paste the link here</p>
+                        <p className="text-xs text-slate-500 mt-2"> Upload to <a href="https://imgbb.com" target="_blank" rel="noreferrer" className="text-primary underline hover:text-primary-focus">ImgBB</a> and paste the link here</p>
                     </div>
                 </div>
                 <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 space-y-4">

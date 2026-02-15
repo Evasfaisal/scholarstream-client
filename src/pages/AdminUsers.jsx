@@ -104,7 +104,7 @@ const AdminUsers = () => {
                         </span>
                     </div>
 
-                
+
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredUsers.map((user) => (
                             <div key={user.id} className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 border-t-4 border-purple-500">
@@ -147,7 +147,7 @@ const AdminUsers = () => {
                         ))}
                     </div>
 
-                
+
                     {editingId && (
                         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
                             <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full relative overflow-hidden animate-fadeIn">
@@ -214,8 +214,7 @@ const AdminUsers = () => {
                                         className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105"
                                         onClick={() => handleSave(editingId)}
                                     >
-                                        <span>💾</span>
-                                                                                <FaSave className="inline-block mr-1" />
+                                        <FaSave className="inline-block mr-1 text-xl" />
                                         <span>Save Changes</span>
                                     </button>
                                     <button

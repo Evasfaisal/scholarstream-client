@@ -95,7 +95,7 @@ const AllReviews = () => {
                                     </td>
                                     <td>
                                         <div className="flex items-center gap-1">
-                                            <span className="text-yellow-500">⭐</span>
+                                            <span className="text-yellow-500"><FaStar /></span>
                                             <span>{review.rating || 0}/5</span>
                                         </div>
                                     </td>

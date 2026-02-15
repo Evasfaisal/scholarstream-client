@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase.config";
+import { FaCheck } from "react-icons/fa";
 
 const DashboardHome = () => {
     const { user } = useContext(AuthContext);
@@ -110,26 +111,26 @@ const DashboardHome = () => {
                 <ul className="space-y-2">
                     {role === "Admin" && (
                         <>
-                            <li>✅ Keep scholarship information up to date</li>
-                            <li>✅ Monitor user activities regularly</li>
-                            <li>✅ Review analytics to track platform growth</li>
-                            <li>✅ Respond to user queries promptly</li>
+                            <li><FaCheck className="inline-block mr-2 text-green-300" /> Keep scholarship information up to date</li>
+                            <li><FaCheck className="inline-block mr-2 text-green-300" /> Monitor user activities regularly</li>
+                            <li><FaCheck className="inline-block mr-2 text-green-300" /> Review analytics to track platform growth</li>
+                            <li><FaCheck className="inline-block mr-2 text-green-300" /> Respond to user queries promptly</li>
                         </>
                     )}
                     {role === "Moderator" && (
                         <>
-                            <li>✅ Review applications within 48 hours</li>
-                            <li>✅ Provide constructive feedback to students</li>
-                            <li>✅ Verify document authenticity carefully</li>
-                            <li>✅ Maintain fair and unbiased decisions</li>
+                            <li><FaCheck className="inline-block mr-2 text-green-300" /> Review applications within 48 hours</li>
+                            <li><FaCheck className="inline-block mr-2 text-green-300" /> Provide constructive feedback to students</li>
+                            <li><FaCheck className="inline-block mr-2 text-green-300" /> Verify document authenticity carefully</li>
+                            <li><FaCheck className="inline-block mr-2 text-green-300" /> Maintain fair and unbiased decisions</li>
                         </>
                     )}
                     {role === "Student" && (
                         <>
-                            <li>✅ Complete your profile for better scholarship matches</li>
-                            <li>✅ Apply early - scholarships fill up fast!</li>
-                            <li>✅ Write detailed reviews to help other students</li>
-                            <li>✅ Check application deadlines regularly</li>
+                            <li><FaCheck className="inline-block mr-2 text-green-300" /> Complete your profile for better scholarship matches</li>
+                            <li><FaCheck className="inline-block mr-2 text-green-300" /> Apply early - scholarships fill up fast!</li>
+                            <li><FaCheck className="inline-block mr-2 text-green-300" /> Write detailed reviews to help other students</li>
+                            <li><FaCheck className="inline-block mr-2 text-green-300" /> Check application deadlines regularly</li>
                         </>
                     )}
                 </ul>

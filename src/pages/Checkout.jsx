@@ -34,11 +34,11 @@ const CheckoutForm = () => {
                 const applicationFees = parseFloat(scholarship.applicationFees) || 0;
                 const serviceCharge = parseFloat(scholarship.serviceCharge) || 0;
 
-                const response = await fetch('http://localhost:5000/api/payment/create-payment-intent', {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/payment/create-payment-intent`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        amount: (applicationFees + serviceCharge) * 100, 
+                        amount: (applicationFees + serviceCharge) * 100,
                         currency: 'usd',
                         metadata: {
                             scholarshipId: scholarship._id || scholarship.id,
@@ -92,7 +92,7 @@ const CheckoutForm = () => {
 
         if (stripeError) {
             setError(stripeError.message);
-        
+
             try {
                 await apiUrl.post('/api/applications', {
                     ...applicationData,
@@ -109,9 +109,9 @@ const CheckoutForm = () => {
                 }
             });
         } else if (paymentIntent && paymentIntent.status === "succeeded") {
-           
+
             try {
-              
+
                 await apiUrl.post('/api/applications', {
                     ...applicationData,
                     paymentStatus: "paid",
@@ -141,7 +141,7 @@ const CheckoutForm = () => {
     return (
         <div className="max-w-4xl mx-auto py-12 px-4">
             <div className="grid md:grid-cols-2 gap-8">
-            
+
                 <div className="bg-white rounded-2xl shadow-lg p-6">
                     <h2 className="text-2xl font-bold text-slate-800 mb-4">Scholarship Summary</h2>
                     <img
@@ -174,7 +174,7 @@ const CheckoutForm = () => {
                     </div>
                 </div>
 
-              
+
                 <div className="bg-gradient-to-br from-white to-green-50 rounded-3xl shadow-2xl p-8 border-2 border-green-100">
                     <div className="flex items-center gap-3 mb-8">
                         <div className="text-5xl"><FaCreditCard /></div>
