@@ -76,7 +76,7 @@ const AddScholarship = () => {
 
                 <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 space-y-4">
                     <h3 className="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2 pb-3 border-b border-slate-200">
-                      
+
                         <span><FaClipboardList /></span>
                     </h3>
 
@@ -89,7 +89,7 @@ const AddScholarship = () => {
                             value={form.scholarshipName}
                             onChange={handleChange}
                             placeholder="e.g., Global Excellence Scholarship 2026"
-                            className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary"
+                            className="input input-bordered w-full border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                             required
                         />
                     </div>
@@ -102,7 +102,7 @@ const AddScholarship = () => {
                             name="scholarshipCategory"
                             value={form.scholarshipCategory}
                             onChange={handleChange}
-                            className="select select-bordered w-full border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                            className="select select-bordered w-full border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                             required
                         >
                             <option value="">Choose scholarship type</option>
@@ -130,7 +130,7 @@ const AddScholarship = () => {
                                 value={form.universityName}
                                 onChange={handleChange}
                                 placeholder="e.g., Harvard University"
-                                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary"
+                                className="input input-bordered w-full border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                 required
                             />
                         </div>
@@ -145,7 +145,7 @@ const AddScholarship = () => {
                                 onChange={handleChange}
                                 placeholder="e.g., 1"
                                 type="number"
-                                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary"
+                                className="input input-bordered w-full border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                 required
                             />
                         </div>
@@ -161,7 +161,7 @@ const AddScholarship = () => {
                                 value={form.universityCountry}
                                 onChange={handleChange}
                                 placeholder="e.g., USA"
-                                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary"
+                                className="input input-bordered w-full border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                 required
                             />
                         </div>
@@ -175,7 +175,7 @@ const AddScholarship = () => {
                                 value={form.universityCity}
                                 onChange={handleChange}
                                 placeholder="e.g., Cambridge"
-                                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary"
+                                className="input input-bordered w-full border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                 required
                             />
                         </div>
@@ -190,7 +190,7 @@ const AddScholarship = () => {
                             value={form.universityImage}
                             onChange={handleChange}
                             placeholder="University Image URL (e.g. /logo.jpg)"
-                            className="input input-bordered col-span-2"
+                            className="input input-bordered col-span-2 border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                             required
                         />
                         <p className="text-xs text-slate-500 mt-2"> Upload to <a href="https://imgbb.com" target="_blank" rel="noreferrer" className="text-primary underline hover:text-primary-focus">ImgBB</a> and paste the link here</p>
@@ -210,7 +210,7 @@ const AddScholarship = () => {
                                 name="subjectCategory"
                                 value={form.subjectCategory}
                                 onChange={handleChange}
-                                className="select select-bordered w-full border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                                className="select select-bordered w-full border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                 required
                             >
                                 <option value="Engineering">Engineering</option>
@@ -230,7 +230,7 @@ const AddScholarship = () => {
                                 name="degree"
                                 value={form.degree}
                                 onChange={handleChange}
-                                className="select select-bordered w-full border-2 border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                                className="select select-bordered w-full border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                 required
                             >
                                 <option value="Diploma">Diploma</option>
@@ -259,7 +259,7 @@ const AddScholarship = () => {
                                     onChange={handleChange}
                                     placeholder="50"
                                     type="number"
-                                    className="input input-bordered w-full pl-8 focus:outline-none focus:ring-2 focus:ring-primary"
+                                    className="input input-bordered w-full pl-8 border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                     required
                                 />
                             </div>
@@ -277,7 +277,7 @@ const AddScholarship = () => {
                                     onChange={handleChange}
                                     placeholder="10"
                                     type="number"
-                                    className="input input-bordered w-full pl-8 focus:outline-none focus:ring-2 focus:ring-primary"
+                                    className="input input-bordered w-full pl-8 border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                     required
                                 />
                             </div>
@@ -295,7 +295,7 @@ const AddScholarship = () => {
                                     onChange={handleChange}
                                     placeholder="15000"
                                     type="number"
-                                    className="input input-bordered w-full pl-8 focus:outline-none focus:ring-2 focus:ring-primary"
+                                    className="input input-bordered w-full pl-8 border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                 />
                             </div>
                         </div>
@@ -316,7 +316,7 @@ const AddScholarship = () => {
                                 value={form.applicationDeadline}
                                 onChange={handleChange}
                                 type="date"
-                                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary"
+                                className="input input-bordered w-full border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                 required
                             />
                         </div>
@@ -329,7 +329,7 @@ const AddScholarship = () => {
                                 name="scholarshipPostDate"
                                 value={form.scholarshipPostDate}
                                 type="date"
-                                className="input input-bordered w-full bg-slate-50"
+                                className="input input-bordered w-full bg-slate-50 border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                                 readOnly
                             />
                         </div>
@@ -342,7 +342,7 @@ const AddScholarship = () => {
                         <input
                             name="postedUserEmail"
                             value={form.postedUserEmail}
-                            className="input input-bordered w-full bg-slate-50"
+                            className="input input-bordered w-full bg-slate-50 border-2 border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                             readOnly
                         />
                     </div>
